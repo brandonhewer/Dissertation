@@ -1,0 +1,14 @@
+**/tikz-cd
+__latexindent_temp.tex
+*.aux
+*.toc
+*.gz
+*.bbl
+*.out
+*.blg
+*.log
+*.pdf
+*.fls
+*.gz
+*.fdb_latexmk
+*.DS_Store
