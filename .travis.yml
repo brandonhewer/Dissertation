@@ -10,5 +10,5 @@ before_install:
 
 script:
   - chmod +x latexdockercmd.sh
-  - ./latexdockercmd.sh latexmk -pdf -xelatex -outdir=./_build Dissertation.tex
-  - ./dropbox_uploader.sh upload _build/Dissertation.pdf ${TRAVIS_BRANCH}/Brandon_Hewer_Dissertation_2018-19-latest.pdf
+  - ./latexdockercmd.sh latexmk -pdf -xelatex Dissertation.tex
+  - ./dropbox_uploader.sh upload Dissertation.pdf ${TRAVIS_BRANCH}/Brandon_Hewer_Dissertation_2018-19-latest.pdf
