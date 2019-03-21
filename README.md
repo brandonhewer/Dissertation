@@ -2,7 +2,7 @@
 
 #### University of Bath BSc Computer Science Dissertation by Brandon Hewer
 
-Polymorphism, a ubiquitous concept throughout computer science, describes the application of a single operation to a set of possible data types. In his 1967 lecture titled ‘Fundamental Concepts in Programming Languages’, Strachey (2000) introduced the con- trasting ideas of ad-hoc and parametric polymorphism.
+Polymorphism, a ubiquitous concept throughout computer science, describes the application of a single operation to a set of possible data types. In his 1967 lecture titled ‘Fundamental Concepts in Programming Languages’, Strachey (2000) introduced the contrasting ideas of ad-hoc and parametric polymorphism.
 
 Dinatural transformations have been investigated as a formal model for parametric polymorphism. Bainbridge, Freyd, Scedrov and Scott (1990) introduce a formal model of parametric polymorphism in which the parametricity property is described by naturality conditions. 
 
