@@ -11,4 +11,4 @@ before_install:
 
 script:
   - docker run -d --rm --net='none' -v ${TRAVIS_BRANCH}:/build latexbuild:dockerfile -xelatex -jobname=/build/Dissertation Dissertation.tex
-  - ./dropbox_uploader.sh upload Dissertation.pdf ${TRAVIS_BRANCH}/Brandon_Hewer_Dissertation_2018-19-latest.pdf
+  - ./dropbox_uploader.sh upload ${TRAVIS_BRANCH}/Dissertation.pdf ${TRAVIS_BRANCH}/Brandon_Hewer_Dissertation_2018-19-latest.pdf
