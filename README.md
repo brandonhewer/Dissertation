@@ -14,7 +14,7 @@ This dissertation explores the relationship between parametric polymorphism and 
 
 **[View and download the compiled report](https://www.dropbox.com/s/8y9aqm7pnrgmxoa/Brandon_Hewer_Dissertation_2018-19-latest.pdf?dl=0)**
 
-**Project system:**
+**Github link to the implemented system**
 
 #### References
 Bainbridge, E., Freyd, P., Scedrov, A. and Scott, P. (1990), ‘Functorial polymorphism’, Theoretical Computer Science 70(1), 35 – 64. Special Issue Fourth Workshop on Mathematical Foundations of Programming Semantics, Boulder, CO, May 1988. URL: http://www.sciencedirect.com/science/article/pii/0304397590901517
