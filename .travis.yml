@@ -11,5 +11,5 @@ before_install:
 script:
   - wget https://raw.githubusercontent.com/blang/latex-docker/master/latexdockercmd.sh
   - chmod +x latexdockercmd.sh
-  - ./latexdockercmd.sh latexmk -pdf -outdir=./_build Dissertation.tex
+  - ./latexdockercmd.sh latexmk -pdf -xelatex -outdir=./_build Dissertation.tex
   - ./dropbox_uploader.sh upload _build/Dissertation.pdf ${TRAVIS_BRANCH}/Brandon_Hewer_Dissertation_2018-19-latest.pdf
