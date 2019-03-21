@@ -12,7 +12,7 @@ This dissertation explores the relationship between parametric polymorphism and 
 
 **Current build status:** [![Build Status](https://travis-ci.org/brandonhewer/Dissertation.svg?branch=master)](https://travis-ci.org/brandonhewer/Dissertation)
 
-**Download the compiled report:**
+**[View and download the compiled report](https://www.dropbox.com/s/8y9aqm7pnrgmxoa/Brandon_Hewer_Dissertation_2018-19-latest.pdf?dl=0)**
 
 **Project system:**
 
