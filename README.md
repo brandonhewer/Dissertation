@@ -10,6 +10,6 @@ In their paper, ‘On Compositionality of Dinatural Transformations’, McCusker
 
 This dissertation explores the relationship between parametric polymorphism and the categorical notion of dinaturality. In addition, a system designed to explore this connection is introduced, along with associated results and contributions.
 
-**Current Dissertation Build Status:** [![Build Status](https://travis-ci.org/brandonhewer/Dissertation.svg?branch=master)](https://travis-ci.org/brandonhewer/Dissertation)
+**Current build status:** [![Build Status](https://travis-ci.org/brandonhewer/Dissertation.svg?branch=master)](https://travis-ci.org/brandonhewer/Dissertation)
 
 **Download the compiled report:**
