@@ -1,14 +1,15 @@
 language: c
 
-sudo: required
+services: docker
 
 services:
   - docker
 
 before_install:
   - openssl aes-256-cbc -K $encrypted_6651011d54ed_key -iv $encrypted_6651011d54ed_iv -in .dropbox_uploader.enc -out ~/.dropbox_uploader -d
-  - docker build -t latexbuild:dockerfile .
 
 script:
-  - docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$PWD":/build latexbuild:dockerfile -xelatex -jobname=/build/Dissertation Dissertation.tex
-  - ./dropbox_uploader.sh upload Dissertation.pdf ${TRAVIS_BRANCH}/Brandon_Hewer_Dissertation_2018-19-latest.pdf
+  - wget https://raw.githubusercontent.com/blang/latex-docker/master/latexdockercmd.sh
+  - chmod +x latexdockercmd.sh
+  - ./latexdockercmd.sh latexmk -xelatex -outdir=./_build
+  - ./dropbox_uploader.sh upload _build/Dissertation.pdf ${TRAVIS_BRANCH}/Brandon_Hewer_Dissertation_2018-19-latest.pdf
