@@ -6,9 +6,11 @@ __latexindent_temp.tex
 *.bbl
 *.out
 *.blg
+*.bcf
 *.log
 *.pdf
 *.fls
 *.gz
+*.sta
 *.fdb_latexmk
 *.DS_Store

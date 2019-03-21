@@ -1,0 +1,115 @@
+% !TeX root = ParametricPolymorphism.tex
+\documentclass[../../Dissertation.tex]{subfiles}
+
+\begin{document}
+
+Polymorphism, a ubiquitous concept throughout computer science, describes the application of a single operation to a set of possible data types. In his 1967 lecture titled `Fundamental Concepts in Programming Languages', \citeasnoun{Strachey} introduced the contrasting ideas of ad-hoc and parametric polymorphism.
+\par
+Ad-hoc polymorphism describes the class of polymorphic functions whose behaviour depends on the type to which they are applied. Parametric polymorphism describes the class of polymorphic functions which operate on the set of all types and whose behaviour is not dependant on the type to which they are applied. An example of a parametrically polymorphic function is the `map' function in the Haskell programming language (Listing \ref{Haskell-Map}).
+\begin{lstlisting}[
+  breaklines,
+  breakatwhitespace,
+  caption={The map function, as defined in Haskell},
+  label={Haskell-Map}
+]
+map :: (A -> B) -> [A] -> [B]
+map _ [] = []
+map f (x:xs) = f x : map f xs
+\end{lstlisting}
+Parametrically polymorphic functions such as `map' may be described as acting exclusively on structure. A variety of formalisations of parametric polymorphism, which try to capture this intuition, have been developed. One such formal approach is the polymorphic lambda calculsus.
+
+\subsection{System F}
+Parametric polymorphism can be formally described by the second-order polymorphic lambda calculus, also known as the Girard-Reynolds polymorphic lambda calculus or System F. The second-order polymorphic lambda calculus was independently discovered by \citeasnoun{GirardPolyLambda} and \citeasnoun{ReynoldsPolyLambda}.
+
+System F extends the semantics of the simply typed lambda calculus, by introducing the notion of type-level universal quantification. Type-level abstraction is formally denoted with the upper-case $\Lambda$. The identity function is expressed in System F as
+\begin{flalign}\label{eq:system_f_identity}
+  \Lambda T.\ \lambda x^T.x\ .
+\end{flalign}
+A more complex example, function composition, requires the following construction:
+\begin{flalign}\label{eq:system_f_composition}
+  \Lambda TUV.\ \lambda f^{T \rightarrow U}. \lambda g^{U \rightarrow V}. \lambda x^T. g (f x)\ .
+\end{flalign}
+The reduction rule for type-level applications is expressed as
+\begin{flalign}
+  (\Lambda \tau.\ \sigma [\tau])\ t \rightarrow_{\beta} \sigma [t / \tau]
+\end{flalign}
+Girard and Reynolds demonstrate that for all sequences of conversion rules, System F converges. This is known as the strong normalisation property. In the context of System F, the strong normalisation property entails the absence of recursion and the guarantee of termination. Strongly-normalising languages, such as System F, are never Turing-complete and cannot describe self-interpretation.
+
+System F permits the application of polymorphic types to type abstractions. Given a polymorphic type $\Lambda \alpha.\ \alpha \rightarrow \alpha$ and an object $t$ of this type, $t$ may be applied to itself to attain an object of type $(\Lambda \alpha.\ \alpha \rightarrow \alpha) \rightarrow (\Lambda \alpha.\ \alpha \rightarrow \alpha)$. An object of the resulting type may then be applied to $t$ to attain an object of type $\Lambda \alpha.\ \alpha \rightarrow \alpha$; the original type of t. This example demonstrates the impredicativity property of System F, in which self-referential semantics emerge.
+
+The meaning of any polymorphic type in System F, from a set-theoretic perspective, can be defined in terms of all instances of that type (universal quantification). \citeasnoun{SystemFVariableTypes} discusses how this set-theoretic approach to interpreting types in System F creates a circularity problem, as a result of impredicativity. Girard introduces a category-theoretic semantics of System F, in which the behaviour of a polymorphic type is determined by its behaviour on a finite number of qualitative domains.
+
+\citeasnoun{DinaturalInSystemF} formulates a sufficient condition for dinaturality, in both the Church and Curry-style second-order polymorphic lambda calculus. Lataillade first describes the syntactic category $\mathcal{T}$ for System F, in conjunction with
+functors of the form $F[(\_,\_),X] : \mathcal{T}^{op} \times \mathcal{T} \rightarrow \mathcal{T}$. Each functor $F[(A,B),X]$ represents a substitution in which contravariant occurrences of the type variable $X$ are replaced with $A$ and covariant occurrences are replaced with $B$. The dinaturality condition between these substitution functors are used to create a sufficient condition for dinaturality in System F. In the Church-style second-order polymorphic lambda calculus, a term $T$ is described as being dinatural in a type variable $X$ if and only if $X$ is not in the set of free type variables across all type instantiations of the normal-form of $T$.
+
+\subsection{Parametricity}
+\citeasnoun{ReynoldsAbstraction1} developed a relation semantics for type expressions corresponding to the set-theoretic semantics of the second-order polymorphic lambda calculus (System F). This relational approach was introduced in order to replace the existing set-theoretic model (with homomorphic functions), which had failed to include higher-order functions in the formalisation.
+
+An important technique used by Reynolds in his formulation of relation semantics for types is structural induction; proving a theorem holds for higher-order types given it holds for their constituent types. The conceptualisation of types as relations may be formally expressed by first introducing a set of binary relations from $A$ to $A'$, henceforth denoted $\textit{Types}(A,A')$, which is defined as
+\begin{flalign}\label{eq:type_relations}
+  \text{\textit{Types}}(A,\ A') = \{\, R : R \subseteq A \times A' \,\}.
+\end{flalign}
+Every value of a primitive type is related to itself by the identity relation. For any primitive type $A$, the identity relation is defined as
+\begin{flalign}\label{eq:identity_relation}
+  I_A = \{\,(a, a) : a \in A\,\} \in \text{\textit{Types}}(A,A).
+\end{flalign}
+Given two type relations $A \in \text{\textit{Types}}(T_1,\ T_2)$ and $A' \in \text{\textit{Types}}(T_1',\ T_2')$, a relation $A \rightarrow A' \in \text{\textit{Types}}(T_1 \rightarrow T_1',\ T_2 \rightarrow T_2')$ is defined by
+\begin{flalign}\label{eq:function_relation}
+  (f_1,\ f_2) \in A \rightarrow A' \leftrightarrow \forall (a_1, a_2) \in A,\ (f_1\ a_1,\ f_2\ a_2) \in A'.
+\end{flalign}
+This relation states that functions are related if and only if they map related arguments into related results. Given the two type relations $A$ and $A'$, a relation $A \times A' \in \text{\textit{Types}}(T_1 \times T_1',\ T_2 \times T_2')$ is defined by
+\begin{flalign}\label{eq:product_relation}
+  ((a_1,\ a_1'),\ (a_2,\ a_2')) \in A \times A' \leftrightarrow (a_1,\ a_2) \in A \land (a_1',\ a_2') \in A'.
+\end{flalign}
+This relation states that pairs are related if and only if each of their corresponding elements are related. Given the type relation $A$, a relation $A^{*} \in \text{\textit{Types}}(T_1^*,\ T_2^*)$ is defined by
+\begin{flalign}\label{eq:list_relation}
+  ([a_1,\ ...,\ a_n],\ [a_1',\ ...\ a_n']) \in A^{*} \leftrightarrow (a_1,\ a_1') \in A\ ...\ (a_n,\ a_n') \in A.
+\end{flalign}
+This relation states that two lists are related if and only if they are of equal length and each of their corresponding elements are related. Given a function between relations
+\begin{flalign}\label{eq:rel_functor}
+  \mathcal{F} : X \rightarrow Y,\ X \in \text{\textit{Types}}(T,\ T'), Y \in \text{\textit{Types}}(U,\ U'),
+\end{flalign}
+a relation $\forall A.\ \mathcal{F}(A) \in \text{\textit{Types}}(\forall T_1.\ F(T_1),\ \forall T_2.\ F'(T_2))$ is defined by
+\begin{flalign}\label{eq:functor_relation}
+  (f, f') \in \forall X.\ \mathcal{F}(X) \leftrightarrow \forall Y \in \text{\textit{Types}}(V,\  V'),\ (f_V,\ f_{V'}) \in \mathcal{F}(Y).
+\end{flalign}
+This relation states that two polymorphic functions are related if and only if they take related type arguments into related results.
+
+The above formalisation presents a structural induction on type expressions, and generates the theorem stating that any type expression is in a relation with itself if and only if its constituent types are related. Reynold's abstraction theorem arises as a consequence of considering the domain and co-domain of such a relation as different representations of the same type (environments). The abstraction theorem states that any expression maps related environments to related values.
+
+\citeasnoun{ReynoldsAbstraction2} further generalise the notion of types as relations by recasting the existing set-theoretic approach in a category-theoretic context. The notion of PL-categories introduced by \citeasnoun{SeelyPL} is modified by removing the requirement that the base category must be Cartesian-closed. This formulation of PL-categories by Ma and Reynolds is used to model the second-order polymorphic lambda calculus.
+
+`Parametricity' is a term used to describe the same result as the abstraction theorem, applied to a wider context than changes in type representation. This idea is fundamental to \possessivecite{FreeTheorems} paper, Theorems for free, in which the abstraction theorem is interpreted as a method for generating free theorems for polymorphic types. To demonstrate  Wadler's method for generating free theorems, an example for the polymorphic `filter' function is given. Let \textit{filter} be a closed term of type
+\begin{flalign}
+  \text{\textit{filter}} : \forall X. (X \rightarrow Bool) \rightarrow X^* \rightarrow X^*.
+\end{flalign}
+The result of Reynold's abstraction theorem gives the relation
+\begin{flalign}\label{eq:free_ex_1}
+  (\text{\textit{filter}}, \text{\textit{filter}}) \in \forall \mathcal{X}. (\mathcal{X} \rightarrow Bool) \rightarrow \mathcal{X}^* \rightarrow \mathcal{X}^*.
+\end{flalign}
+Let \textit{Types}$(A,\ A')$ define that type $A$ is related to type $A'$. By definition of universal quantification on relations, the above equation \eqref{eq:free_ex_1} can be expressed as
+\begin{flalign}
+  \forall \mathcal{A} \in \text{\textit{Types}}(A,\ A'),\\
+  (filter_{A},\ filter_{A'}) \in (\mathcal{A} \rightarrow Bool) \rightarrow \mathcal{A}^* \rightarrow \mathcal{A}^*.
+\end{flalign}
+By definition of $\rightarrow$ on relations, this in turn can be expressed as
+\begin{flalign}
+  \forall \mathcal{A} \in \text{\textit{Types}}(A,\ A'),\\
+  \forall (f, f') \in (\mathcal{A} \rightarrow Bool),\\
+  \forall (xs, xs') \in \mathcal{A}^*,\\
+  (filter_A\ f\ xs,\ filter_{A'}\ f'\ xs') \in \mathcal{A}^*.
+\end{flalign}
+By specialising to the case where the relation $\mathcal{A}$ is a function, we can derive the free theorem
+\begin{flalign}
+  \forall a : A \rightarrow A',\ \forall f \in A \rightarrow Bool,\\
+  a^* \circ \text{\textit{filter}}_A\ (f \circ a) = (\text{\textit{filter}}_{A'}\ f) \circ a^*.
+\end{flalign}
+\\
+\citeasnoun{FreeImprovements} extend the relational semantics for types, by adding an integer representation of the call-by-value evaluation cost to the codomain. For each semantic operation its behaviour on the cost parameter is defined. For example, the cost of pairs and lists is defined to be the sum of the costs of their elements. Seidel and Voigtl{\"a}nder use this extension to the relational semantics to derive quantitative theorems about the runtime of terms within a restricted form of the polymorphic lambda calculus.
+
+\subsection{Cut-free proofs}
+Explain System F as a restricted form of the sequent calculus, on which cut-free elimination is formally defined.
+Categorical approach to cut-free proofs; corresponding to the strong normalisation property in higher-order typed lambda calculus (systems yielding irreducible terms in a finite number of steps). This idea is linked to Reynold's notion of parametricity, as described by
+\citeasnoun{NaturalAsNormalForms}, and brings together the ideas of parametric polymorphism, the lambda calculus and category theory.
+
+\end{document}

@@ -1,0 +1,132 @@
+% !TeX root = CategoryTheory.tex
+\documentclass[../../Dissertation.tex]{subfiles}
+
+\begin{document}
+
+\subsection{A formal approach to structure}
+Category theory is a branch of mathematics concerned with the formalisation of structure. A category is a mathematical object consisting of two components: objects and morphisms. Objects represent `nodes' within a category, while morphisms are directed arrows with a domain and co-domain object. The set of objects in a category $\mathbb{C}$ will henceforth be denoted as $ob(\mathbb{C})$ while morphisms will be denoted as $hom(\mathbb{C})$. Two morphisms $f : X \rightarrow Y$ and $g : Y \rightarrow Z$ may be composed to create a new morphism $g \circ f$. Composition of morphisms is an associative operation:
+\begin{equation}
+  \forall f, g, h \in hom(\mathbb{C})\ |\ h \circ (g \circ f) = (h \circ g) \circ f
+\end{equation}
+Every object has an associated identity morphism:
+\begin{equation}
+  \forall X,\ Y \in
+  ob(\mathbb{C})\ \forall f : X \rightarrow Y \in hom(\mathbb{C})\ |\ f \circ id_{X} = id_{Y} \circ f.
+\end{equation}
+Directed graphs are often used to represent categories. A category $\mathbb{C}$ with objects $ob(\mathbb{C}) = \{X, Y\}$ and morphisms $f : X \rightarrow Y$, $g : Y \rightarrow X$, may be represented by the following diagram:
+\begin{equation}\label{category}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        X \arrow[r, bend right=40, "f"{below}]
+        \arrow[loop left, "id_{X}"]
+        &  Y \arrow[l, bend right=40, "g"{above}]
+        \arrow[loop right, "id_{Y}"]
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+The diagram presented in \eqref{category} depicts two objects connected in a directed cyclic graph. The required identity morphism has been included for each object.
+
+\subsection{Structure-preserving maps}
+In category theory, a functor is a map between categories which preserves identity and composition. Formally, a functor $F : \mathbb{C} \rightarrow \mathbb{D}$ is defined as associating to each object $X$ in $\mathbb{C}$ an object $F (X)$ in $\mathbb{D}$ and to each morphism $f : X \rightarrow Y$ in $\mathbb{C}$ a morphism $F(f) : F(X) \rightarrow F(Y)$ in $\mathbb{D}$. Given the functor $F$, the following conditions must hold:
+\begin{flalign}\label{functor-def}
+  F (id_{X}) &= id_{F (X)},\\
+  \forall f : X \rightarrow Y, g : Y \rightarrow Z &\in \mathbb{C} : F (g \circ f) = F (g) \circ F (f).
+\end{flalign}
+
+Add description of multifunctors and functors with multi-variance (e.g. profunctors).
+
+\subsection{Natural transformations}
+A natural transformation is a family of morphisms which collectively describe a structure-preserving map between two functors. The structure-preserving condition of a natural transformation $\eta_{X} : F(X) \rightarrow G(X)$ between two functors $F, G : \mathbb{C} \rightarrow \mathbb{D}$, is expressed by the following commutative diagram:
+\begin{equation}\label{eq:naturality}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        F (X) \arrow[r, "F (f)"] \arrow[d, "\eta_{X}"']
+        &  F (Y) \arrow[d, "\eta_{Y}"]
+        \\ G (X) \arrow[r, "G (f)"]
+        &  G (Y)
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+
+An intuitive understanding of naturality, from a functional programming perspective, may be acquired by observing the properties of an example natural transformation. Such an example, in Haskell, is the parametrically polymorphic \lstinline{safeHead} function.
+\begin{lstlisting}[
+  breaklines,
+  breakatwhitespace,
+  caption={An implementation of \lstinline{safeHead} in Haskell},
+  label={Haskell-SafeHead}
+]
+safeHead :: [a] -> Maybe a
+safeHead [] = Nothing
+safeHead xs = Just . head $ xs
+\end{lstlisting}
+
+Listing \ref{Haskell-SafeHead} depicts an implementation of the \lstinline{safeHead} natural transformation from the \lstinline{List} functor to the \lstinline{Maybe} functor. It is evident that \lstinline{safeHead} exhibits the naturality condition; $\forall f : a \rightarrow b : \lstinline{fmap }f \lstinline{. safeHead} = \lstinline{safeHead . fmap } f$.
+\\\\
+The formulation of naturality depicted in \eqref{eq:naturality} does not encapsulate transformations between mixed-variance functors. Mixed variance may be found in functors whose domain or co-domain is a product category, such as any hom-functor $Hom(X',X) : \mathbb{C}^{op} \times \mathbb{C} \rightarrow Set$, where $\mathbb{C}^{op}$ is the opposite category of $\mathbb{C}$. \citeasnoun{GeneralTransform} advanced a more general conception of naturality, described as extranaturality, to account for transformations between mixed-variance functors. The structure-preserving condition of an extranatural transformation $\alpha_{X,Z} : F(X,X) \rightarrow G(Z,Z)$ between two functors $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ and $G : \mathbb{B}^{op} \times \mathbb{B} \rightarrow \mathbb{D}$, is expressed by the following commutative diagram:
+\begin{equation}\label{eq:extranaturality}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        F (X', X) \arrow[r, "{F (id, f)}"] \arrow[d, "{F (f, id)}"']
+        &  F (X', X') \arrow[d, "\alpha_{X'}"]
+        \\ F (X, X) \arrow[r, "\alpha_{X}"]
+        &  G (Z, Z)
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+In this formulation of naturality, the transformation $\alpha$ is said to be extranatural in X, providing Z does not depend on X.\\
+
+Discuss the notion of the multi-variable functorial calculus described by \citeasnoun{ManyVariableFunctorialCalculus}.
+\\
+
+The extranaturality condition does not apply to transformations where mixed variance occurs in both the domain and co-domain. A bifunctor $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow Set$, described as being contravariant in its first argument and covariant in the second, is also known as a profunctor.  The structure-preserving condition of a dinatural transformation $\phi : F \rightarrow G$ between two profunctors, $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \text{\textit{Set}}$ is expressed by the following commutative diagram:
+\begin{equation}\label{dinaturality}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        &  F (X, X) \arrow[r, "\phi_{X}"]
+        &  G (X, X) \arrow[dr, "{F (id, f)}"]
+        &
+        \\ F (X', X) \arrow[ur, "{F (f, id)}"] \arrow[dr, "{F (id, f)}"]
+        &
+        &
+        &  G (X, X')
+        \\
+        &  F (X', X') \arrow[r, "\phi_{X'}"]
+        &  G (X', X') \arrow[ur, "{F (f, id)}"]
+        &
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+Examples of dinatural transformations include the Y-combinator $Y : (A \rightarrow A) \rightarrow A$ and the Church-numeral encoding e.g., $N_{1} : (A \rightarrow A) \rightarrow (A \rightarrow A)$. The composition of two dinatural transformation is not guaranteed to preserve dinaturality.
+
+\subsection{Natural composition}
+The vertical composition of two natural transformations $\eta_X : F(X) \rightarrow G(X)$ and $\gamma_X : G(X) \rightarrow H(X)$, is defined as $(\gamma \bullet \eta)_X = \gamma_X \circ \eta_X$. Vertical composition can also be depicted by the following commutative diagram:
+\begin{equation}\label{eq:nat_vertical}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        F (X) \arrow[r, "F (f)"] \arrow[d, "\eta_{X}"']
+        &  F (Y) \arrow[d, "\eta_{Y}"]
+        \\ G (X) \arrow[r, "G (f)"] \arrow[d, "\gamma_{X}"']
+        &  G (Y) \arrow[d, "\gamma_{Y}"]
+        \\ H (X) \arrow[r, "H (f)"]
+        &  H (Y)
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+Given two natural transformations $\alpha_X : F(X) \rightarrow G(X)$ and $\beta_X : H(X) \rightarrow K(X)$, with functors $F, G : \mathbb{C} \rightarrow \mathbb{D}$ and $H, K : \mathbb{D} \rightarrow \mathbb{E}$, their horizontal composition is defined as $\beta * \alpha = (K \circ \alpha) \bullet (\beta \circ F)$.
+\\ \\
+Describe the composition problem with regards to dinatural transformations.
+
+\subsection{Connections in linear logic}
+Briefly discuss proof nets, their connection to the categorical notion of a coherence condition.  Explore the relationship between the coherence condition and the composition problem for dinatural transformations described by \citeasnoun{LogicToDinaturality}
+
+\end{document}

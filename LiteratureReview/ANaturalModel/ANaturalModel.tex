@@ -1,0 +1,28 @@
+% !TeX root = ANaturalModel.tex
+\documentclass[../../Dissertation.tex]{subfiles}
+
+\begin{document}
+Dinatural transformations have been investigated as a formal model for parametric polymorphism.
+
+\subsection{Functorial Polymorphism}
+\citeasnoun{FunctorialPolymorphism} introduce a formal model of parametric polymorphism in which the parametricity property is described by naturality conditions. Given a cartesian-closed category $\mathbb{C}$ of primitive types, multi-variance functors of the form $F : (\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$ can be interpreted as polymorphic types. Dinatural transformations between
+
+Summary of dinaturality in category of partial equivalence relations, as described by \citeasnoun{DinaturalityInPERS} and how this corresponds to parametric polymorphism.
+\newline\newline
+Describe the problem of dinatural composition in relation to a model for parametric polymorphism (why is this a concern? would imposing further constraints on the discussed model of parameteric polymorphism, in order to only permit composable dinatural transformations, provide an improvement on the model? what implications are there for functional programming languages?).
+
+\subsection{Extensions to the functorial polymorphism}
+Discuss existing extensions to the functorial polymorphism and the `solutions' to the composition problem in the literature.
+\newline\newline
+\citeasnoun{StructuralPolymorphism} describe the notion of `structors'; a generalisation of functors which carry morphisms to spans of morphisms.
+\newline\newline
+\citeasnoun{CanonicalDinatural} define `canonical dinatural transformations', a constrained form of dinatural transformations, and relates them to context-free grammars and the polymorphic operator.
+\newline\newline
+Lead in to the next section on a new constraint in the literature involving petri nets and reachability.
+
+\subsection{Dinatural composition to reachability}
+In their paper, `On Compositionality of Dinatural Transformations', \citeasnoun{DinaturalCompose} make use of Petri net models in order to establish conditions under which the composition of dinatural transformations preserves dinaturality. The concept of modelling dinatural transformations with Petri nets and imposing constraints to ensure compositionality, could be developed into a computational system further exploring this idea.
+\newline\newline
+Formally state the intended project as a product of the reviewed literature.
+
+\end{document}

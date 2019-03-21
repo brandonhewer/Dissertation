@@ -1,0 +1,90 @@
+% !TeX root = Petrinets.tex
+\documentclass[../../Dissertation.tex]{subfiles}
+
+\begin{document}
+
+Petri nets are a mathematical model of distributed computation, first conceptualised by  \citeasnoun{Petri} in his seminal paper Kommunikation mit Automaten. A Petri net consists of weighted, directed arcs between places and transitions. Places may contain tokens and a specific configuration of tokens is known as a marking. Each transition within a Petri net has incoming arcs from input places and outgoing arcs to output places. A transition is enabled when all of its input places contain a sufficient number of tokens, as defined by the weight of the respective incoming arc. Enabled transitions may fire, which results in the tokens in each input place being consumed and each output place being filled with the number of tokens specified by the respective outgoing arc.
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzpicture}[node distance=1.3cm,>=stealth',bend angle=45,auto]
+
+      \begin{scope}
+        \node [place,tokens=2] (i1)                              {};
+        \node [place,tokens=1] (i2)  [below of=i1]               {};
+        \node [place,tokens=1] (i3)  [below of=i2]               {};
+
+        \node [place]          (o1)  [right of=i1, xshift=15mm]  {};
+        \node [place]          (o2)  [right of=i3, xshift=15mm]  {};
+
+        \node [transition]     (t1)  [right of=i2, label=above:$t$] {}
+        edge [pre]  node[swap] {2} (i1)
+        edge [pre]                 (i2)
+        edge [pre]                 (i3)
+        edge [post] node[swap] {3} (o1)
+        edge [post] node       {2} (o2);
+      \end{scope}
+
+      \begin{scope} [xshift=8cm]
+        \node [place]          (i1')                              {};
+        \node [place]          (i2') [below of=i1']               {};
+        \node [place]          (i3') [below of=i2']               {};
+
+        \node [place,tokens=3] (o1') [right of=i1', xshift=15mm]  {};
+        \node [place,tokens=2] (o2') [right of=i3', xshift=15mm]  {};
+
+        \node [transition]     (t1') [right of=i2', label=above:$t$] {}
+        edge [pre]  node[swap] {2} (i1')
+        edge [pre]                 (i2')
+        edge [pre]                 (i3')
+        edge [post] node[swap] {3} (o1')
+        edge [post] node       {2} (o2');
+      \end{scope}
+
+      \draw[->,thick] ([xshift=15mm]t1 -| t1) -- ([xshift=-10mm]i2' -| i2')
+      node [above=1mm,midway,text width=3cm,text centered]
+      {transition $t$ fires};
+
+    \end{tikzpicture}
+  \end{center}
+  \caption{Firing a transition in a Petri net with three input and two output places}
+  \label{fig:PetriNet}
+\end{figure}
+
+Figure \ref{fig:PetriNet} depicts the marking of a Petri net before and after the firing of its single transition $t$. Prior to firing, the input places of $t$ contain the exact number of tokens defined by the incoming arcs (2, 1, 1), therefore enabling $t$. Once $t$ fires, the tokens in its input places are consumed and the outgoing arcs define the number of tokens which are inserted into the output places (3, 2).
+
+\subsection{Formal definition}
+Formally, a Petri net $N$ may be expressed as a 4-tuple $(P,T,D,M^0)$ where
+\begin{flalign*}
+  \hspace{0.75cm}&P \text{ is a finite set of places,}&\\
+  &T \text{ is a finite set of transitions,}&\\
+  &D \text{ is an incidence matrix of size } |P| \times |T| \text{ (the transition relation),}&\\
+  &M^0 \text{ is the initial marking vector where $M^0_p$ is the number of tokens in place $p$}&
+\end{flalign*}
+The matrix $D$ of the Petri net $N$ may be defined as follows:
+\begin{flalign}
+  \hspace{0.75cm}&D^{-}_{pt} = \text{ the weight of the arc from $p \in P$ to $t \in T$,}&\\
+  &D^{+}_{tp} = \text{ the weight of the arc from $t \in T$ to $p \in P$,}&\\
+  &D \hspace{0.258cm}= \hspace{0.1cm}D^{+} - D^{-}.&\label{eq:transition_relation}
+\end{flalign}
+As a consequence of formulating the transition relation $D$ as a matrix, a firing sequence of the Petri net $N$ is defined as a vector $F$ where
+\begin{flalign}
+  \hspace{0.75cm}&F_{t} \hspace{1.26cm}= \text{ the number of times } t \in T \text{ is to fire,}&\\
+  &DF + M_{0} = \text{ the marking of $N$ after executing sequence $F$.}&
+\end{flalign}
+
+\subsection{Reachability}
+Reachability describes a class of computational problems characterised by deciding whether a specific state is reachable given an initial state and a set of permitted transformations. A formulation of this problem for Petri nets is to decide whether a specific marking is reachable in a given net, with a given initial marking. \citeasnoun{ReachibilityConditions} outline the class of Petri nets for which a necessary and sufficient condition for reachability is obtainable. Formally, for a Petri net $N$, described by the 4-tuple $(P,T,D,M^0)$, the set of reachable markings $R_N$ is defined as
+\begin{flalign}
+  R_N = \{\,M \mid \exists F : M = DF + M_0 \land F \text{ is a firing sequence of } N\,\}.
+\end{flalign}
+
+\citeasnoun{ReachabilityEXPSPACE} shows that the state reachability (coverability) problem for Petri nets is exp-space hard; solvable by a deterministic Turing machine in exponential space. Following this research, an algorithm for deciding state reachability in any given Petri net was derived by \citeasnoun{PetriNetAlgorithm}. Mayr extends the Karp-Miller tree construction for minimal coverability by using non-deterministic finite automata to restrict the transition sequence space.
+
+\citeasnoun{ReachabilityUPPER} derive the best known upper-bound for the reachability problem in vector addition systems (Petri nets); recursive non-primitive cubic-Ackermannian space. \citeasnoun{ReachibilityNotElementary} show that the general reachability problem for Petri nets does not have an elementary lower bound. The lower bound for reachability is shown to be an exponential tower where the height of the tower is an elementary function of the size of the transition space.
+
+\subsection{Lambek-Lawvere Correspondence}
+Brief description of curry-howard isomorphism, described by \citeasnoun{CurryHoward} and its importance in formalising computation (such notions of proofs in computation have now been extended to modern areas of research such as homotopy type theory).
+\newline\newline
+Introduce Lambek-Lawvere correspondence, a restriction of the curry-howard isomorphism, described by categorical grammars -- this is particularly fascinating in light of a paper by \citeasnoun{PetriNetToLinear} which brings together the notions of the categorical grammar with Petri nets.
+
+\end{document}

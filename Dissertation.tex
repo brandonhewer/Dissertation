@@ -1,0 +1,70 @@
+% !TeX root = Dissertation.tex
+\documentclass[11pt,openright,hidelinks,a4paper]{article}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\input{Definitions/DissertationDefs}
+
+\makeatletter
+\providecommand*{\input@path}{}
+\g@addto@macro\input@path{
+  {./LiteratureReview//}
+    {./LiteratureReview/ANaturalModel//}{./ANaturalModel//}
+    {./LiteratureReview/CategoryTheory//}{./CategoryTheory//}
+    {./LiteratureReview/ParametricPolymorphism//}{./ParametricPolymorphism//}
+    {./LiteratureReview/Petrinets//}{./Petrinets//}
+}
+\makeatother
+
+\usetikzlibrary{arrows,shapes,automata,petri,cd}
+
+\tikzset{
+  place/.style={
+    circle,
+    thick,
+    draw=black!75,
+    fill=white!20,
+    minimum size=6mm
+  },
+  transition/.style={
+    rectangle,
+    thick,
+    fill=black,
+    minimum width=8mm,
+    inner ysep=2pt
+  }
+}
+
+\title{A System for Exploring the Relationship Between Dinaturality and Parametric Polymorphism\\\large{Literature Review (Working version)}}
+\author{Brandon Hewer}
+\date{Bachelor of Science in Computer Science with Honours\\The University of Bath\\January 2019}
+
+\begin{document}
+
+\setcounter{page}{0}
+\pagenumbering{roman}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+\newpage
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\lstset{language=Haskell,breaklines,breakatwhitespace,basicstyle=\small}
+
+\subfile{LiteratureReview}
+
+\newpage
+
+\bibliography{
+  LiteratureReview/ANaturalModel/ANaturalModel,
+  LiteratureReview/CategoryTheory/CategoryTheory,
+  LiteratureReview/ParametricPolymorphism/ParametricPolymorphism,
+  LiteratureReview/Petrinets/Petrinets
+}
+
+\end{document}
