@@ -1,5 +1,6 @@
 FROM debian:sid
 
+COPY Definitions /Definitions
 COPY LiteratureReview /LiteratureReview
 COPY Dissertation.tex .
 
