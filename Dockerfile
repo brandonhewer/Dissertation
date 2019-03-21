@@ -1,6 +1,6 @@
 FROM debian:sid
 
-COPY . /dissertation
+COPY LiteratureReview /LiteratureReview
 
 RUN apt-get update && \
     apt-get install -y latexmk texlive-full && \
