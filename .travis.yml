@@ -10,4 +10,5 @@ before_install:
   - docker build -t latexbuild:dockerfile .
 
 script:
-  - docker run -d latexbuild:dockerfile -pdf
+  - docker run -d latexbuild:dockerfile -xelatex Dissertation.tex
+  - ./dropbox_uploader.sh upload Dissertation.pdf ${TRAVIS_BRANCH}/Brandon_Hewer_Dissertation_2018-19-latest.pdf
