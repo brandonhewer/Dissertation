@@ -147,6 +147,40 @@ Describe the composition problem with regards to dinatural transformations.
 
 \subsection{Whiskering}
 
+\begin{equation}\label{eq:nat_vertical}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        \mathbb{C} \arrow[r, "F"{name=F, above}] 
+        &
+        \mathbb{D} 
+        \arrow[r, bend left=60, "H"{name=H, above}] 
+        \arrow[r, swap, bend right=60, "K"{name=K, below}]
+        \arrow[r, Rightarrow, from=H, to=K, shorten <= 2.6pt, shorten >= 2.6pt, "\beta"{}]
+        &
+        \mathbb{E}
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+
+\begin{equation}\label{eq:nat_vertical}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        \mathbb{C} 
+        \arrow[r, bend left=60, "F"{name=F, above}] 
+        \arrow[r, swap, bend right=60, "G"{name=G, below}]
+        \arrow[r, Rightarrow, from=F, to=G, shorten <= 2.6pt, shorten >= 2.6pt, "\alpha"{}]
+        &
+        \mathbb{D} \arrow[r, "H"{name=H, above}] 
+        &
+        \mathbb{E}
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+
 \subsection{Connections in linear logic}
 Briefly discuss proof nets, their connection to the categorical notion of a coherence condition.  Explore the relationship between the coherence condition and the composition problem for dinatural transformations described by \citeasnoun{LogicToDinaturality}
 
