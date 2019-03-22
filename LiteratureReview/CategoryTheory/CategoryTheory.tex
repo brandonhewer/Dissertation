@@ -123,7 +123,26 @@ The vertical composition of two natural transformations $\eta_X : F(X) \rightarr
   \end{tikzpicture}
 \end{equation}
 Given two natural transformations $\alpha_X : F(X) \rightarrow G(X)$ and $\beta_X : H(X) \rightarrow K(X)$, with functors $F, G : \mathbb{C} \rightarrow \mathbb{D}$ and $H, K : \mathbb{D} \rightarrow \mathbb{E}$, their horizontal composition is defined as $\beta * \alpha = (K \circ \alpha) \bullet (\beta \circ F)$.
-\\ \\
+\begin{equation}\label{eq:nat_vertical}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        \mathbb{C} 
+        \arrow[r, bend left=60, "F"{name=F, above}] 
+        \arrow[r, swap, bend right=60, "G"{name=G, below}]
+        \arrow[r, Rightarrow, from=F, to=G, shorten <= 2.6pt, shorten >= 2.6pt, "\alpha"{}]
+        &
+        \mathbb{D} 
+        \arrow[r, bend left=60, "H"{name=H, above}] 
+        \arrow[r, swap, bend right=60, "K"{name=K, below}]
+        \arrow[r, Rightarrow, from=H, to=K, shorten <= 2.6pt, shorten >= 2.6pt, "\beta"{}]
+        &
+        \mathbb{E}
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+\\
 Describe the composition problem with regards to dinatural transformations.
 
 \subsection{Whiskering}
