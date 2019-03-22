@@ -4,6 +4,7 @@
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 
 \input{Definitions/DissertationDefs}
+\input{FormalGrammars/GrammarTerminals}
 
 \makeatletter
 \providecommand*{\input@path}{}
@@ -13,6 +14,7 @@
     {./LiteratureReview/CategoryTheory//}{./CategoryTheory//}
     {./LiteratureReview/ParametricPolymorphism//}{./ParametricPolymorphism//}
     {./LiteratureReview/Petrinets//}{./Petrinets//}
+  {./FormalGrammars//}
 }
 \makeatother
 
@@ -57,6 +59,8 @@
 \lstset{language=Haskell,breaklines,breakatwhitespace,basicstyle=\small}
 
 \subfile{LiteratureReview}
+\subfile{DataTypeGrammar}
+\subfile{NaturalityTypeGrammar}
 
 \newpage
 

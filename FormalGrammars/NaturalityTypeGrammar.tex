@@ -1,0 +1,20 @@
+% !TeX root = NaturalityTypeGrammar.tex
+\documentclass[../Dissertation.tex]{subfiles}
+
+\begin{document}
+
+\begin{align*}
+  &\transformterminal &::=&\ \typeterminal\ ``\Rightarrow"\ \typeterminal\\
+  &\typeterminal &::=&\ \functionterminal\ |\ \btypeterminal\\
+  &\functionterminal &::=&\ \btypeterminal\ ``\rightarrow"\ \functionterminal\\
+  &\btypeterminal &::=&\ \variablelistterminal\ |\ \atypeterminal\\
+  &\variablelistterminal &::=&\ \variableterminal\ \whitespaceterminal\ \variablelistterminal\ |\ \variableterminal\\
+  &\variableterminal &::=&\ \atypeterminal\ \varianceterminal\\
+  &\varianceterminal &::=&\ ``+"\ |\ ``-"\ |\ \emptyset\\
+  &\atypeterminal &::=&\ \numberterminal\ |\ ``("\ \typeterminal\ ``)"\\
+  &\numberterminal &::=&\ \digitterminal\ \numberterminal\ |\ \digitterminal\\
+  &\digitterminal &::=&\ 0\ |\ 1\ |\ 2\ |\ 3\ |\ 4\ |\ 5\ |\ 6\ |\ 7\ |\ 8\ |\ 9
+\end{align*}
+
+
+\end{document}
