@@ -143,6 +143,59 @@ Given two natural transformations $\alpha_X : F(X) \rightarrow G(X)$ and $\beta_
   \end{tikzpicture}
 \end{equation}
 \\
+
+\begin{equation}\label{eq:nat_vertical}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}[row sep=tiny]
+        \mathbb{C}
+        \arrow[r, bend left=60, ""{name=LU, above}] 
+        \arrow[r, swap, ""{name=LM, above}]
+        \arrow[r, Rightarrow, yshift=-2.1, from=LU, to=LM, "\hspace{1.8pt}\alpha"{}]
+        &
+        \mathbb{D}
+        \arrow[r, bend left=60, ""{name=RU, above}] 
+        \arrow[r, swap, ""{name=RM, above}]
+        \arrow[r, Rightarrow, yshift=-2.1, from=RU, to=RM, "\hspace{1.8pt}\beta"{}]
+        &
+        \mathbb{E}
+        \\
+        &\circ&
+        \\
+        \mathbb{C}
+        \arrow[r, swap, ""{name=LM, above}]
+        \arrow[r, bend right=60, ""{name=LD, below}]
+        \arrow[r, Rightarrow, yshift=0.8, shorten <= 2.5pt, from=LM, to=LD, "\hspace{1.8pt}\alpha'"{}]
+        &
+        \mathbb{D}
+        \arrow[r, swap, ""{name=RM, above}]
+        \arrow[r, bend right=60, ""{name=RD, below}]
+        \arrow[r, Rightarrow, yshift=0.8, shorten <= 2.5pt, from=RM, to=RD, "\hspace{1.8pt}\beta'"{}]
+        &
+        \mathbb{E}
+      \end{tikzcd}
+      =
+      \begin{tikzcd}
+        \mathbb{C} 
+        \arrow[r, bend left=60, ""{name=LU, above}] 
+        \arrow[r, swap, ""{name=LM, above}]
+        \arrow[r, bend right=60, ""{name=LD, below}]
+        \arrow[r, Rightarrow, yshift=-2.1, from=LU, to=LM, "\hspace{1.8pt}\alpha"{}]
+        \arrow[r, Rightarrow, yshift=0.8, shorten <= 2.5pt, from=LM, to=LD, "\hspace{1.8pt}\alpha'"{}]
+        &
+        \mathbb{D}
+        \arrow[r, bend left=60, ""{name=RU, above}] 
+        \arrow[r, swap, ""{name=RM, above}]
+        \arrow[r, bend right=60, ""{name=RD, below}]
+        \arrow[r, Rightarrow, yshift=-2.1, from=RU, to=RM, "\hspace{1.8pt}\beta"{}]
+        \arrow[r, Rightarrow, yshift=0.8, shorten <= 2.5pt, from=RM, to=RD, "\hspace{1.8pt}\beta'"{}]
+        &
+        \mathbb{E}
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+
 Describe the composition problem with regards to dinatural transformations.
 
 \subsection{Whiskering}
