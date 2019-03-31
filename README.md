@@ -1,3 +1,4 @@
+**Current build status:** [![Build Status](https://travis-ci.org/brandonhewer/Dissertation.svg?branch=master)](https://travis-ci.org/brandonhewer/Dissertation)
 ### A System for Exploring the Relationship Between Dinaturality and Parametric Polymorphism
 
 #### University of Bath BSc Computer Science Dissertation by Brandon Hewer
@@ -10,11 +11,9 @@ In their paper, ‘On Compositionality of Dinatural Transformations’, McCusker
 
 This dissertation explores the relationship between parametric polymorphism and the categorical notion of dinaturality. In addition, a system designed to explore this connection is introduced, along with associated results and contributions.
 
-**Current build status:** [![Build Status](https://travis-ci.org/brandonhewer/Dissertation.svg?branch=master)](https://travis-ci.org/brandonhewer/Dissertation)
-
 **[View and download the compiled report](https://www.dropbox.com/s/8y9aqm7pnrgmxoa/Brandon_Hewer_Dissertation_2018-19-latest.pdf?dl=0)**
 
-**Github link to the implemented system**
+**[Github link to the implemented system](https://github.com/brandonhewer/Dinode)**
 
 #### References
 Bainbridge, E., Freyd, P., Scedrov, A. and Scott, P. (1990), ‘Functorial polymorphism’, Theoretical Computer Science 70(1), 35 – 64. Special Issue Fourth Workshop on Mathematical Foundations of Programming Semantics, Boulder, CO, May 1988. URL: http://www.sciencedirect.com/science/article/pii/0304397590901517
