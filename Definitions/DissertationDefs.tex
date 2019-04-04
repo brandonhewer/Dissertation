@@ -6,6 +6,8 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{bm}
+\usepackage{caption}
+\usepackage{csquotes}
 \usepackage{harvard}    % Uses harvard style referencing
 \usepackage{float}
 \usepackage{graphicx}   % Permits import of various graphics formats
@@ -29,6 +31,85 @@
 %\addtolength{\hoffset}{-0.5cm}
 %\addtolength{\textwidth}{2.5cm}
 
+\definecolor{gray_ulisses}{gray}{0.55}
+\definecolor{castanho_ulisses}{rgb}{0.71,0.33,0.14}
+\definecolor{preto_ulisses}{rgb}{0.41,0.20,0.04}
+\definecolor{green_ulises}{rgb}{0.13, 0.41, 0.16}
+\definecolor{red_ulises}{rgb}{0.678, 0, 0.192}
+\definecolor{orange_ulises}{rgb}{0.780, 0.431, 0}
+
+\lstset{
+  basicstyle=\ttfamily,
+	sensitive=true,
+	morecomment=[l][\color{gray_ulisses}\ttfamily\small]{--},
+	morecomment=[s][\color{gray_ulisses}\ttfamily\small]{\{-}{-\}},
+	morestring=[b]",
+	stringstyle=\color{red},
+	showstringspaces=false,
+	numberstyle=\small,
+	numberblanklines=true,
+	showspaces=false,
+	breaklines=true,
+	showtabs=false,
+	emph=
+	{[1]
+		FilePath,IOError,abs,acos,acosh,all,and,any,appendFile,approxRational,asTypeOf,asin,
+		asinh,atan,atan2,atanh,basicIORun,break,catch,ceiling,chr,compare,concat,concatMap,
+		const,cos,cosh,curry,cycle,decodeFloat,denominator,digitToInt,div,divMod,drop,
+		dropWhile,either,elem,encodeFloat,enumFrom,enumFromThen,enumFromThenTo,enumFromTo,
+		error,even,exp,exponent,fail,filter,flip,floatDigits,floatRadix,floatRange,floor,
+		fmap,foldl,foldl1,foldr,foldr1,fromDouble,fromEnum,fromInt,fromInteger,fromIntegral,
+		fromRational,fst,gcd,getChar,getContents,getLine,head,id,inRange,index,init,intToDigit,
+		interact,ioError,isAlpha,isAlphaNum,isAscii,isControl,isDenormalized,isDigit,isHexDigit,
+		isIEEE,isInfinite,isLower,isNaN,isNegativeZero,isOctDigit,isPrint,isSpace,isUpper,iterate,
+		last,lcm,length,lex,lexDigits,lexLitChar,lines,log,logBase,lookup,map,mapM,mapM_,max,
+		maxBound,maximum,maybe,min,minBound,minimum,mod,negate,not,notElem,null,numerator,odd,
+		or,ord,otherwise,pi,pred,primExitWith,print,product,properFraction,putChar,putStr,putStrLn,quot,
+		quotRem,range,rangeSize,read,readDec,readFile,readFloat,readHex,readIO,readInt,readList,readLitChar,
+		readLn,readOct,readParen,readSigned,reads,readsPrec,realToFrac,recip,rem,repeat,replicate,return,
+		reverse,round,scaleFloat,scanl,scanl1,scanr,scanr1,seq,sequence,sequence_,show,showChar,showInt,
+		showList,showLitChar,showParen,showSigned,showString,shows,showsPrec,significand,signum,sin,
+		sinh,snd,span,splitAt,sqrt,subtract,succ,sum,tail,take,takeWhile,tan,tanh,threadToIOResult,toEnum,
+		toInt,toInteger,toLower,toRational,toUpper,truncate,uncurry,undefined,unlines,until,unwords,unzip,
+		unzip3,userError,words,writeFile,zip,zip3,zipWith,zipWith3,listArray,doParse
+	},
+	emphstyle={[1]\color{blue}},
+	emph=
+	{[2]
+		Bool,Char,Double,Either,Float,IO,Integer,Int,Maybe,Ordering,Rational,Ratio,ReadS,ShowS,String,
+		Word8,InPacket
+	},
+	emphstyle={[2]\color{orange_ulises}},
+	emph=
+	{[3]
+		case,class,data,deriving,do,else,if,import,in,infixl,infixr,instance,let,
+		module,of,primitive,then,type,where
+	},
+	emphstyle={[3]\color{green_ulises}\textbf},
+	emph=
+	{[4]
+		quot,rem,div,mod,elem,notElem,seq
+	},
+	emphstyle={[4]\color{castanho_ulisses}\textbf},
+	emph=
+	{[5]
+		EQ,False,GT,Just,LT,Left,Nothing,Right,True,Show,Eq,Ord,Num
+	},
+	emphstyle={[5]\color{red_ulises}\textbf}
+}
+
+% \DeclareCaptionFont{blue}{\color{blue}} 
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+
+\newcommand\note[1]{[\textit{#1}]}
+
+\newcommand\lstref[1]{Listing \ref{#1}}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\newcommand\mdoubleplus{\ensuremath{\mathbin{+\mkern-10mu+}}}
+\newcommand\cospan[5]{\left(#1 \xrightarrow[]{#2} #3 \xleftarrow[]{#4} #5\right)}
 
 %%
 %% Format definitions for the style

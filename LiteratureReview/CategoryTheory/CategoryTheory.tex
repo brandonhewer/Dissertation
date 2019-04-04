@@ -1,12 +1,13 @@
 % !TeX root = CategoryTheory.tex
 \documentclass[../../Dissertation.tex]{subfiles}
 
+
 \begin{document}
 
 \subsection{A formal approach to structure}
-Category theory is a branch of mathematics concerned with the formalisation of structure. A category is a mathematical object consisting of two components: objects and morphisms. Objects represent `nodes' within a category, while morphisms are directed arrows with a domain and co-domain object. The set of objects in a category $\mathbb{C}$ will henceforth be denoted as $ob(\mathbb{C})$ while morphisms will be denoted as $hom(\mathbb{C})$. Two morphisms $f : X \rightarrow Y$ and $g : Y \rightarrow Z$ may be composed to create a new morphism $g \circ f$. Composition of morphisms is an associative operation:
+Category theory is a branch of mathematics concerned with the formalisation of structure. A category is a mathematical object consisting of two components: objects and morphisms. Objects represent `nodes' within a category, while morphisms are directed arrows with a domain and co-domain object. The set of objects in a category $\mathbb{C}$ will henceforth be denoted as $ob(\mathbb{C})$ while the set of morphisms will be denoted as $hom(\mathbb{C})$. The set of morphisms between two objects $X, Y \in ob(\mathbb{C})$ will be denoted $hom(X, Y)$. Two morphisms $f : X \rightarrow Y$ and $g : Y \rightarrow Z$ may be composed to create a new morphism $g \circ f$. Composition of morphisms is an associative operation:
 \begin{equation}
-  \forall f, g, h \in hom(\mathbb{C})\ |\ h \circ (g \circ f) = (h \circ g) \circ f
+  \forall f, g, h \in hom(\mathbb{C})\ |\ h \circ (g \circ f) = (h \circ g) \circ f.
 \end{equation}
 Every object has an associated identity morphism:
 \begin{equation}
@@ -28,14 +29,49 @@ Directed graphs are often used to represent categories. A category $\mathbb{C}$ 
 \end{equation}
 The diagram presented in \eqref{category} depicts two objects connected in a directed cyclic graph. The required identity morphism has been included for each object.
 
-\subsection{Structure-preserving maps}
+\subsection{Product and opposite categories}
+Given two categories $\mathbb{C}$ and $\mathbb{D}$, their product, denoted $\mathbb{C} \times \mathbb{D}$, is the category whose objects are pairs of the form $(X, Y)$, $X \in ob(\mathbb{C})$, $Y \in ob(\mathbb{D})$. For all pairs of morphisms 
+\begin{flalign}
+f : X \rightarrow X' \in hom(\mathbb{C}),\ g : Y \rightarrow Y' \in hom(\mathbb{D}),
+\end{flalign}
+there exists a morphism 
+\begin{flalign}
+(f, g) : (X, Y) \rightarrow (X', Y') \in hom(\mathbb{C} \times \mathbb{D}).
+\end{flalign}
+Given morphisms $f : X \rightarrow Y$, $f' : Y \rightarrow Z \in hom(\mathbb{C})$ and $g : X' \rightarrow Y'$, $g' : Y' \rightarrow Z' \in hom(\mathbb{D})$, composition of morphisms $(f, g)$, $(f',g') \in hom(\mathbb{C} \times \mathbb{D})$ is given by
+\begin{flalign}
+  (f', g') \circ (f, g) = (f' \circ f, g' \circ g).
+\end{flalign}
+The identity morphism on an object $(X, Y) \in ob(\mathbb{C} \times \mathbb{D})$ is given by
+\begin{flalign}
+  id_{(X,Y)} = (id_X, id_Y).
+\end{flalign}
+The product of two categories is also known as a product category. Another ubiquitous operation performed on categories is the reversal of morphisms, to form an opposite category. Formally, given a category $\mathbb{C}$ the opposite category, denoted $\mathbb{C}^{op}$, is the category given by
+\begin{flalign}
+  ob(\mathbb{C}^{op}) &= ob(\mathbb{C}),\\
+  hom_{\mathbb{C}^{op}}(X, Y) &= hom_{\mathbb{C}}(Y, X),\\
+  id_X \in hom(\mathbb{C}) &= id_X \in hom(\mathbb{C}^{op}),\\
+  \forall f : X \rightarrow Y,\ g : Y \rightarrow Z \in \mathbb{C}^{op}\ &|\ g \circ_{\mathbb{C}^{op}} f = f \circ_{\mathbb{C}} g.
+\end{flalign} 
+
+\subsection{Structure-preserving maps}\label{section:functor}
 In category theory, a functor is a map between categories which preserves identity and composition. Formally, a functor $F : \mathbb{C} \rightarrow \mathbb{D}$ is defined as associating to each object $X$ in $\mathbb{C}$ an object $F (X)$ in $\mathbb{D}$ and to each morphism $f : X \rightarrow Y$ in $\mathbb{C}$ a morphism $F(f) : F(X) \rightarrow F(Y)$ in $\mathbb{D}$. Given the functor $F$, the following conditions must hold:
 \begin{flalign}\label{functor-def}
   F (id_{X}) &= id_{F (X)},\\
   \forall f : X \rightarrow Y, g : Y \rightarrow Z &\in \mathbb{C} : F (g \circ f) = F (g) \circ F (f).
 \end{flalign}
+An example of a functor, given in the Haskell programming language, is the list functor, shown in \lstref{Haskell-List}.
+\begin{lstlisting}[
+  caption={An instantiation of the list functor in Haskell},
+  label={Haskell-List}
+]
+instance Functor [] where
+  fmap f []     = []
+  fmap f (x:xs) = f x : (fmap f xs)
+\end{lstlisting}
+The list functor, \lstinline{[]} $: Hask \rightarrow Hask$, where $Hask$ is the category of Haskell types, maps any type \lstinline{a} to a type \lstinline{[a]}. Morphisms of the type \lstinline{f : a -> b} are lifted to \lstinline{[a] -> [b]} by defining a function which applies \lstinline{f} to every element in a list. A functor whose co-domain category is the same as its domain, such as \lstinline{[]}, is called an endo-functor.
 
-Add description of multifunctors and functors with multi-variance (e.g. profunctors).
+The definition of a functor generalises to the notion of a multifunctor. A multifunctor is a functor of the form $\mathbb{C}_1 \times \mathbb{C}_2 \times \cdots \times \mathbb{C}_n \rightarrow \mathbb{D}$, i.e., a functor whose domain is a product category. In the given formulation, if there exists $\mathbb{C}_i, \mathbb{C}_j$, such that $\mathbb{C}_i^{op} = \mathbb{C}_j$, the multifunctor is said to be of mixed variance. An important example of a multifunctor is the hom-functor of a category $\mathbb{C}$, which is of the form $\mathbb{C}^{op} \times \mathbb{C} \rightarrow Set$, and is a functor from pairs of objects in $\mathbb{C}$ to their hom-sets in $Set$.
 
 \subsection{Natural transformations}
 A natural transformation is a family of morphisms which collectively describe a structure-preserving map between two functors. The structure-preserving condition of a natural transformation $\eta_{X} : F(X) \rightarrow G(X)$ between two functors $F, G : \mathbb{C} \rightarrow \mathbb{D}$, is expressed by the following commutative diagram:
@@ -60,51 +96,63 @@ An intuitive understanding of naturality, from a functional programming perspect
   label={Haskell-SafeHead}
 ]
 safeHead :: [a] -> Maybe a
-safeHead [] = Nothing
-safeHead xs = Just . head $ xs
+safeHead []     = Nothing
+safeHead (x:_)  = Just x
 \end{lstlisting}
 
-Listing \ref{Haskell-SafeHead} depicts an implementation of the \lstinline{safeHead} natural transformation from the \lstinline{List} functor to the \lstinline{Maybe} functor. It is evident that \lstinline{safeHead} exhibits the naturality condition; $\forall f : a \rightarrow b : \lstinline{fmap }f \lstinline{. safeHead} = \lstinline{safeHead . fmap } f$.
+Listing \ref{Haskell-SafeHead} depicts an implementation of the \lstinline{safeHead} natural transformation from the \lstinline{List} functor to the \lstinline{Maybe} functor. It is evident that \lstinline{safeHead} exhibits the naturality condition; given any \lstinline{f : a -> b} the equality \lstinline{fmap f . safeHead} = \lstinline{safeHead . fmap f} holds.
 \\\\
-The formulation of naturality depicted in \eqref{eq:naturality} does not encapsulate transformations between mixed-variance functors. Mixed variance may be found in functors whose domain or co-domain is a product category, such as any hom-functor $Hom(X',X) : \mathbb{C}^{op} \times \mathbb{C} \rightarrow Set$, where $\mathbb{C}^{op}$ is the opposite category of $\mathbb{C}$. \citeasnoun{GeneralTransform} advanced a more general conception of naturality, described as extranaturality, to account for transformations between mixed-variance functors. The structure-preserving condition of an extranatural transformation $\alpha_{X,Z} : F(X,X) \rightarrow G(Z,Z)$ between two functors $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ and $G : \mathbb{B}^{op} \times \mathbb{B} \rightarrow \mathbb{D}$, is expressed by the following commutative diagram:
+The formulation of naturality depicted in \eqref{eq:naturality} does not encapsulate transformations between mixed-variance functors. As described in Section \ref{section:functor}, mixed variance may be found in functors whose domain or co-domain is a product category, such as any hom-functor $Hom_{\mathbb{C}} : \mathbb{C}^{op} \times \mathbb{C} \rightarrow Set$, where $\mathbb{C}^{op}$ is the opposite category of $\mathbb{C}$. \citeasnoun{GeneralTransform} advanced a more general conception of naturality, described as extranaturality, to account for transformations between mixed-variance functors. The structure-preserving condition of an extranatural transformation $\alpha_{X,Z} : F(X,X) \rightarrow G(Z,Z)$ between two functors $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ and $G : \mathbb{B}^{op} \times \mathbb{B} \rightarrow \mathbb{D}$, is expressed by the following commutative diagram:
 \begin{equation}\label{eq:extranaturality}
   \begin{tikzpicture}[baseline= (a).base]
     \node[scale=1.2] (a) at (0,0) {
       \begin{tikzcd}
         F (X', X) \arrow[r, "{F (id, f)}"] \arrow[d, "{F (f, id)}"']
-        &  F (X', X') \arrow[d, "\alpha_{X'}"]
-        \\ F (X, X) \arrow[r, "\alpha_{X}"]
+        &  F (X', X') \arrow[d, "\alpha_{X', Z}"]
+        \\ F (X, X) \arrow[r, "\alpha_{X, Z}"]
         &  G (Z, Z)
       \end{tikzcd}.
     };
   \end{tikzpicture}
 \end{equation}
-In this formulation of naturality, the transformation $\alpha$ is said to be extranatural in X, providing Z does not depend on X.\\
+In this formulation of naturality, the transformation $\alpha$ is said to be extranatural in X, providing Z does not depend on X.
+\par
+An example of an extranatural transformation is the parametrically polymorphic evaluation map.
+\begin{lstlisting}[
+  breaklines,
+  breakatwhitespace,
+  caption={An implementation of the evaluation map function in Haskell},
+  label={Haskell-Eval}
+]
+eval :: (a -> b) -> a -> b
+eval f x = f x
+\end{lstlisting}
+\lstref{Haskell-Eval} depicts an implementation of the evaluation map, which is extranatural in the type variable \lstinline{a}. By observation, the extranaturality condition can be verified; given any functions \lstinline{f : a' -> b, g : a -> a'}, the equality \lstinline{ (eval f) . g = eval (f . g)} holds.
 
 Discuss the notion of the multi-variable functorial calculus described by \citeasnoun{ManyVariableFunctorialCalculus}.
 \\
 
-The extranaturality condition does not apply to transformations where mixed variance occurs in both the domain and co-domain. A bifunctor $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow Set$, described as being contravariant in its first argument and covariant in the second, is also known as a profunctor.  The structure-preserving condition of a dinatural transformation $\phi : F \rightarrow G$ between two profunctors, $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \text{\textit{Set}}$ is expressed by the following commutative diagram:
+The extranaturality condition does not apply to transformations where mixed variance occurs in both the domain and co-domain. A bifunctor $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ is described as being contravariant in its first argument and covariant in the second.  The structure-preserving condition of a dinatural transformation $\phi : F \rightarrow G$ between two bifunctors, $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ is expressed by the following commutative diagram:
 \begin{equation}\label{dinaturality}
   \begin{tikzpicture}[baseline= (a).base]
     \node[scale=1.2] (a) at (0,0) {
       \begin{tikzcd}
         &  F (X, X) \arrow[r, "\phi_{X}"]
-        &  G (X, X) \arrow[dr, "{F (id, f)}"]
+        &  G (X, X) \arrow[dr, "{G (id, f)}"]
         &
-        \\ F (X', X) \arrow[ur, "{F (f, id)}"] \arrow[dr, "{F (id, f)}"]
+        \\ F (X', X) \arrow[ur, "{F (f, id)}"] \arrow[dr, swap, "{F (id, f)}"]
         &
         &
         &  G (X, X')
         \\
-        &  F (X', X') \arrow[r, "\phi_{X'}"]
-        &  G (X', X') \arrow[ur, "{F (f, id)}"]
+        &  F (X', X') \arrow[r, swap, "\phi_{X'}"]
+        &  G (X', X') \arrow[ur, swap, "{G (f, id)}"]
         &
       \end{tikzcd}.
     };
   \end{tikzpicture}
 \end{equation}
-Examples of dinatural transformations include the Y-combinator $Y : (A \rightarrow A) \rightarrow A$ and the Church-numeral encoding e.g., $N_{1} : (A \rightarrow A) \rightarrow (A \rightarrow A)$. The composition of two dinatural transformation is not guaranteed to preserve dinaturality.
+Examples of dinatural transformations include the Y-combinator $Y : (A \rightarrow A) \rightarrow A$ and the Church-numeral encoding e.g., $N_{1} : (A \rightarrow A) \rightarrow (A \rightarrow A)$.
 
 \subsection{Natural composition}
 The vertical composition of two natural transformations $\eta_X : F(X) \rightarrow G(X)$ and $\gamma_X : G(X) \rightarrow H(X)$, is defined as $(\gamma \bullet \eta)_X = \gamma_X \circ \eta_X$. Vertical composition can also be depicted by the following commutative diagram:
@@ -122,18 +170,18 @@ The vertical composition of two natural transformations $\eta_X : F(X) \rightarr
     };
   \end{tikzpicture}
 \end{equation}
-Given two natural transformations $\alpha_X : F(X) \rightarrow G(X)$ and $\beta_X : H(X) \rightarrow K(X)$, with functors $F, G : \mathbb{C} \rightarrow \mathbb{D}$ and $H, K : \mathbb{D} \rightarrow \mathbb{E}$, their horizontal composition is defined as $\beta * \alpha = (K \circ \alpha) \bullet (\beta \circ F)$.
+Given two natural transformations $\alpha_X : F(X) \rightarrow G(X)$ and $\beta_X : H(X) \rightarrow K(X)$, with functors $F, G : \mathbb{C} \rightarrow \mathbb{D}$ and $H, K : \mathbb{D} \rightarrow \mathbb{E}$, their horizontal composition is defined as $(\beta * \alpha)_X = K (\alpha_X) \circ \beta_{F(X)}$. Horizontal composition may also be depicted by the following commutative diagram:
 \begin{equation}\label{eq:nat_vertical}
   \begin{tikzpicture}[baseline= (a).base]
     \node[scale=1.2] (a) at (0,0) {
       \begin{tikzcd}
-        \mathbb{C} 
-        \arrow[r, bend left=60, "F"{name=F, above}] 
+        \mathbb{C}
+        \arrow[r, bend left=60, "F"{name=F, above}]
         \arrow[r, swap, bend right=60, "G"{name=G, below}]
         \arrow[r, Rightarrow, from=F, to=G, shorten <= 2.6pt, shorten >= 2.6pt, "\alpha"{}]
         &
-        \mathbb{D} 
-        \arrow[r, bend left=60, "H"{name=H, above}] 
+        \mathbb{D}
+        \arrow[r, bend left=60, "H"{name=H, above}]
         \arrow[r, swap, bend right=60, "K"{name=K, below}]
         \arrow[r, Rightarrow, from=H, to=K, shorten <= 2.6pt, shorten >= 2.6pt, "\beta"{}]
         &
@@ -143,24 +191,24 @@ Given two natural transformations $\alpha_X : F(X) \rightarrow G(X)$ and $\beta_
   \end{tikzpicture}
 \end{equation}
 \\
-
+Vertical and horizontal composition of natural transformations are related by the interchange law. The interchange law states that given natural transformations $\alpha$, $\alpha'$, $\beta$, $\beta'$ there is an equality $(\beta' * \alpha') \bullet (\beta * \alpha) = (\beta' \bullet \beta) * (\alpha' \bullet \alpha)$. The interchange law can intuitively be understood by observing the equality of composing commutative diagrams:
 \begin{equation}\label{eq:nat_vertical}
   \begin{tikzpicture}[baseline= (a).base]
     \node[scale=1.2] (a) at (0,0) {
       \begin{tikzcd}[row sep=tiny]
         \mathbb{C}
-        \arrow[r, bend left=60, ""{name=LU, above}] 
+        \arrow[r, bend left=60, ""{name=LU, above}]
         \arrow[r, swap, ""{name=LM, above}]
         \arrow[r, Rightarrow, yshift=-2.1, from=LU, to=LM, "\hspace{1.8pt}\alpha"{}]
         &
         \mathbb{D}
-        \arrow[r, bend left=60, ""{name=RU, above}] 
+        \arrow[r, bend left=60, ""{name=RU, above}]
         \arrow[r, swap, ""{name=RM, above}]
         \arrow[r, Rightarrow, yshift=-2.1, from=RU, to=RM, "\hspace{1.8pt}\beta"{}]
         &
         \mathbb{E}
         \\
-        &\circ&
+        &\bullet&
         \\
         \mathbb{C}
         \arrow[r, swap, ""{name=LM, above}]
@@ -176,15 +224,19 @@ Given two natural transformations $\alpha_X : F(X) \rightarrow G(X)$ and $\beta_
       \end{tikzcd}
       =
       \begin{tikzcd}
-        \mathbb{C} 
-        \arrow[r, bend left=60, ""{name=LU, above}] 
+        \mathbb{C}
+        \arrow[r, bend left=60, ""{name=LU, above}]
         \arrow[r, swap, ""{name=LM, above}]
         \arrow[r, bend right=60, ""{name=LD, below}]
         \arrow[r, Rightarrow, yshift=-2.1, from=LU, to=LM, "\hspace{1.8pt}\alpha"{}]
         \arrow[r, Rightarrow, yshift=0.8, shorten <= 2.5pt, from=LM, to=LD, "\hspace{1.8pt}\alpha'"{}]
         &
         \mathbb{D}
-        \arrow[r, bend left=60, ""{name=RU, above}] 
+        &[-30pt]
+        *
+        &[-30pt]
+        \mathbb{D}
+        \arrow[r, bend left=60, ""{name=RU, above}]
         \arrow[r, swap, ""{name=RM, above}]
         \arrow[r, bend right=60, ""{name=RD, below}]
         \arrow[r, Rightarrow, yshift=-2.1, from=RU, to=RM, "\hspace{1.8pt}\beta"{}]
@@ -195,19 +247,47 @@ Given two natural transformations $\alpha_X : F(X) \rightarrow G(X)$ and $\beta_
     };
   \end{tikzpicture}
 \end{equation}
+\\
+The notion of vertical and horizontal composition, and the associated interchange law, extends to the more general notion of 2-cells in any strict 2-category. In the given examples, the strict 2-category is the category $Cat$. In $Cat$, objects, known as 0-cells, are locally small categories. Morphisms  in $Cat$ are functor categories, in which objects (1-cells) are functors and morphisms (2-cells) are natural transformations.
 
 Describe the composition problem with regards to dinatural transformations.
 
+\begin{equation}\label{dinaturality}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        &  F (X, X)  \arrow[r, "\phi_{X}"]
+        &  G (X, X)  \arrow[dr, swap, "{G (id, f)}"] \arrow[r, "\psi_{X}"]
+        &  H (X, X)  \arrow[dr, "{H (id, f)}"]
+        &
+        \\ F (X', X) \arrow[ur, "{F (f, id)}"] \arrow[dr, swap, "{F (id, f)}"]
+        &  G (X', X) \arrow[ur, swap, "{G (f, id)}"] \arrow[dr, "{G (id, f)}"]
+        &
+        &  G (X, X')
+        &  H (X, X')
+        \\
+        &  F (X', X') \arrow[r, swap, "\phi_{X'}"]
+        &  G (X', X') \arrow[ur, "{G (f, id)}"] \arrow[r, swap, "\psi_{X'}"]
+        &  H (X', X') \arrow[ur, swap, "{H (f, id)}"]
+        &
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+
 \subsection{Whiskering}
+Whiskering is a restricted instance of horizontal composition, in which one of the 2-cells is taken to be the identity. By identifying a 1-cell with its associated identity 2-cell, it is possible to formalise the notion of horizontal composition of a 2-cell with a 1-cell. Pre-composing a 2-cell with a 1-cell is termed left whiskering, while post-composing is termed right whiskering.
+\par
+In the category $Cat$, whiskering translates to a technique for defining the horizontal composition of a natural transformation with a functor. Let $F, G : \mathbb{C} \rightarrow \mathbb{D}$ and $H, K: \mathbb{D} \rightarrow \mathbb{E}$ be functors, and $\alpha : F \rightarrow G, \beta : H \rightarrow K$ be natural transformations. Whiskering $F$ and $\beta$ is achieved by associating $F$ with $id_F : F \rightarrow F$, and is depicted by the following commutative diagram:
 
 \begin{equation}\label{eq:nat_vertical}
   \begin{tikzpicture}[baseline= (a).base]
     \node[scale=1.2] (a) at (0,0) {
       \begin{tikzcd}
-        \mathbb{C} \arrow[r, "F"{name=F, above}] 
+        \mathbb{C} \arrow[r, "F"{name=F, above}]
         &
-        \mathbb{D} 
-        \arrow[r, bend left=60, "H"{name=H, above}] 
+        \mathbb{D}
+        \arrow[r, bend left=60, "H"{name=H, above}]
         \arrow[r, swap, bend right=60, "K"{name=K, below}]
         \arrow[r, Rightarrow, from=H, to=K, shorten <= 2.6pt, shorten >= 2.6pt, "\beta"{}]
         &
@@ -216,23 +296,30 @@ Describe the composition problem with regards to dinatural transformations.
     };
   \end{tikzpicture}
 \end{equation}
+\\
+This may also be formulated with the equation $(\beta * F)_X = \beta_{F(X)}$. Alternatively, whiskering $\alpha$ and $H$ is achieved by associating $H$ with $id_H : H \rightarrow H$, and is depicted by the following commutative diagram:
 
 \begin{equation}\label{eq:nat_vertical}
   \begin{tikzpicture}[baseline= (a).base]
     \node[scale=1.2] (a) at (0,0) {
       \begin{tikzcd}
-        \mathbb{C} 
-        \arrow[r, bend left=60, "F"{name=F, above}] 
+        \mathbb{C}
+        \arrow[r, bend left=60, "F"{name=F, above}]
         \arrow[r, swap, bend right=60, "G"{name=G, below}]
         \arrow[r, Rightarrow, from=F, to=G, shorten <= 2.6pt, shorten >= 2.6pt, "\alpha"{}]
         &
-        \mathbb{D} \arrow[r, "H"{name=H, above}] 
+        \mathbb{D} \arrow[r, "H"{name=H, above}]
         &
         \mathbb{E}
       \end{tikzcd}.
     };
   \end{tikzpicture}
 \end{equation}
+\\
+This may also be formulated with the equation $(H * \alpha)_X = H (\alpha_X)$. Horizontal composition of $\alpha$ and $\beta$ can be defined as right whiskering followed by left whiskering as follows:
+\begin{flalign}\label{horizontal-def}
+  \beta * \alpha = ()
+\end{flalign}
 
 \subsection{Connections in linear logic}
 Briefly discuss proof nets, their connection to the categorical notion of a coherence condition.  Explore the relationship between the coherence condition and the composition problem for dinatural transformations described by \citeasnoun{LogicToDinaturality}
