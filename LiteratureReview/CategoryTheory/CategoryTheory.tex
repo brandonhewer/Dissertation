@@ -128,10 +128,7 @@ eval :: (a -> b) -> a -> b
 eval f x = f x
 \end{lstlisting}
 \lstref{Haskell-Eval} depicts an implementation of the evaluation map, which is extranatural in the type variable \lstinline{a}. By observation, the extranaturality condition can be verified; given any functions \lstinline{f : a' -> b, g : a -> a'}, the equality \lstinline{ (eval f) . g = eval (f . g)} holds.
-
-Discuss the notion of the multi-variable functorial calculus described by \citeasnoun{ManyVariableFunctorialCalculus}.
-\\
-
+\par
 The extranaturality condition does not apply to transformations where mixed variance occurs in both the domain and co-domain. A bifunctor $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ is described as being contravariant in its first argument and covariant in the second.  The structure-preserving condition of a dinatural transformation $\phi : F \rightarrow G$ between two bifunctors, $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ is expressed by the following commutative diagram:
 \begin{equation}\label{dinaturality}
   \begin{tikzpicture}[baseline= (a).base]
@@ -297,7 +294,7 @@ In the category $Cat$, whiskering translates to a technique for defining the hor
   \end{tikzpicture}
 \end{equation}
 \\
-This may also be formulated with the equation $(\beta * F)_X = \beta_{F(X)}$. Alternatively, whiskering $\alpha$ and $H$ is achieved by associating $H$ with $id_H : H \rightarrow H$, and is depicted by the following commutative diagram:
+This may also be formulated with the equation $(\beta * F)_X = \beta_{F(X)}$. Whiskering $G$ and $\beta$ can be achieved in an identical fashion; by associating $G$ with the natural transformation $id_G : G \rightarrow G$. Alternatively, whiskering $\alpha$ and $H$ is achieved by associating $H$ with $id_H : H \rightarrow H$, and is depicted by the following commutative diagram:
 
 \begin{equation}\label{eq:nat_vertical}
   \begin{tikzpicture}[baseline= (a).base]
@@ -316,9 +313,10 @@ This may also be formulated with the equation $(\beta * F)_X = \beta_{F(X)}$. Al
   \end{tikzpicture}
 \end{equation}
 \\
-This may also be formulated with the equation $(H * \alpha)_X = H (\alpha_X)$. Horizontal composition of $\alpha$ and $\beta$ can be defined as right whiskering followed by left whiskering as follows:
+This may also be formulated with the equation $(H * \alpha)_X = H (\alpha_X)$. Once again, whiskering $\alpha$ and $K$ is achieved in an identical manner; associating $K$ with the natural transformation $id_K : K \rightarrow K$. Two equivalent definitions of the horizontal composition of $\alpha$ and $\beta$ are described in terms of whiskering:
 \begin{flalign}\label{horizontal-def}
-  \beta * \alpha = ()
+  \beta * \alpha = (\beta * G) \bullet (H * \alpha),\\
+  \beta * \alpha = (K * \alpha) \bullet (\beta * F).
 \end{flalign}
 
 \subsection{Connections in linear logic}

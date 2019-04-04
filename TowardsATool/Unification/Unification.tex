@@ -23,110 +23,133 @@
 }
 
 \subsection{A categorical semantics for unification}
-
+{
+\noindent
 \textbf{Definition 1.} Given a category $\mathbb{C}$ and a list $\alpha \in List\{+,-\}$, where $|\alpha| = n$, define 
 \begin{flalign*}
 \mathbb{C}^{\alpha} = \mathbb{C}^{\alpha_1} \times \mathbb{C}^{\alpha_2} \times ... \times \mathbb{C}^{\alpha_n},
-\end{flalign*}\par
-where $\mathbb{C}^+ = \mathbb{C}$ and $\mathbb{C}^- = \mathbb{C}^{op}$.\\\par
+\end{flalign*}
+where $\mathbb{C}^+ = \mathbb{C}$ and $\mathbb{C}^- = \mathbb{C}^{op}$.\\
+}
 
-\textbf{Definition 2.} Given a list $\alpha \in List\{+,-\}$, define $\alpha^{+} = \alpha$ and $\alpha^{-}$ to be the list in\par which the sign of every element is flipped (i.e. every $+$ is switched to $-$ and vice versa).\\
+{
+\noindent
+\textbf{Definition 2.} Given a list $\alpha \in List\{+,-\}$, define $\alpha^{+} = \alpha$ and $\alpha^{-}$ to be the list in which the sign of every element is flipped (i.e. every $+$ is switched to $-$ and vice versa).\\
+}
 
-\textbf{Definition 3.} Given a category $\mathbb{C}$, a list $\alpha \in List\{+,-\}$, and a functor $F : \mathbb{C}^\alpha \rightarrow \mathbb{C}$\par where $|\alpha| = n$, define 
+{
+\noindent
+\textbf{Definition 3.} Given a category $\mathbb{C}$, a list $\alpha \in List\{+,-\}$, and a functor $F : \mathbb{C}^\alpha \rightarrow \mathbb{C}$ where $|\alpha| = n$, define 
 \begin{flalign*}
 F^{\alpha} = F^{\alpha_1} \times F^{\alpha_2} \times ... \times F^{\alpha_n},
-\end{flalign*}\par
-where $F^+ : \mathbb{C}^\alpha \rightarrow \mathbb{C} = F$ and $F^- : \mathbb{C}^{\alpha^-} \rightarrow \mathbb{C}^{op} = F^{op}$.\\\par
-
-\textbf{Definition 4.} Given a list $q \in List\{+,-\}$, q is said to `match' a pattern\par $p \in List\{+,-\}$, $n = |p|$, with `substitution' $s \in List\{+,-\}$, if
-\begin{flalign*}
-q = s^{p_1} \mdoubleplus s^{p_2} \mdoubleplus ... \mdoubleplus s^{p_n}
-\end{flalign*}\par
-where $\mdoubleplus$ is the concatenation operator. Note that $n|s| = |q|$.\\
-
-\textbf{Definition 5.} Let $\mathbb{C}$ be a category with binary products and $\alpha, \beta \in List\{+, -\}$ be\par lists, where $|\alpha| \leq |\beta|$. Given functors $F : \mathbb{C}^{\alpha} \rightarrow \mathbb{C},\ G: \mathbb{C}^{\beta} \rightarrow \mathbb{C}$, if there exists a\par `substitution' $s \in List\{+, -\}$ such that $\beta$ `matches' the `pattern' $\alpha$ with `substitution'\par $s$, $\left(n|\alpha| = |s||\alpha| = |\beta|\right)$, $F$ is said to `unify' with $G$ by a `substitution functor'\par $S : \mathbb{C}^{s} \rightarrow \mathbb{C}$, expressed as $F \sim G : S$. S is given by
-\begin{flalign*}
-\forall X_1, X_2, ..., X_n \in ob(\mathbb{C}).\ S(X_1, X_2, ... X_n) = X_1 \times X_2 \times ... \times X_n\\
-\forall f_1, ..., f_n \in hom(\mathbb{C}).\ S(f_1, ..., f_n) = X_1 \times ... \times X_n \mapsto f_1 (X_1) \times ... \times f_n (X_n).
-\end{flalign*}\par
-Note the mixed variance in the domain of $S$; if $s_i = -$ then $f_i$ is a contravariant\par argument of the functor $S$. Observe that 
-\begin{flalign*}
-S (f_1 \circ g_1,...,f_n \circ g_n) = S (f_1,...,f_n) \circ S (g_1,...,g_n),\\
-S (id_{X_1}, ..., id_{X_n}) = id_{S (X_1, ..., X_n)}.
 \end{flalign*}
+where $F^+ : \mathbb{C}^\alpha \rightarrow \mathbb{C} = F$ and $F^- : \mathbb{C}^{\alpha^-} \rightarrow \mathbb{C}^{op} = F^{op}$.\\
+}
 
-\textbf{Theorem 6.} Given lists $\alpha, \beta, \gamma \in List\{+,-\}$, let 
+{
+\noindent
+\textbf{Definition 4.} Let $\mathbb{C}$ and $\mathbb{D}$ be categories. Given lists $\alpha$, $\beta$, $\gamma$ and functors $F : \mathbb{C}^\gamma \rightarrow \mathbb{D}$, $G : \mathbb{C}^\alpha \rightarrow \mathbb{D}$, $H : \mathbb{C}^\beta \rightarrow \mathbb{D}$, whiskering of a dinatural transformation $\phi : G \rightarrow H$ with $F$ is given by
 \begin{flalign*}
-F : \mathbb{C}^\alpha \rightarrow \mathbb{C}, G : \mathbb{C}^\beta \rightarrow \mathbb{C}, S : \mathbb{C}^\gamma \rightarrow \mathbb{C}, 
-\end{flalign*}\par
-be functors. If $F \sim G : S$, then $F \cdot S^\alpha \cong G$ (this both needs to be proved and better\par expressed, since the codomain of F does not exactly match the domain of S).\\
+  (\phi * F)_X : G \cdot F^\alpha (X) \rightarrow H \cdot F^\beta (X) = \phi_{F(X)}.
+\end{flalign*}
+}
 
-\textbf{Definition 7.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors
+{
+\noindent
+\textbf{Theorem 5.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors
 \begin{flalign*}
 F : \mathbb{C}^{\gamma} \rightarrow \mathbb{C}, G: \mathbb{C}^{\alpha} \rightarrow \mathbb{C}, H : \mathbb{C}^{\beta} \rightarrow \mathbb{C},
-\end{flalign*}\par
+\end{flalign*}
 and a dinatural transformation
 \begin{flalign*}
 \phi : G \rightarrow H,
-\end{flalign*}\par
+\end{flalign*}
+$\phi * F$ is dinatural. Dinatural transformations are therefore closed under left whiskering. (Proof to be added)\\
+}
+
+{
+\noindent
+\textbf{Definition 6.} Given a list $q \in List\{+,-\}$, q is said to `match' a pattern $p \in List\{+,-\}$, $n = |p|$, with `substitution' $s \in List\{+,-\}$, denoted $q = p(s)$, if
+\begin{flalign*}
+q = s^{p_1} \mdoubleplus s^{p_2} \mdoubleplus ... \mdoubleplus s^{p_n}
+\end{flalign*}
+where $\mdoubleplus$ is the concatenation operator. Note that $n|s| = |q|$.\\
+}
+
+{
+\noindent
+\textbf{Definition 7.} Let $\mathbb{C}$ be a category and $\alpha$, $\beta \in List\{+, -\}$ be lists, where $|\alpha| \leq |\beta|$. Given functors $F : \mathbb{C}^{\alpha} \rightarrow \mathbb{C},\ G: \mathbb{C}^{\beta} \rightarrow \mathbb{C}$, if there exists $s \in List\{+, -\}$ such that $\beta = \alpha(s)$, $n|\alpha| = |s||\alpha| = |\beta|$, and there exists a functor $S : \mathbb{C}^s \rightarrow \mathbb{C}$ such that $G \cdot S^\beta \cong F$, $F$ is said to `unify' with $G$ by means of the `substitution functor' $S$, expressed as $F \sim G : S$.\\
+}
+
+{
+\noindent
+\textbf{Definition 8.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors
+\begin{flalign*}
+F : \mathbb{C}^{\gamma} \rightarrow \mathbb{C}, G: \mathbb{C}^{\alpha} \rightarrow \mathbb{C}, H : \mathbb{C}^{\beta} \rightarrow \mathbb{C},
+\end{flalign*}
+and a dinatural transformation
+\begin{flalign*}
+\phi : G \rightarrow H,
+\end{flalign*}
 the left whiskering of $\phi$ with F is given by
 \begin{flalign*}
 (\phi * F)_X : G (F^{\alpha_1}(X), ..., F^{\alpha_n}(X)) \rightarrow H (F^{\beta_1}(X), ..., F^{\beta_n}(X)) = \phi_{F(X)},
-\end{flalign*}\par
-where $F^+ = F$ and $F^- = F^{op}$.\\\par
+\end{flalign*}
+where $F^+ = F$ and $F^- = F^{op}$.\\
+}
 
-\textbf{Theorem 8.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors
-\begin{flalign*}
-F : \mathbb{C}^{\gamma} \rightarrow \mathbb{C}, G: \mathbb{C}^{\alpha} \rightarrow \mathbb{C}, H : \mathbb{C}^{\beta} \rightarrow \mathbb{C},
-\end{flalign*}\par
-and a dinatural transformation
-\begin{flalign*}
-\phi : G \rightarrow H,
-\end{flalign*}\par
-$\phi * F$ is dinatural. Dinatural transformations are therefore closed under left whiskering.\par (Proof to be added)\\
-
-\textbf{Definition 9.} Given a cartesian closed category $\mathbb{C}$, lists $\alpha, \beta, \alpha', \beta' \in List\{+,-\}$,\par functors
+{
+\noindent
+\textbf{Definition 9.} Given a cartesian closed category $\mathbb{C}$, lists $\alpha, \beta, \alpha', \beta' \in List\{+,-\}$, functors
 \begin{flalign*}
 F : \mathbb{C}^{\alpha} \rightarrow \mathbb{C}, G: \mathbb{C}^{\beta} \rightarrow \mathbb{C},\\
 H : \mathbb{C}^{\alpha'} \rightarrow \mathbb{C}, K: \mathbb{C}^{\beta'} \rightarrow \mathbb{C},
-\end{flalign*}\par
+\end{flalign*}
 and dinatural transformations
 \begin{flalign*}
 \phi : F \rightarrow G, \psi : H \rightarrow K,
-\end{flalign*}\par
-if $G \sim H : S$ then $\psi$ is composable with $\phi * S$; the domain of $\psi$ is naturally isomorphic\par to the codomain of $\phi * S$ (5). Composition is given by
+\end{flalign*}
+if $G \sim H : S$ then $\psi$ is composable with $\phi * S$; the domain of $\psi$ is naturally isomorphic to the codomain of $\phi * S$ (5). Composition is given by
 \begin{flalign*}
 \psi \cdot \phi = \psi \circ (\phi * S).
-\end{flalign*}\par
+\end{flalign*}
 Conversely, if $H \sim G: S'$, composition is given by
 \begin{flalign*}
 \psi \cdot \phi = (\psi * S') \circ \phi.
-\end{flalign*}\par
+\end{flalign*}
 Note that $\psi \cdot \phi$ is not necessarily a dinatural transformation.\\
+}
 
-\textbf{Definition 10.} Let $[n] = \{i \in \mathbb{N} : i \leq n\}$ and $F: \mathbb{C}^\alpha \rightarrow \mathbb{C}$ and $G: \mathbb{C}^\beta \rightarrow \mathbb{C}$\par be functors. The type of a dinatural transformation (McCusker and Santamaria 2018), 
-\par$\phi : F \rightarrow G$, is given by three sets $[\alpha], [\beta], [k]$, and two functions $\sigma : [\alpha] \rightarrow [k],$\par$\tau : [\beta] \rightarrow [k]$ and is denoted $f = \cospan{[\alpha]}{\sigma}{[k]}{\tau}{[\beta]}$. Given a type $f$, $\phi$ is given to be a\par family of morphisms
+{
+\noindent
+\textbf{Definition 10.} Let $[n] = \{i \in \mathbb{N} : i \leq n\}$ and $F: \mathbb{C}^\alpha \rightarrow \mathbb{C}$ and $G: \mathbb{C}^\beta \rightarrow \mathbb{C}$ be functors. The type of a dinatural transformation (McCusker and Santamaria 2018), 
+$\phi : F \rightarrow G$, is given by three sets $[\alpha], [\beta], [k]$, and two functions $\sigma : [\alpha] \rightarrow [k]$, $\tau : [\beta] \rightarrow [k]$ and is denoted $f = \cospan{[\alpha]}{\sigma}{[k]}{\tau}{[\beta]}$. Given a type $f$, $\phi$ is given to be a family of morphisms
 \begin{flalign*}
 \left(\phi_{A_1,...,A_k} : F(A_{\sigma(1)},...,A_{\sigma(|\alpha|)}) \rightarrow G(A_{\tau(1)},...,A_{\tau(|\beta|)})\right)_{A_1 \times...\times A_k \in \mathbb{C}^k}.
-\end{flalign*}\par
-The functions $\sigma$ and $\tau$ are said to determine which arguments of $F$ and $G$ are to be\par equated.\\
+\end{flalign*}
+The functions $\sigma$ and $\tau$ are said to determine which arguments of $F$ and $G$ are to be equated.\\
+}
 
-\textbf{Definition 11.} The construction of a type given in (8) is a familiar one; it is a cospan\par in the category $Set$. McCusker and Santamaria construct the category $\mathbb{T}$ypes of\par transformation types, where $ob(\mathbb{T}\text{ypes}) = \{[i] : i \in \mathbb{N}\}$ and $\forall f : n \rightarrow m$, $f$ is given by\par a cospan of the form $\cospan{n}{\sigma}{k}{\tau}{m}$. Composition of a morphism f and $g = \cospan{m}{\sigma'}{p}{\tau'}{t}$,\par $g \cdot f = \cospan{n}{\zeta \cdot \sigma}{q}{\xi \cdot \tau'}{t}$ is given by calculating the pushout, 
+{
+\noindent
+\textbf{Definition 11.} The construction of a type given in (8) is a familiar one; it is a cospan in the category $Set$. McCusker and Santamaria construct the category $\mathbb{T}$ypes of transformation types, where $ob(\mathbb{T}\text{ypes}) = \{[i] : i \in \mathbb{N}\}$ and $\forall f : n \rightarrow m$, $f$ is given by a cospan of the form $\cospan{n}{\sigma}{k}{\tau}{m}$. Composition of a morphism f and $g = \cospan{m}{\sigma'}{p}{\tau'}{t}$, $g \cdot f = \cospan{n}{\zeta \cdot \sigma}{q}{\xi \cdot \tau'}{t}$ is given by calculating the pushout, 
 \begin{flalign*}
 (q \in ob(\mathbb{T}\text{ypes}),\ \xi : p \rightarrow q,\ \zeta : k \rightarrow q),
-\end{flalign*}\par
-of $\tau$ against $\sigma'$.
-\\\par
-This pushout is calculated in the usual way for sets, where $q$ is given to be quotient of\par the disjoint union of $k$ and $p$ by the equivalence relation $\tau(x) \sim \sigma'(x)$. Alternatively,\par the construction of this pushout can be described as the disjoint union of $p$ and $k$ in\par which any elements obtained by applying functions $\tau$ and $\sigma'$, respectively, to the same\par value from $m$, are paired.\\
+\end{flalign*}
+of $\tau$ against $\sigma'$. This pushout is calculated in the usual way for sets, where $q$ is given to be quotient of the disjoint union of $k$ and $p$ by the equivalence relation $\tau(x) \sim \sigma'(x)$.\\
+}
 
+{
+\noindent
 \textbf{Definition 12.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors 
 \begin{flalign*}
 F : \mathbb{C}^\gamma \rightarrow \mathbb{C}, G : \mathbb{C}^\alpha \rightarrow \mathbb{C}, H : \mathbb{C}^\beta \rightarrow \mathbb{C},
-\end{flalign*}\par
-and a dinatural transformation $\phi : G \rightarrow H$, of type $\cospan{[\alpha]}{\sigma}{[k]}{\tau}{[\beta]}$, the type of\par $\phi * F$ is given by $\cospan{[\alpha * \gamma]}{\sigma'}{[k * \gamma]}{\tau'}{[\beta * \gamma]}$, where 
+\end{flalign*}
+and a dinatural transformation $\phi : G \rightarrow H$, of type $\cospan{[\alpha]}{\sigma}{[k]}{\tau}{[\beta]}$, the type of $\phi * F$ is given by $\cospan{[\alpha * \gamma]}{\sigma'}{[k * \gamma]}{\tau'}{[\beta * \gamma]}$, where 
 \begin{flalign*}
 \sigma' = \bigcup\limits_{i=1}^{|\alpha|} \{(|\gamma| * (i - 1) + j,\ \sigma(i) + j - 1)\ |\ j \in \gamma \}\\
 \tau' = \bigcup\limits_{i=1}^{|\beta|} \{(|\gamma| * (i - 1) + j,\ \tau(i) + j - 1)\ |\ j \in \gamma \}.
-\end{flalign*}\par
+\end{flalign*}
+}
 
 \end{document}
