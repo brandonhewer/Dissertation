@@ -31,7 +31,7 @@ A more complex example, function composition, requires the following constructio
 \end{flalign}
 The reduction rule for type-level applications is expressed as
 \begin{flalign}
-  (\Lambda \tau.\ \sigma [\tau])\ t \rightarrow_{\beta} \sigma [t / \tau]
+  (\Lambda \tau.\ \sigma [\tau])\ t \rightarrow_{\beta} \sigma [t / \tau].
 \end{flalign}
 Girard and Reynolds demonstrate that for all sequences of conversion rules, System F converges. This is known as the strong normalisation property. In the context of System F, the strong normalisation property entails the absence of recursion and the guarantee of termination. Strongly-normalising languages, such as System F, are never Turing-complete and cannot describe self-interpretation.
 
