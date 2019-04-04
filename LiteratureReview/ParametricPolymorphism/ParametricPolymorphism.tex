@@ -13,10 +13,10 @@ Ad-hoc polymorphism describes the class of polymorphic functions whose behaviour
   label={Haskell-Map}
 ]
 map :: (A -> B) -> [A] -> [B]
-map _ [] = []
+map _ []     = []
 map f (x:xs) = f x : map f xs
 \end{lstlisting}
-Parametrically polymorphic functions such as `map' may be described as acting exclusively on structure. A variety of formalisations of parametric polymorphism, which try to capture this intuition, have been developed. One such formal approach is the polymorphic lambda calculsus.
+Parametrically polymorphic functions such as `map' may be described as acting exclusively on structure. A variety of formalisations of parametric polymorphism, which try to capture this intuition, have been developed. One such formal approach is the polymorphic lambda calculus.
 
 \subsection{System F}
 Parametric polymorphism can be formally described by the second-order polymorphic lambda calculus, also known as the Girard-Reynolds polymorphic lambda calculus or System F. The second-order polymorphic lambda calculus was independently discovered by \citeasnoun{GirardPolyLambda} and \citeasnoun{ReynoldsPolyLambda}.
