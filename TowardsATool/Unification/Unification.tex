@@ -48,10 +48,19 @@ where $F^+ : \mathbb{C}^\alpha \rightarrow \mathbb{C} = F$ and $F^- : \mathbb{C}
 
 {
 \noindent
-\textbf{Definition 4.} Let $\mathbb{C}$ and $\mathbb{D}$ be categories. Given lists $\alpha$, $\beta$, $\gamma$ and functors $F : \mathbb{C}^\gamma \rightarrow \mathbb{D}$, $G : \mathbb{C}^\alpha \rightarrow \mathbb{D}$, $H : \mathbb{C}^\beta \rightarrow \mathbb{D}$, whiskering of a dinatural transformation $\phi : G \rightarrow H$ with $F$ is given by
+\textbf{Definition 4.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors
 \begin{flalign*}
-  (\phi * F)_X : G \cdot F^\alpha (X) \rightarrow H \cdot F^\beta (X) = \phi_{F(X)}.
+F : \mathbb{C}^{\gamma} \rightarrow \mathbb{C},\ G: \mathbb{C}^{\alpha} \rightarrow \mathbb{C},\ H : \mathbb{C}^{\beta} \rightarrow \mathbb{C},
 \end{flalign*}
+and a dinatural transformation
+\begin{flalign*}
+\phi : G \rightarrow H,
+\end{flalign*}
+the left whiskering of $\phi$ with F is given by
+\begin{flalign*}
+(\phi * F)_X : G (F^{\alpha_1}(X), ..., F^{\alpha_n}(X)) \rightarrow H (F^{\beta_1}(X), ..., F^{\beta_n}(X)) = \phi_{F(X)},
+\end{flalign*}
+where $F^+ = F$ and $F^- = F^{op}$.\\
 }
 
 {
@@ -78,29 +87,24 @@ where $\mdoubleplus$ is the concatenation operator. Note that $n|s| = |q|$.\\
 
 {
 \noindent
-\textbf{Definition 7.} Let $\mathbb{C}$ be a category and $\alpha$, $\beta \in List\{+, -\}$ be lists, where $|\alpha| \leq |\beta|$. Given functors $F : \mathbb{C}^{\alpha} \rightarrow \mathbb{C},\ G: \mathbb{C}^{\beta} \rightarrow \mathbb{C}$, if there exists $s \in List\{+, -\}$ such that $\beta = \alpha(s)$, $n|\alpha| = |s||\alpha| = |\beta|$, and there exists a functor $S : \mathbb{C}^s \rightarrow \mathbb{C}$ such that $G \cdot S^\beta \cong F$, $F$ is said to `unify' with $G$ by means of the `substitution functor' $S$, expressed as $F \sim G : S$.\\
+\textbf{Definition 7.} Let $\mathbb{C}$ be a category and $\alpha$, $\beta \in List\{+, -\}$ be lists, where $|\alpha| \leq |\beta|$. Given functors
+\begin{flalign*}
+F : \mathbb{C}^{\alpha} \rightarrow \mathbb{C},\ G: \mathbb{C}^{\beta} \rightarrow \mathbb{C},
+\end{flalign*}
+if there exists $s \in List\{+, -\}$ such that 
+\begin{flalign*}
+\beta = \alpha(s),\ n|\alpha| = |s||\alpha| = |\beta|, 
+\end{flalign*}
+and there exists a functor $S : \mathbb{C}^s \rightarrow \mathbb{C}$ such that
+\begin{flalign*}
+G \cdot S^\beta \cong F, 
+\end{flalign*}
+$F$ is said to `unify' with $G$ by means of the `substitution functor' $S$, expressed as $F \sim G : S$.\\
 }
 
 {
 \noindent
-\textbf{Definition 8.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors
-\begin{flalign*}
-F : \mathbb{C}^{\gamma} \rightarrow \mathbb{C}, G: \mathbb{C}^{\alpha} \rightarrow \mathbb{C}, H : \mathbb{C}^{\beta} \rightarrow \mathbb{C},
-\end{flalign*}
-and a dinatural transformation
-\begin{flalign*}
-\phi : G \rightarrow H,
-\end{flalign*}
-the left whiskering of $\phi$ with F is given by
-\begin{flalign*}
-(\phi * F)_X : G (F^{\alpha_1}(X), ..., F^{\alpha_n}(X)) \rightarrow H (F^{\beta_1}(X), ..., F^{\beta_n}(X)) = \phi_{F(X)},
-\end{flalign*}
-where $F^+ = F$ and $F^- = F^{op}$.\\
-}
-
-{
-\noindent
-\textbf{Definition 9.} Given a cartesian closed category $\mathbb{C}$, lists $\alpha, \beta, \alpha', \beta' \in List\{+,-\}$, functors
+\textbf{Definition 8.} Given a cartesian closed category $\mathbb{C}$, lists $\alpha, \beta, \alpha', \beta' \in List\{+,-\}$, functors
 \begin{flalign*}
 F : \mathbb{C}^{\alpha} \rightarrow \mathbb{C}, G: \mathbb{C}^{\beta} \rightarrow \mathbb{C},\\
 H : \mathbb{C}^{\alpha'} \rightarrow \mathbb{C}, K: \mathbb{C}^{\beta'} \rightarrow \mathbb{C},
@@ -122,7 +126,7 @@ Note that $\psi \cdot \phi$ is not necessarily a dinatural transformation.\\
 
 {
 \noindent
-\textbf{Definition 10.} Let $[n] = \{i \in \mathbb{N} : i \leq n\}$ and $F: \mathbb{C}^\alpha \rightarrow \mathbb{C}$ and $G: \mathbb{C}^\beta \rightarrow \mathbb{C}$ be functors. The type of a dinatural transformation (McCusker and Santamaria 2018), 
+\textbf{Definition 9.} Let $[n] = \{i \in \mathbb{N} : i \leq n\}$ and $F: \mathbb{C}^\alpha \rightarrow \mathbb{C}$ and $G: \mathbb{C}^\beta \rightarrow \mathbb{C}$ be functors. The type of a dinatural transformation (McCusker and Santamaria 2018), 
 $\phi : F \rightarrow G$, is given by three sets $[\alpha], [\beta], [k]$, and two functions $\sigma : [\alpha] \rightarrow [k]$, $\tau : [\beta] \rightarrow [k]$ and is denoted $f = \cospan{[\alpha]}{\sigma}{[k]}{\tau}{[\beta]}$. Given a type $f$, $\phi$ is given to be a family of morphisms
 \begin{flalign*}
 \left(\phi_{A_1,...,A_k} : F(A_{\sigma(1)},...,A_{\sigma(|\alpha|)}) \rightarrow G(A_{\tau(1)},...,A_{\tau(|\beta|)})\right)_{A_1 \times...\times A_k \in \mathbb{C}^k}.
@@ -132,7 +136,7 @@ The functions $\sigma$ and $\tau$ are said to determine which arguments of $F$ a
 
 {
 \noindent
-\textbf{Definition 11.} The construction of a type given in (8) is a familiar one; it is a cospan in the category $Set$. McCusker and Santamaria construct the category $\mathbb{T}$ypes of transformation types, where $ob(\mathbb{T}\text{ypes}) = \{[i] : i \in \mathbb{N}\}$ and $\forall f : n \rightarrow m$, $f$ is given by a cospan of the form $\cospan{n}{\sigma}{k}{\tau}{m}$. Composition of a morphism f and $g = \cospan{m}{\sigma'}{p}{\tau'}{t}$, $g \cdot f = \cospan{n}{\zeta \cdot \sigma}{q}{\xi \cdot \tau'}{t}$ is given by calculating the pushout, 
+\textbf{Definition 10.} The construction of a type given in (8) is a familiar one; it is a cospan in the category $Set$. McCusker and Santamaria construct the category $\mathbb{T}$ypes of transformation types, where $ob(\mathbb{T}\text{ypes}) = \{[i] : i \in \mathbb{N}\}$ and $\forall f : n \rightarrow m$, $f$ is given by a cospan of the form $\cospan{n}{\sigma}{k}{\tau}{m}$. Composition of a morphism f and $g = \cospan{m}{\sigma'}{p}{\tau'}{t}$, $g \cdot f = \cospan{n}{\zeta \cdot \sigma}{q}{\xi \cdot \tau'}{t}$ is given by calculating the pushout, 
 \begin{flalign*}
 (q \in ob(\mathbb{T}\text{ypes}),\ \xi : p \rightarrow q,\ \zeta : k \rightarrow q),
 \end{flalign*}
@@ -141,7 +145,7 @@ of $\tau$ against $\sigma'$. This pushout is calculated in the usual way for set
 
 {
 \noindent
-\textbf{Definition 12.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors 
+\textbf{Definition 11.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors 
 \begin{flalign*}
 F : \mathbb{C}^\gamma \rightarrow \mathbb{C}, G : \mathbb{C}^\alpha \rightarrow \mathbb{C}, H : \mathbb{C}^\beta \rightarrow \mathbb{C},
 \end{flalign*}
