@@ -1,7 +1,6 @@
 % !TeX root = CategoryTheory.tex
 \documentclass[../../Dissertation.tex]{subfiles}
 
-
 \begin{document}
 
 \subsection{A formal approach to structure}
@@ -101,7 +100,7 @@ safeHead (x:_)  = Just x
 \end{lstlisting}
 
 Listing \ref{Haskell-SafeHead} depicts an implementation of the \lstinline{safeHead} natural transformation from the \lstinline{List} functor to the \lstinline{Maybe} functor. It is evident that \lstinline{safeHead} exhibits the naturality condition; given any \lstinline{f : a -> b} the equality \lstinline{fmap f . safeHead} = \lstinline{safeHead . fmap f} holds.
-\\\\
+\par
 The formulation of naturality depicted in \eqref{eq:naturality} does not encapsulate transformations between mixed-variance functors. As described in Section \ref{section:functor}, mixed variance may be found in functors whose domain or co-domain is a product category, such as any hom-functor $Hom_{\mathbb{C}} : \mathbb{C}^{op} \times \mathbb{C} \rightarrow Set$, where $\mathbb{C}^{op}$ is the opposite category of $\mathbb{C}$. \citeasnoun{GeneralTransform} advanced a more general conception of naturality, described as extranaturality, to account for transformations between mixed-variance functors. The structure-preserving condition of an extranatural transformation $\alpha_{X,Z} : F(X,X) \rightarrow G(Z,Z)$ between two functors $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ and $G : \mathbb{B}^{op} \times \mathbb{B} \rightarrow \mathbb{D}$, is expressed by the following commutative diagram:
 \begin{equation}\label{eq:extranaturality}
   \begin{tikzpicture}[baseline= (a).base]
@@ -115,17 +114,15 @@ The formulation of naturality depicted in \eqref{eq:naturality} does not encapsu
     };
   \end{tikzpicture}
 \end{equation}
-In this formulation of naturality, the transformation $\alpha$ is said to be extranatural in X, providing Z does not depend on X.
-\par
-An example of an extranatural transformation is the parametrically polymorphic evaluation map.
+In this formulation of naturality, the transformation $\alpha$ is said to be extranatural in X, providing Z does not depend on X. An example of an extranatural transformation is the parametrically polymorphic evaluation map.
 \begin{lstlisting}[
   breaklines,
   breakatwhitespace,
-  caption={An implementation of the evaluation map function in Haskell},
+  caption={An implementation of an uncurried evaluation map function in Haskell},
   label={Haskell-Eval}
 ]
-eval :: (a -> b) -> a -> b
-eval f x = f x
+eval :: (a -> b, a) -> b
+eval (f, x) = f x
 \end{lstlisting}
 \lstref{Haskell-Eval} depicts an implementation of the evaluation map, which is extranatural in the type variable \lstinline{a}. By observation, the extranaturality condition can be verified; given any functions \lstinline{f : a' -> b, g : a -> a'}, the equality \lstinline{ (eval f) . g = eval (f . g)} holds.
 \par
@@ -149,7 +146,17 @@ The extranaturality condition does not apply to transformations where mixed vari
     };
   \end{tikzpicture}
 \end{equation}
-Examples of dinatural transformations include the Y-combinator $Y : (A \rightarrow A) \rightarrow A$ and the Church-numeral encoding e.g., $N_{1} : (A \rightarrow A) \rightarrow (A \rightarrow A)$.
+Examples of dinatural transformations include the Y-combinator $Y : (A \rightarrow A) \rightarrow A$ and the Church-numeral encoding e.g., $N_{1} : (A \rightarrow A) \rightarrow (A \rightarrow A)$. An example of the fix function, in the Haskell programming language, is given in Listing \ref{Haskell-Y}.
+
+\begin{lstlisting}[
+  breaklines,
+  breakatwhitespace,
+  caption={An implementation of the fix function (Y-Combinator) in Haskell},
+  label={Haskell-Y}
+]
+fix :: (a -> a) -> a
+fix f = let x = f x in x
+\end{lstlisting}
 
 \subsection{Natural composition}
 The vertical composition of two natural transformations $\eta_X : F(X) \rightarrow G(X)$ and $\gamma_X : G(X) \rightarrow H(X)$, is defined as $(\gamma \bullet \eta)_X = \gamma_X \circ \eta_X$. Vertical composition can also be depicted by the following commutative diagram:
@@ -247,9 +254,9 @@ Vertical and horizontal composition of natural transformations are related by th
 \\
 The notion of vertical and horizontal composition, and the associated interchange law, extends to the more general notion of 2-cells in any strict 2-category. In the given examples, the strict 2-category is the category $Cat$. In $Cat$, objects, known as 0-cells, are locally small categories. Morphisms  in $Cat$ are functor categories, in which objects (1-cells) are functors and morphisms (2-cells) are natural transformations.
 
-Describe the composition problem with regards to dinatural transformations.
+Following from the well-defined notion of composition of naturals transformations, it is reasonable to pursue a similar formulation in the generalised dinatural case. Unfortunately, such a pursuit leads to a notorious problem; in general, dinatural transformations do not compose. Formally, given functors $F,\ G,\ H : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ and dinatural transformations $\phi : F \rightarrow G$,  $\psi : G \rightarrow H$, it is not necessarily true that the outer hexagon in the following diagram commutes:
 
-\begin{equation}\label{dinaturality}
+\begin{equation}\label{eq:dicompose}
   \begin{tikzpicture}[baseline= (a).base]
     \node[scale=1.15] (a) at (0,0) {
       \begin{tikzcd}[column sep=small]
@@ -267,6 +274,50 @@ Describe the composition problem with regards to dinatural transformations.
         &  G (X', X') \arrow[ur, "{G (f, id)}"] \arrow[r, swap, "\psi_{X'}"]
         &  H (X', X') \arrow[ur, swap, "{H (f, id)}"]
         &
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+\\
+To prove that this is indeed the case, a counterexample is presented, described by \citeasnoun{FunctorialPolymorphism}. Define three endofunctors, in the category $Set$,
+\begin{flalign}\label{func-def}
+  Hom : Set^{op} \times Set \rightarrow Set,\ 
+  K_{BOOL} : Set^{op} \times Set \rightarrow Set,\ 
+  K_{1} : Set \rightarrow Set,
+\end{flalign}
+where $Hom$ is the hom-functor, and $K_{BOOL}$, $K_1$ are constant functors which map into $\{0, 1\}$ and the one-element set, respectively. Consider the two dinatural transformations 
+\begin{flalign}\label{nat-def}
+  \psi : K_1 \rightarrow Hom,\ \phi : Hom \rightarrow K_{BOOL},
+\end{flalign}
+where $\psi_X$ always maps to the identity on $X$, and $\phi_X$ is defined as follows:
+\begin{flalign}\label{nat-def}
+  \phi_X (f) = 
+  \begin{cases}
+    0 & \text{if number of fixed points of } \textit{f} \text{ is even or not finite}\\
+    1 & \text{otherwise}
+  \end{cases}.
+\end{flalign}
+If the composition of $\phi$ and $\psi$ is dinatural, the resulting family of morphisms should satisfy the condition described by the commuting hexagon depicted in (\ref{eq:dinaturality}). It is clear that the family of morphisms $(\phi \cdot \psi)_X : K_1(X) \rightarrow K_{BOOL}(X)$ is a map between constant functors, and therefore, to be dinatural, must only describe a single morphism. However, the family of morphisms $(\phi \cdot \psi)_X$ is dependant on $X$, and describes two morphisms; one for each of the two possible parities of the number of fixpoints.
+\par
+In the circumstance in which the centre diamond found in (\ref{eq:dicompose}) is a pullback, the outer hexagon commutes, and the composition is dinatural. Formally, this diamond is a pullback if for all objects $Y$ and morphisms $f : Y \rightarrow G(X, X)$, $g : Y \rightarrow G(X', X')$, there exists a unique morphism $h : Y \rightarrow G(X', X)$, such that the following diagram commutes:
+
+\begin{equation}\label{eq:dinaturality}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.15] (a) at (0,0) {
+      \begin{tikzcd}
+        Y \arrow[dr, "h"] \arrow[ddr, bend right=40, swap, "g"] \arrow[drr, bend left=20, "f"]
+        &
+        &
+        \\[18pt]
+        &
+        G(X', X) \arrow[r, "{G(f, id)}"] \arrow[d, swap, "{G(id, f)}"]
+        &
+        G (X, X) \arrow[d, "{G(id, f)}"]
+        \\
+        &
+        G(X', X') \arrow[r, swap, "{G(f, id)}"]
+        &
+        G(X, X')
       \end{tikzcd}.
     };
   \end{tikzpicture}
@@ -318,8 +369,5 @@ This may also be formulated with the equation $(H * \alpha)_X = H (\alpha_X)$. O
   \beta * \alpha = (\beta * G) \bullet (H * \alpha),\\
   \beta * \alpha = (K * \alpha) \bullet (\beta * F).
 \end{flalign}
-
-\subsection{Connections in linear logic}
-Briefly discuss proof nets, their connection to the categorical notion of a coherence condition.  Explore the relationship between the coherence condition and the composition problem for dinatural transformations described by \citeasnoun{LogicToDinaturality}
 
 \end{document}

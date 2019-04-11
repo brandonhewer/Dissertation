@@ -107,7 +107,24 @@ By specialising to the case where the relation $\mathcal{A}$ is a function, we c
 \\
 \citeasnoun{FreeImprovements} extend the relational semantics for types, by adding an integer representation of the call-by-value evaluation cost to the codomain. For each semantic operation its behaviour on the cost parameter is defined. For example, the cost of pairs and lists is defined to be the sum of the costs of their elements. Seidel and Voigtl{\"a}nder use this extension to the relational semantics to derive quantitative theorems about the runtime of terms within a restricted form of the polymorphic lambda calculus.
 
-\subsection{Cut-free proofs}
+\subsection{Cut-free elimination}
+A sequent calculus is an inference system for first-order logic. The most basic construct in a sequent calculus, known as a sequent, has the form
+\begin{flalign}\label{eq:sequent}
+  X_1,\ X_2,\ \ldots,\ X_N \vdash Y_1,\ Y_2,\ \ldots,\ Y_M.
+\end{flalign}
+A sequent of the form expressed in (\ref{eq:sequent}) is a judgement which asserts that a statement $Y_i$ is true, if $X_1 \land X_2 \land ... \land X_N$ is true.
+\par
+Let $\Gamma$, $\Sigma$, $\Delta$ and $\Lambda$ be finite lists of formulae, known as contexts. The cut-rule is then defined as follows:
+
+\begin{equation}\label{eq:cut}
+\begin{prooftree}
+  \hypo{\Gamma \vdash X, \Delta}
+  \hypo{\Sigma, X \vdash \Lambda}
+  \infer2[cut]{\Sigma, \Gamma \vdash \Lambda, \Delta}
+\end{prooftree}.
+\end{equation}
+The cut-rule depicted in (\ref{eq:cut}) can be described as cutting any occurrence of $X$ from the proof.
+
 Explain System F as a restricted form of the sequent calculus, on which cut-free elimination is formally defined.
 Categorical approach to cut-free proofs; corresponding to the strong normalisation property in higher-order typed lambda calculus (systems yielding irreducible terms in a finite number of steps). This idea is linked to Reynold's notion of parametricity, as described by
 \citeasnoun{NaturalAsNormalForms}, and brings together the ideas of parametric polymorphism, the lambda calculus and category theory.

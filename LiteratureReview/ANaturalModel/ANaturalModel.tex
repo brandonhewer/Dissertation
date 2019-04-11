@@ -4,8 +4,51 @@
 \begin{document}
 Dinatural transformations have been investigated as a formal model for parametric polymorphism.
 
+\subsection{Categorical semantics of System F}
+A model of the simply-typed lambda calculus in a cartesian closed category was first described by \citeasnoun{CCCLambda}. Furthermore, Lambek shows the simply-typed lambda calculus is the internal language of any cartesian closed category. The notion of an internal language provides a manner in which to translate propositions within a given logic into categorical propositions. The construction described by Lambek extends to the second-order polymorphic lambda calculus (System F).
+\par
+Types in System F are taken to be objects in a category. The set of morphisms between two types $T$ and $U$ is given by the set of functions of the form $T \Rightarrow U$. The identity morphism is given by the polymorphic identity function. Composition is given by the polymorphic composition function.
+\par
+To complete the construction of a cartesian closed category, it is necessary to show that the category has finite products and that the functor, $- \times X$, has a right adjoint. The terminal object is given by including a unit type, denoted $()$, in the definition of System F. 
+\par
+Binary products are also included within the definition of System F. For any types $T$ and $U$, there exists a type $T \times U$ and projections $\pi_{T} : T \times U \Rightarrow T$, $\pi_{U} : T \times U \Rightarrow U$, such that for any type $V$ and functions $f : V \Rightarrow T$, $g : V \Rightarrow U$, there exists a function $h : V \Rightarrow T \times U$, such that the following diagram commutes:
+
+\begin{equation}\label{eq:nat_vertical}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        & 
+        V \arrow[dl, swap, "f"] \arrow[dr, "g"] \arrow[d, "h"]
+        &
+        \\
+        T
+        & 
+        T \times U \arrow[l, "\pi_{T}"] \arrow[r, swap, "\pi_{U}"]
+        &
+        U
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+\\
+The right adjoint of $- \times X$ is given by the functor $X \Rightarrow -$, which sends a type $Y$ to the function type $X \Rightarrow Y$, and a natural transformation $\epsilon_X : (X \Rightarrow Y) \times X \rightarrow Y$ given by evaluation. Given any function $f : Z \times X \Rightarrow Y$, there exists the unique function $g : Z \Rightarrow (X \Rightarrow Y) = z \mapsto (x \mapsto f (z, x))$, which makes the following diagram commute:
+\begin{equation}\label{eq:nat_vertical}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        (X \Rightarrow Y) \times X \arrow[r, "\epsilon_X"]
+        &
+        Y
+        \\
+        Z \times X \arrow[u, "g \times id"] \arrow[ur, swap, "f"]
+        &
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+
 \subsection{Functorial Polymorphism}
-\citeasnoun{FunctorialPolymorphism} introduce a formal model of parametric polymorphism in which the parametricity property is described by naturality conditions. Given a cartesian-closed category $\mathbb{C}$ of primitive types, multi-variance functors of the form $F : (\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$ can be interpreted as polymorphic types. Dinatural transformations between
+\citeasnoun{FunctorialPolymorphism} introduce a formal model of parametric polymorphism in which the parametricity property is described by naturality conditions. Given a cartesian closed category $\mathbb{C}$ of primitive types, multi-variance functors of the form $F : (\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$ can be interpreted as polymorphic types. Dinatural transformations between
 
 Summary of dinaturality in category of partial equivalence relations, as described by \citeasnoun{DinaturalityInPERS} and how this corresponds to parametric polymorphism.
 \newline\newline
