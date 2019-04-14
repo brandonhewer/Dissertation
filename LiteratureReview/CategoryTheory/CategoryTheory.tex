@@ -59,7 +59,7 @@ In category theory, a functor is a map between categories which preserves identi
   F (id_{X}) &= id_{F (X)},\\
   \forall f : X \rightarrow Y, g : Y \rightarrow Z &\in \mathbb{C} : F (g \circ f) = F (g) \circ F (f).
 \end{flalign}
-An example of a functor, given in the Haskell programming language, is the list functor, shown in \lstref{Haskell-List}.
+An example of a functor, provided within the Haskell programming language, is the list functor, as shown in \lstref{Haskell-List}.
 \begin{lstlisting}[
   caption={An instantiation of the list functor in Haskell},
   label={Haskell-List}
@@ -68,9 +68,26 @@ instance Functor [] where
   fmap f []     = []
   fmap f (x:xs) = f x : (fmap f xs)
 \end{lstlisting}
-The list functor, \lstinline{[]} $: Hask \rightarrow Hask$, where $Hask$ is the category of Haskell types, maps any type \lstinline{a} to a type \lstinline{[a]}. Morphisms of the type \lstinline{f : a -> b} are lifted to \lstinline{[a] -> [b]} by defining a function which applies \lstinline{f} to every element in a list. A functor whose co-domain category is the same as its domain, such as \lstinline{[]}, is called an endo-functor.
+The list functor, \lstinline{[]} $: Hask \rightarrow Hask$, where $Hask$ is the category of Haskell types, maps any type \lstinline{a} to a type \lstinline{[a]}. Morphisms of the type \lstinline{f : a -> b} are lifted to \lstinline{[a] -> [b]} by defining a function which applies \lstinline{f} to every element in a list. A functor whose co-domain category is the same as its domain, such as \lstinline{[]}, is termed an endo-functor.
 
-The definition of a functor generalises to the notion of a multifunctor. A multifunctor is a functor of the form $\mathbb{C}_1 \times \mathbb{C}_2 \times \cdots \times \mathbb{C}_n \rightarrow \mathbb{D}$, i.e., a functor whose domain is a product category. In the given formulation, if there exists $\mathbb{C}_i, \mathbb{C}_j$, such that $\mathbb{C}_i^{op} = \mathbb{C}_j$, the multifunctor is said to be of mixed variance. An important example of a multifunctor is the hom-functor of a category $\mathbb{C}$, which is of the form $\mathbb{C}^{op} \times \mathbb{C} \rightarrow Set$, and is a functor from pairs of objects in $\mathbb{C}$ to their hom-sets in $Set$.
+The definition of a functor generalises to the notion of a multifunctor. A multifunctor is a functor of the form $\mathbb{C}_1 \times \mathbb{C}_2 \times \cdots \times \mathbb{C}_n \rightarrow \mathbb{D}$, i.e., a functor whose domain is a product category. An example of a multifunctor is given by the product bifunctor in the Haskell programming language, as shown in Listing \ref{Haskell-Product}.
+
+\begin{lstlisting}[
+  caption={An instantiation of the product bifunctor in Haskell},
+  label={Haskell-Product}
+]
+instance Bifunctor (,) where
+  bimap f g (x, y) = (f x, g y)
+\end{lstlisting}
+In the given formulation, if there exists $\mathbb{C}_i, \mathbb{C}_j$, such that $\mathbb{C}_i^{op} = \mathbb{C}_j$, the multifunctor is said to be of mixed variance. An important example of a multifunctor is the hom-functor of a category $\mathbb{C}$, which is of the form $\mathbb{C}^{op} \times \mathbb{C} \rightarrow Set$, and is a functor from pairs of objects in $\mathbb{C}$ to their hom-sets in $Set$. An example of a hom-functor is given by the arrow profunctor in the Haskell programming language, as depicted in Listing \ref{Haskell-Arrow}.
+
+\begin{lstlisting}[
+  caption={An instantiation of the arrow profunctor in Haskell},
+  label={Haskell-Arrow}
+]
+instance Profunctor (->) where
+  dimap f h g = h . g . f
+\end{lstlisting}
 
 \subsection{Natural transformations}
 A natural transformation is a family of morphisms which collectively describe a structure-preserving map between two functors. The structure-preserving condition of a natural transformation $\eta_{X} : F(X) \rightarrow G(X)$ between two functors $F, G : \mathbb{C} \rightarrow \mathbb{D}$, is expressed by the following commutative diagram:
@@ -99,7 +116,14 @@ safeHead []     = Nothing
 safeHead (x:_)  = Just x
 \end{lstlisting}
 
-Listing \ref{Haskell-SafeHead} depicts an implementation of the \lstinline{safeHead} natural transformation from the \lstinline{List} functor to the \lstinline{Maybe} functor. It is evident that \lstinline{safeHead} exhibits the naturality condition; given any \lstinline{f : a -> b} the equality \lstinline{fmap f . safeHead} = \lstinline{safeHead . fmap f} holds.
+Listing \ref{Haskell-SafeHead} depicts an implementation of the \lstinline{safeHead} natural transformation from the \lstinline{List} functor to the \lstinline{Maybe} functor. It is evident that \lstinline{safeHead} exhibits the naturality condition; given any function \lstinline{f : a -> b} the following equality holds:
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+fmap f . safeHead = safeHead . fmap f.
+\end{lstlisting}
+\end{tabular}
+\end{center}
 \par
 The formulation of naturality depicted in \eqref{eq:naturality} does not encapsulate transformations between mixed-variance functors. As described in Section \ref{section:functor}, mixed variance may be found in functors whose domain or co-domain is a product category, such as any hom-functor $Hom_{\mathbb{C}} : \mathbb{C}^{op} \times \mathbb{C} \rightarrow Set$, where $\mathbb{C}^{op}$ is the opposite category of $\mathbb{C}$. \citeasnoun{GeneralTransform} advanced a more general conception of naturality, described as extranaturality, to account for transformations between mixed-variance functors. The structure-preserving condition of an extranatural transformation $\alpha_{X,Z} : F(X,X) \rightarrow G(Z,Z)$ between two functors $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ and $G : \mathbb{B}^{op} \times \mathbb{B} \rightarrow \mathbb{D}$, is expressed by the following commutative diagram:
 \begin{equation}\label{eq:extranaturality}
@@ -118,15 +142,22 @@ In this formulation of naturality, the transformation $\alpha$ is said to be ext
 \begin{lstlisting}[
   breaklines,
   breakatwhitespace,
-  caption={An implementation of an uncurried evaluation map function in Haskell},
+  caption={An implementation of an evaluation map function in Haskell},
   label={Haskell-Eval}
 ]
 eval :: (a -> b, a) -> b
 eval (f, x) = f x
 \end{lstlisting}
-\lstref{Haskell-Eval} depicts an implementation of the evaluation map, which is extranatural in the type variable \lstinline{a}. By observation, the extranaturality condition can be verified; given any functions \lstinline{f : a' -> b, g : a -> a'}, the equality \lstinline{ (eval f) . g = eval (f . g)} holds.
+\lstref{Haskell-Eval} depicts an implementation of the evaluation map, which is extranatural in the type variable \lstinline{a}. By observation, the extranaturality condition can be verified; given any function \lstinline{f : a -> b}, the following equality holds:
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+eval . bimap id f = eval . bimap (. f) id.
+\end{lstlisting}
+\end{tabular}
+\end{center}
 \par
-The extranaturality condition does not apply to transformations where mixed variance occurs in both the domain and co-domain. A bifunctor $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ is described as being contravariant in its first argument and covariant in the second.  The structure-preserving condition of a dinatural transformation $\phi : F \rightarrow G$ between two bifunctors, $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ is expressed by the following commutative diagram:
+The extranaturality condition does not extend to transformations in which mixed variance is present in both the domain and co-domain. A more general notion of naturality is required to describe such a family of morphisms; dinaturality. Given two functors $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$, the structure-preserving condition of a dinatural transformation $\phi : F \rightarrow G$ is described by the following commutative diagram:
 \begin{equation}\label{dinaturality}
   \begin{tikzpicture}[baseline= (a).base]
     \node[scale=1.2] (a) at (0,0) {
@@ -146,7 +177,7 @@ The extranaturality condition does not apply to transformations where mixed vari
     };
   \end{tikzpicture}
 \end{equation}
-Examples of dinatural transformations include the Y-combinator $Y : (A \rightarrow A) \rightarrow A$ and the Church-numeral encoding e.g., $N_{1} : (A \rightarrow A) \rightarrow (A \rightarrow A)$. An example of the fix function, in the Haskell programming language, is given in Listing \ref{Haskell-Y}.
+Examples of dinatural transformations include the Y-combinator $Y : (A \rightarrow A) \rightarrow A$ and the Church-numeral encoding e.g., $N_{1} : (A \rightarrow A) \rightarrow (A \rightarrow A)$. An example of the dinatural transformation, fix, in the Haskell programming language, is given in Listing \ref{Haskell-Y}.
 
 \begin{lstlisting}[
   breaklines,
@@ -157,6 +188,14 @@ Examples of dinatural transformations include the Y-combinator $Y : (A \rightarr
 fix :: (a -> a) -> a
 fix f = let x = f x in x
 \end{lstlisting}
+By observation, the dinaturality condition for the fix function can be verified; given functions \lstinline{f : b -> a} and \lstinline{g : a -> b}, the following equality holds:
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+fix (g . f) = g . fix (f . g).
+\end{lstlisting}
+\end{tabular}
+\end{center}
 
 \subsection{Natural composition}
 The vertical composition of two natural transformations $\eta_X : F(X) \rightarrow G(X)$ and $\gamma_X : G(X) \rightarrow H(X)$, is defined as $(\gamma \bullet \eta)_X = \gamma_X \circ \eta_X$. Vertical composition can also be depicted by the following commutative diagram:
@@ -258,7 +297,7 @@ Following from the well-defined notion of composition of naturals transformation
 
 \begin{equation}\label{eq:dicompose}
   \begin{tikzpicture}[baseline= (a).base]
-    \node[scale=1.15] (a) at (0,0) {
+    \node[scale=1] (a) at (0,0) {
       \begin{tikzcd}[column sep=small]
         &  F (X, X)  \arrow[r, "\phi_{X}"]
         &  G (X, X)  \arrow[dr, swap, "{G (id, f)}"] \arrow[r, "\psi_{X}"]

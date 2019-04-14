@@ -112,9 +112,15 @@ A sequent calculus is an inference system for first-order logic. The most basic 
 \begin{flalign}\label{eq:sequent}
   X_1,\ X_2,\ \ldots,\ X_N \vdash Y_1,\ Y_2,\ \ldots,\ Y_M.
 \end{flalign}
-A sequent of the form expressed in (\ref{eq:sequent}) is a judgement which asserts that a statement $Y_i$ is true, if $X_1 \land X_2 \land ... \land X_N$ is true.
+A sequent of the form expressed in (\ref{eq:sequent}) is a judgement which asserts that a statement $Y_i$ is true, if $X_1 \land X_2 \land ... \land X_N$ is true. 
 \par
-Let $\Gamma$, $\Sigma$, $\Delta$ and $\Lambda$ be finite lists of formulae, known as contexts. The cut-rule is then defined as follows:
+Constructs in formal proof systems, such as a sequent calculus, are in direct correspondence with types within a typed lambda calculus, by the Curry-Howard isomorphism \cite{CurryHoward}. A sequent of the form
+\begin{flalign}\label{eq:sequent}
+  X_1,\ X_2,\ \ldots,\ X_N \vdash Y
+\end{flalign}
+corresponds to a term of the type $X_1 \times X_2 \times ... \times X_N \Rightarrow Y$, and constructing such a term is equivalent to the construction of a proof.
+\par
+Let $\Gamma$, $\Sigma$, $\Delta$ and $\Lambda$ be finite lists of formulae, known as a context. The cut-rule is then defined as follows:
 
 \begin{equation}\label{eq:cut}
 \begin{prooftree}
@@ -123,10 +129,18 @@ Let $\Gamma$, $\Sigma$, $\Delta$ and $\Lambda$ be finite lists of formulae, know
   \infer2[cut]{\Sigma, \Gamma \vdash \Lambda, \Delta}
 \end{prooftree}.
 \end{equation}
-The cut-rule depicted in (\ref{eq:cut}) can be described as cutting any occurrence of $X$ from the proof.
-
-Explain System F as a restricted form of the sequent calculus, on which cut-free elimination is formally defined.
-Categorical approach to cut-free proofs; corresponding to the strong normalisation property in higher-order typed lambda calculus (systems yielding irreducible terms in a finite number of steps). This idea is linked to Reynold's notion of parametricity, as described by
-\citeasnoun{NaturalAsNormalForms}, and brings together the ideas of parametric polymorphism, the lambda calculus and category theory.
+The cut-rule depicted in (\ref{eq:cut}) can be described as cutting any occurrence of $X$ from the proof. By the Curry-Howard isomorphism, the cut rule corresponds to a familiar substitution process; function composition. Given a context $\Pi$ in a typed lambda calculus, this substitution may be stated formally as
+\begin{equation}\label{eq:lambdacompose}
+\begin{prooftree}
+  \hypo{\Pi, x : A \vdash t : B}
+  \hypo{\Pi, y : B \vdash t' : C}
+  \infer2[]{\Pi, x : A \vdash t'[t/y] : C}
+\end{prooftree}.
+\end{equation}
+\par
+The cut-elimination theorem, originally proved by \citeasnoun{CutFree}, states that any sequent which has a proof using the cut-rule, also has a proof which does not. Cut-free proofs are typically more complex and larger than alternative proofs which make use of the cut rule. Cut-elimination corresponds to the strong-normalization property of a typed lambda calculus.
+\par
+The substitution depicted in (\ref{eq:lambdacompose}) reveals a property of the cut-rule; covariant proof terms are substituted into contravariant terms. Conversely, the identity sequent maps covariant terms to contravariant terms.
+\citeasnoun{NaturalAsNormalForms} describe how the symmetry induced by the co-existence of the identity sequent and the cut rule is broken by the cut-elimination theorem.  The problem of composing dinatural transformations is described by the cyclic dependencies generated when `linking' positive and negative terms. This idea is used to show that cut-elimination, when interpreted by dinaturals, resolves such cyclic dependencies. Using cut-free sequent rules, Girard, Scedrov and Scott show that syntactic dinatural transformations between definable functors on the cartesian-closed category, whose internal language is a typed lambda calculus, are composable.
 
 \end{document}
