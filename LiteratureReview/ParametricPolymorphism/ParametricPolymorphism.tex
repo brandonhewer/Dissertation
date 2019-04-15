@@ -89,8 +89,8 @@ The result of Reynold's abstraction theorem gives the relation
 \end{flalign}
 Let \textit{Types}$(A,\ A')$ define that type $A$ is related to type $A'$. By definition of universal quantification on relations, the above equation \eqref{eq:free_ex_1} can be expressed as
 \begin{flalign}
-  \forall \mathcal{A} \in \text{\textit{Types}}(A,\ A'),\\
-  (filter_{A},\ filter_{A'}) \in (\mathcal{A} \rightarrow Bool) \rightarrow \mathcal{A}^* \rightarrow \mathcal{A}^*.
+  \forall \mathcal{A} &\in \text{\textit{Types}}(A,\ A'),\\
+  (filter_{A},\ filter_{A'}) &\in (\mathcal{A} \rightarrow Bool) \rightarrow \mathcal{A}^* \rightarrow \mathcal{A}^*.
 \end{flalign}
 By definition of $\rightarrow$ on relations, this in turn can be expressed as
 \begin{flalign}
@@ -144,6 +144,6 @@ The cut-elimination theorem, originally proved by \citeasnoun{CutFree}, states t
 \par
 The substitution depicted in (\ref{eq:lambdacompose}) reveals a property of the cut-rule; covariant occurrences of proofs are substituted into contravariant occurrences. Conversely, the identity sequent maps contravariant occurrences of proofs to covariant occurrences. 
 \par
-\citeasnoun{NaturalAsNormalForms} describe how the symmetry induced by the co-existence of the identity sequent and the cut rule is broken by the cut-elimination theorem. This asymmetry is used to show that cut-elimination, when interpreted by dinatural transformations, resolves the cyclic dependencies created by `linking' positive and negative terms. Using cut-free sequent rules, Girard, Scedrov and Scott show that syntactic dinatural transformations between definable functors on the cartesian-closed category, whose internal language is a typed lambda calculus, are composable.
+\citeasnoun{NaturalAsNormalForms} describe how the symmetry induced by the co-existence of the identity sequent and the cut rule is broken by the cut-elimination theorem. This asymmetry is used to show that cut-elimination, when interpreted by dinatural transformations, resolves the cyclic dependencies created by `linking' covariant and contravariant terms. Using cut-free sequent rules, Girard, Scedrov and Scott show that syntactic dinatural transformations between definable functors on a cartesian-closed category, whose internal language is a typed lambda calculus, are composable.
 
 \end{document}

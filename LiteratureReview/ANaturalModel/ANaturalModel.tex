@@ -1,10 +1,17 @@
 % !TeX root = ANaturalModel.tex
 \documentclass[../../Dissertation.tex]{subfiles}
 
-\begin{document}
-Dinatural transformations have been investigated as a formal model for parametric polymorphism.
+\tikzset{
+  adjust height/.style={minimum height=#1*\pgfkeysvalueof{/pgf/minimum width}},
+  adjust width/.style={minimum width=#1*\pgfkeysvalueof{/pgf/minimum height}}
+}
 
-\subsection{Categorical semantics of System F}
+\begin{document}
+Dinatural transformations have been investigated as a formal model for parametric polymorphism. This investigation has motivated the discovery of various practical results on types, such as parametricity.
+\par
+The Curry-Howard-Lambek correspondence provides an isomorphism between a typed lambda calculus and a cartesian closed category, and thus enables a categorical semantics for System F.
+
+\subsection{Categorical Semantics of System F}\label{sec:systemfcat}
 A model of the simply-typed lambda calculus in a cartesian closed category was first described by \citeasnoun{CCCLambda}. Furthermore, Lambek shows the simply-typed lambda calculus is the internal language of any cartesian closed category. The notion of an internal language provides a manner in which to translate propositions within a given logic into categorical propositions. The construction described by Lambek extends to the second-order polymorphic lambda calculus (System F).
 \par
 Types in System F are taken to be objects in a category. The set of morphisms between two types $T$ and $U$ is given by the set of functions of the form $T \Rightarrow U$. The identity morphism is given by the polymorphic identity function. Composition is given by the polymorphic composition function.
@@ -47,17 +54,76 @@ The right adjoint of $- \times X$ is given by the functor $X \Rightarrow -$, whi
   \end{tikzpicture}
 \end{equation}
 
+\subsection{Many-Variable Functorial Calculus}
+The categorical semantics of System F, described in \ref{sec:systemfcat}, requires the construction of a category which carries additional structure. The conditions imposed on this structure are concerned with the equality of specific compositions of morphisms, and are termed coherence conditions.
+\par
+In search of an abstract theory of coherence problems, \citeasnoun{ManyVariableFunctorialCalculus} develops a calculus of substitution; a generalisation of composition in the Godement calculus. In Kelly's many-variable functorial calculus, given functors $F : \mathbb{A}^{op} \times \mathbb{A} \times \mathbb{B} \rightarrow \mathbb{C}$, $G : \mathbb{D} \rightarrow \mathbb{A}$ and $H : \mathbb{E} \rightarrow \mathbb{B}$, the composition $F \cdot \left(G^{op} \times G \times H\right) : \mathbb{D}^{op} \times \mathbb{D} \times \mathbb{E} \rightarrow \mathbb{C}$ may instead be given by the substitution $F(G, G, H)$.
+\par
+Kelly presents a representation of naturality conditions as graphs, and describes the operations of composition and substitution on these graphs. Given functors $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$, $G : \mathbb{C} \rightarrow \mathbb{D}$ and a dinatural transformation $\phi : F \rightarrow G$, the naturality condition for $\phi$ is depicted as
+\begin{equation}\label{eq:kellyco}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        + \arrow[dash, r] \arrow[dash, d, bend left=75]
+        & 
+        +
+        \\
+        - 
+        &
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+Nodes in (\ref{eq:kellyco}) are labelled with $+$ or $-$, to denote covariant and contravariant arguments to a functor, respectively. Arcs are used to show which arguments are to be set equal.
+\par
+The composition of dinatural transformations can be depicted  by connecting their associated graphs. Graphs are connected together by pasting the codomain of the source along the domain of the target. This has the potential to create closed cycles within the composite graph, as in
+\begin{equation}\label{eq:kellyco}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        + \arrow[dash, r]
+        & 
+        + \arrow[dash, d, bend right=75]
+        \\
+        &
+        -
+      \end{tikzcd}
+      $\cdot$
+      \begin{tikzcd}
+        + \arrow[dash, r] \arrow[dash, d, bend left=75]
+        & 
+        +
+        \\
+        - 
+        &
+      \end{tikzcd}
+      $=$  
+      \begin{tikzcd}
+        + \arrow[dash, r]
+        & 
+        + \arrow[dash, r] \arrow[dash, d, bend left=75] \arrow[dash, d, bend right=75]
+        &
+        +
+        \\
+        &
+        -
+        &
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+The creation of such cycles directly corresponds to the problem of composing dinatural transformations, in general. Substitution corresponds to the operation of replacing arcs with graphs, and does not generate cycles.
+\par
+Kelly distinguishes the class of graphs in which cycles are prohibited, termed $P^*_0$, from those which permit cycles, termed $P^*$. A formulation of the category $P^*_0$ is given, while a suitable definition of $P^*$ requires a natural method for ordering cycles, which permits substitution, and is left as an open problem.
+
 \subsection{Functorial Polymorphism}
-\citeasnoun{FunctorialPolymorphism} introduce a formal model of parametric polymorphism in which the parametricity property is described by naturality conditions. Given a cartesian closed category $\mathbb{C}$ of primitive types, multi-variance functors of the form $F : (\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$ can be interpreted as polymorphic types. Dinatural transformations between
+\citeasnoun{FunctorialPolymorphism} introduce a formal model of parametric polymorphism in which the parametricity property is described by naturality conditions. Given an enriched cartesian closed category $\mathbb{C}$ of primitive types, multi-variance functors of the form $(\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$ are used to model polymorphic types with $n$ type variables. In this interpretation, terms are given by natural transformations and primitive types are modelled by constant functors.
+\par
+A deeper intuition of how types may be understood as functors of the form $(\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$, is found by examination of prominent examples. The type of the polymorphic identity function, $\forall T.\ T \Rightarrow T$, is modelled as a functor of the form $\mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{C}$. The type of the Y-combinator, $\forall T.\ (T \Rightarrow T) \Rightarrow T$, is modelled as a functor of the form $\mathbb{C}^{op} \times \mathbb{C}^{op} \times \mathbb{C} \times \mathbb{C} \rightarrow \mathbb{C}$, which is dummy in the first argument.
+\par
+Bainbridge et al. construct a cartesian closed category, $\mathbf{PER}(X)$, of partial-equivalence relations on $X$, in which a morphism is named by each partial recursive function $f$ which preserves relationships i.e., $x\ R\ y \rightarrow f(x)\ R'\ f(y)$. Composition is given by the set-theoretic notion of function composition. A class of composable dinatural transformations, denoted `realizable', on the category $\mathbf{PER}(N)$, is identified. It is then shown that any functor definable in System F is `realizable', and every natural transformation between such functors is indeed also `realizable'. Dinatural transformations within System F, defined using the described syntatic approach, are thus shown to be composable.
 
-Summary of dinaturality in category of partial equivalence relations, as described by \citeasnoun{DinaturalityInPERS} and how this corresponds to parametric polymorphism.
-\newline\newline
-Describe the problem of dinatural composition in relation to a model for parametric polymorphism (why is this a concern? would imposing further constraints on the discussed model of parameteric polymorphism, in order to only permit composable dinatural transformations, provide an improvement on the model? what implications are there for functional programming languages?).
-
-\subsection{Substitution and coherence problems}
-Discuss the notion of the multi-variable functorial calculus described by \citeasnoun{ManyVariableFunctorialCalculus} -- discussions of functors as substitutions here.
-
-\subsection{Extensions to the functorial polymorphism}
+\subsection{Extensions to Functorial Polymorphism}
 Discuss existing extensions to the functorial polymorphism and the `solutions' to the composition problem in the literature.
 \newline\newline
 \citeasnoun{StructuralPolymorphism} describe the notion of `structors'; a generalisation of functors which carry morphisms to spans of morphisms.
@@ -66,9 +132,19 @@ Discuss existing extensions to the functorial polymorphism and the `solutions' t
 \newline\newline
 Lead in to the next section on a new constraint in the literature involving petri nets and reachability.
 
-\subsection{Dinatural composition to reachability}
-In their paper, `On Compositionality of Dinatural Transformations', \citeasnoun{DinaturalCompose} make use of Petri net models in order to establish conditions under which the composition of dinatural transformations preserves dinaturality. The concept of modelling dinatural transformations with Petri nets and imposing constraints to ensure compositionality, could be developed into a computational system further exploring this idea.
-\newline\newline
-Formally state the intended project as a product of the reviewed literature.
+\subsection{Composition as Reachability}
+In their paper, `On Compositionality of Dinatural Transformations', \citeasnoun{DinaturalCompose} make use of Petri net models in order to establish conditions under which the composition of dinatural transformations preserves dinaturality. 
+
+\begin{equation}\label{eq:petri}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}[column sep=tiny]
+        {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=15pt, fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=15pt,adjust height=1,fill=white] (char) {$f$};}} \arrow[ld] \\
+        & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=15pt,aspect=1,fill=black] (char) {};}} \arrow[lu] \arrow[rd] &  \\
+        {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=15pt,aspect=1,fill=lightgray] (char) {$f$};}} \arrow[ru] &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=15pt,fill=white] (char) {};}}
+      \end{tikzcd}
+      };
+\end{tikzpicture}
+\end{equation}
 
 \end{document}
