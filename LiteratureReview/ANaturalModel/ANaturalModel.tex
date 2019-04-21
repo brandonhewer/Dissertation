@@ -9,6 +9,8 @@
 \begin{document}
 Dinatural transformations have been investigated as a formal model for parametric polymorphism. This investigation has motivated the discovery of various practical results on types, such as parametricity.
 \par
+\citeasnoun{ALogicForPP}
+\par
 The Curry-Howard-Lambek correspondence provides an isomorphism between a typed lambda calculus and a cartesian closed category, and thus enables a categorical semantics for System F.
 
 \subsection{Categorical Semantics of System F}\label{sec:systemfcat}
@@ -54,7 +56,23 @@ The right adjoint of $- \times X$ is given by the functor $X \Rightarrow -$, whi
   \end{tikzpicture}
 \end{equation}
 
-\subsection{Many-Variable Functorial Calculus}
+\subsection{Functorial Polymorphism}
+\citeasnoun{FunctorialPolymorphism} introduce a formal model of parametric polymorphism in which the parametricity property is described by naturality conditions. Given an enriched cartesian closed category $\mathbb{C}$ of primitive types, multi-variance functors of the form $(\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$ are used to model polymorphic types with $n$ type variables. In this interpretation, terms are given by natural transformations and primitive types are modelled by constant functors.
+\par
+A deeper intuition of how types may be understood as functors of the form $(\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$, is found by examination of prominent examples. The type of the polymorphic identity function, $\forall T.\ T \Rightarrow T$, is modelled as a functor of the form $\mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{C}$. The type of the Y-combinator, $\forall T.\ (T \Rightarrow T) \Rightarrow T$, is modelled as a functor of the form $\mathbb{C}^{op} \times \mathbb{C}^{op} \times \mathbb{C} \times \mathbb{C} \rightarrow \mathbb{C}$, which is dummy in the first argument.
+\par
+Bainbridge et al. construct a cartesian closed category, $\mathbf{PER}(X)$, of partial-equivalence relations on $X$, in which a morphism is named by each partial recursive function $f$ which preserves relationships i.e., $x\ R\ y \rightarrow f(x)\ R'\ f(y)$. Composition is given by the set-theoretic notion of function composition. A class of composable dinatural transformations, denoted `realizable', on the category $\mathbf{PER}(X)$, is identified. It is then shown that any functor definable in System F is `realizable', and every natural transformation between such functors is indeed also `realizable'. Dinatural transformations within System F, defined using the described syntatic approach, are thus shown to be composable.
+
+\subsection{Extensions to Functorial Polymorphism}
+Discuss existing extensions to the functorial polymorphism and the `solutions' to the composition problem in the literature.
+\newline\newline
+\citeasnoun{StructuralPolymorphism} describe the notion of `structors'; a generalisation of functors which carry morphisms to spans of morphisms.
+\newline\newline
+\citeasnoun{CanonicalDinatural} define `canonical dinatural transformations', a constrained form of dinatural transformations, and relates them to context-free grammars and the polymorphic operator.
+\newline\newline
+Lead in to the next section on a new constraint in the literature involving petri nets and reachability.
+
+\subsection{Many-Variable Functorial Calculus}\label{sec:manyvar}
 The categorical semantics of System F, described in \ref{sec:systemfcat}, requires the construction of a category which carries additional structure. The conditions imposed on this structure are concerned with the equality of specific compositions of morphisms, and are termed coherence conditions.
 \par
 In search of an abstract theory of coherence problems, \citeasnoun{ManyVariableFunctorialCalculus} develops a calculus of substitution; a generalisation of composition in the Godement calculus. In Kelly's many-variable functorial calculus, given functors $F : \mathbb{A}^{op} \times \mathbb{A} \times \mathbb{B} \rightarrow \mathbb{C}$, $G : \mathbb{D} \rightarrow \mathbb{A}$ and $H : \mathbb{E} \rightarrow \mathbb{B}$, the composition $F \cdot \left(G^{op} \times G \times H\right) : \mathbb{D}^{op} \times \mathbb{D} \times \mathbb{E} \rightarrow \mathbb{C}$ may instead be given by the substitution $F(G, G, H)$.
@@ -116,35 +134,89 @@ The creation of such cycles directly corresponds to the problem of composing din
 \par
 Kelly distinguishes the class of graphs in which cycles are prohibited, termed $P^*_0$, from those which permit cycles, termed $P^*$. A formulation of the category $P^*_0$ is given, while a suitable definition of $P^*$ requires a natural method for ordering cycles, which permits substitution, and is left as an open problem.
 
-\subsection{Functorial Polymorphism}
-\citeasnoun{FunctorialPolymorphism} introduce a formal model of parametric polymorphism in which the parametricity property is described by naturality conditions. Given an enriched cartesian closed category $\mathbb{C}$ of primitive types, multi-variance functors of the form $(\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$ are used to model polymorphic types with $n$ type variables. In this interpretation, terms are given by natural transformations and primitive types are modelled by constant functors.
-\par
-A deeper intuition of how types may be understood as functors of the form $(\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$, is found by examination of prominent examples. The type of the polymorphic identity function, $\forall T.\ T \Rightarrow T$, is modelled as a functor of the form $\mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{C}$. The type of the Y-combinator, $\forall T.\ (T \Rightarrow T) \Rightarrow T$, is modelled as a functor of the form $\mathbb{C}^{op} \times \mathbb{C}^{op} \times \mathbb{C} \times \mathbb{C} \rightarrow \mathbb{C}$, which is dummy in the first argument.
-\par
-Bainbridge et al. construct a cartesian closed category, $\mathbf{PER}(X)$, of partial-equivalence relations on $X$, in which a morphism is named by each partial recursive function $f$ which preserves relationships i.e., $x\ R\ y \rightarrow f(x)\ R'\ f(y)$. Composition is given by the set-theoretic notion of function composition. A class of composable dinatural transformations, denoted `realizable', on the category $\mathbf{PER}(N)$, is identified. It is then shown that any functor definable in System F is `realizable', and every natural transformation between such functors is indeed also `realizable'. Dinatural transformations within System F, defined using the described syntatic approach, are thus shown to be composable.
-
-\subsection{Extensions to Functorial Polymorphism}
-Discuss existing extensions to the functorial polymorphism and the `solutions' to the composition problem in the literature.
-\newline\newline
-\citeasnoun{StructuralPolymorphism} describe the notion of `structors'; a generalisation of functors which carry morphisms to spans of morphisms.
-\newline\newline
-\citeasnoun{CanonicalDinatural} define `canonical dinatural transformations', a constrained form of dinatural transformations, and relates them to context-free grammars and the polymorphic operator.
-\newline\newline
-Lead in to the next section on a new constraint in the literature involving petri nets and reachability.
-
 \subsection{Composition as Reachability}
-In their paper, `On Compositionality of Dinatural Transformations', \citeasnoun{DinaturalCompose} make use of Petri net models in order to establish conditions under which the composition of dinatural transformations preserves dinaturality. 
+In their paper, `On Compositionality of Dinatural Transformations', \citeasnoun{DinaturalCompose} make use of Petri net models in order to establish a sufficient condition under which the composition of dinatural transformations preserves dinaturality. 
+\par
+In the pursuit of a Godement calculus for dinatural transformations, Kelly's many-variable functorial calculus is extended to include transformations where arguments are not linked in pairs. An example of such a transformation, given by McCusker and Santamaria, is the diagonal $\delta : A \rightarrow A \times A$. The coherence properties of such generalised dinatural transformations are formulated as Petri nets. These Petri nets are composed in a similar fashion to the graphs presented by Kelly, i.e., by pasting the codomain of one net along the domain of another. 
+\par
+Let $F : (\mathbb{C}^{op})^n \times \mathbb{C}^m \rightarrow \mathbb{D}$ and $G : (\mathbb{C}^{op})^{n'} \times \mathbb{C}^{m'} \rightarrow \mathbb{D}$ be functors. Define $[n] = \{i \in \mathbb{N} : i \leq n\}$. The type of a dinatural transformation $\phi : F \rightarrow G$, is given by a natural number $t \in \mathbb{N}$, and two functions $f : [n + m] \rightarrow [t]$, $g : [n' + m'] \rightarrow [t]$. A Petri net model $(P,\ T,\ D,\ M^0)$ of the coherence condition of $\phi$, as described by McCusker and Santamaria, is given by
+\begin{flalign}
+  |P| = n + m &+ n' + m',\ |T| = t,\\
+  \forall i \in [n + m],\ j \in [t]\ :\ D^{-}_{i,j} &= 
+  \begin{cases}
+    1 & \text{if } i > n \land f(i) = j\\
+    0 & \text{otherwise}
+  \end{cases},\\
+  D^{+}_{j,i} &= 
+  \begin{cases}
+    1 & \text{if } i \leq n \land f(i) = j\\
+    0 & \text{otherwise}
+  \end{cases},\\
+  \forall i \in [n' + m'],\ j \in [t]\ :\ D^{-}_{i + n + m,j} &=
+  \begin{cases}
+    1 & \text{if } i \leq n' \land g(i) = j\\
+    0 & \text{otherwise}
+  \end{cases},\\
+  D^{+}_{j,i + n + m} &= 
+  \begin{cases}
+    1 & \text{if } i > n' \land g(i) = j\\
+    0 & \text{otherwise}
+  \end{cases},\\
+  \forall i \in [n + m + n' + m']\ :\ M^0_i &= 
+  \begin{cases}
+    1 & \text{if } n < i \leq n + m + n' \\
+    0 & \text{otherwise}
+  \end{cases},\label{eq:initialmark}\\
+  D &= (D^+ - D^-)^T.
+\end{flalign}
 
-\begin{equation}\label{eq:petri}
-  \begin{tikzpicture}[baseline= (a).base]
-    \node[scale=1.2] (a) at (0,0) {
-      \begin{tikzcd}[column sep=tiny]
-        {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=15pt, fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=15pt,adjust height=1,fill=white] (char) {$f$};}} \arrow[ld] \\
-        & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=15pt,aspect=1,fill=black] (char) {};}} \arrow[lu] \arrow[rd] &  \\
-        {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=15pt,aspect=1,fill=lightgray] (char) {$f$};}} \arrow[ru] &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=15pt,fill=white] (char) {};}}
-      \end{tikzcd}
-      };
-\end{tikzpicture}
-\end{equation}
+A Petri net, corresponding to the coherence condition of a dinatural transformation, can be represented graphically. Given functors $F$, $G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$, and a morphism $f \in hom(\mathbb{D})$, the coherence condition of a dinatural transformation $\phi : F \rightarrow G$ is modelled by the Petri net depicted in Figure \ref{fig:dinatpetri}.
+\begin{figure}[H]
+  \begin{center}
+  \begin{tikzcd}[column sep=small]
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] \\
+    & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lu] \arrow[rd] &  \\
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[ru] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
+  \end{tikzcd}
+  \xrsquigarrow{transition fires}
+  \begin{tikzcd}[column sep=small]
+  {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[ld] \\
+    & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lu] \arrow[rd] &  \\
+  {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} \arrow[ru] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}}
+  \end{tikzcd}.
+  \end{center}
+  \caption{The dinaturality condition of $\phi$.}
+  \label{fig:dinatpetri}
+\end{figure}
+Note that grey circles in Figure \ref{fig:dinatpetri} are used to indicate contravariant arguments to the functors involved. The content of each circle describes the argument to a functor. Each circle either contains $f$ or is empty, corresponding to the identity morphism. A particularly astute reader might observe the similarity between this Petri net model and the dinaturality hexagon (\ref{dinaturality}). Indeed, the initial marking corresponds to the bottom `leg' of this hexagon, while the marking after firing of the transition is given by the top `leg'.
+\par
+The marking $M^d$, corresponding to the top `leg' of the dinaturality hexagon, is given by
+\begin{flalign}
+  M^d_i =
+  \begin{cases}
+    1 & \text{if } \forall j\ :\ D^+_{j,i} = 0\\
+    0 & \text{otherwise}
+  \end{cases}.
+\end{flalign}
+McCusker and Santamaria prove that the reachability of $M^d$, from the initial marking $M^0$, is a necessary and sufficient condition for satisfying the dinatural coherence property. Intuitively, the reachability of the marking $M^d$ from $M^0$ is equivalent to the condition that the dinaturality hexagon commutes. Furthermore, given the class of Petri nets where each place node has at most one incoming and outgoing arc, \citeasnoun{ReachibilityConditions} prove that acyclicity is a necessary and sufficient condition for the reachability of $M^d$ from $M^0$.
+\par
+An example of a Petri net containing a cycle, can be obtained by composing two nets corresponding to the dinatural coherence condition. Recall that two Petri nets are composed by pasting the codomain of one along the domain of the other. Let $F, G, H : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ be functors. Given dinatural transformations $\phi : F \rightarrow G$ and $\psi : G \rightarrow H$, whose coherence conditions are depicted in Figure \ref{fig:dinatpetri}, the Petri net corresponding to their composition $\psi \cdot \phi$ is given in Figure \ref{fig:petricycle}.
+
+\begin{figure}[H]
+  \begin{center}
+  \begin{tikzcd}[column sep=small]
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] \\
+    & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lu] \arrow[rd, color=red] &  \\
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} \arrow[ru, color=red] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[ld, color=red] \\
+    & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lu, color=red] \arrow[rd] &  \\
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[ru] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
+    \end{tikzcd}
+  \end{center}
+  \caption{A cycle, highlighted in red, is generated by the composition $\psi \cdot \phi$.}
+  \label{fig:petricycle}
+\end{figure}
+By observing the Petri net given in Figure \ref{fig:petricycle}, it can readibly be seen that the highlighted cycle prevents reachability of the marking $M^d$. Thus, the dinaturality of the composition $\psi \cdot \phi$ does not follow from the dinaturality of $\phi$ and $\psi$. 
+\par
+
 
 \end{document}

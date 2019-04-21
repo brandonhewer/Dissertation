@@ -64,12 +64,12 @@ The matrix $D$ of the Petri net $N$ may be defined as follows:
 \begin{flalign}
   \hspace{0.75cm}&D^{-}_{pt} = \text{ the weight of the arc from $p \in P$ to $t \in T$,}&\\
   &D^{+}_{tp} = \text{ the weight of the arc from $t \in T$ to $p \in P$,}&\\
-  &D \hspace{0.258cm}= \hspace{0.1cm}D^{+} - D^{-}.&\label{eq:transition_relation}
+  &D^{T} = \hspace{0.1cm}D^{+} - D^{-}.&\label{eq:transition_relation}
 \end{flalign}
 As a consequence of formulating the transition relation $D$ as a matrix, a firing sequence of the Petri net $N$ is defined as a vector $F$ where
 \begin{flalign}
   \hspace{0.75cm}&F_{t} \hspace{1.26cm}= \text{ the number of times } t \in T \text{ is to fire,}&\\
-  &DF + M_{0} = \text{ the marking of $N$ after executing sequence $F$.}&
+  &DF + M^{0} = \text{ the marking of $N$ after executing sequence $F$.}&
 \end{flalign}
 
 \subsection{Reachability}

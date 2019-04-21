@@ -23,6 +23,8 @@
 \usepackage{tikz-cd}
 \usepackage[nottoc]{tocbibind}
 
+\usetikzlibrary{decorations.pathmorphing,shapes}
+
 %%
 %% Set some page size changes from the standard article class
 %%
@@ -112,6 +114,15 @@
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 \newcommand\mdoubleplus{\ensuremath{\mathbin{+\mkern-10mu+}}}
 \newcommand\cospan[5]{\left(#1 \xrightarrow[]{#2} #3 \xleftarrow[]{#4} #5\right)}
+
+\newcounter{sarrow}
+\newcommand\xrsquigarrow[1]{%
+\stepcounter{sarrow}%
+\begin{tikzpicture}[decoration={snake, post length=1.5mm, pre length=1.5mm}]
+\node (\thesarrow) {\strut#1};
+\draw[->,decorate] (\thesarrow.south west) -- (\thesarrow.south east);
+\end{tikzpicture}%
+}
 
 %%
 %% Format definitions for the style
