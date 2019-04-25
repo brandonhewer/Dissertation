@@ -9,8 +9,6 @@
 \begin{document}
 Dinatural transformations have been investigated as a formal model for parametric polymorphism. This investigation has motivated the discovery of various practical results on types, such as parametricity.
 \par
-\citeasnoun{ALogicForPP}
-\par
 The Curry-Howard-Lambek correspondence provides an isomorphism between a typed lambda calculus and a cartesian closed category, and thus enables a categorical semantics for System F.
 
 \subsection{Categorical Semantics of System F}\label{sec:systemfcat}
@@ -56,7 +54,7 @@ The right adjoint of $- \times X$ is given by the functor $X \Rightarrow -$, whi
   \end{tikzpicture}
 \end{equation}
 
-\subsection{Functorial Polymorphism}
+\subsection{Functorial Polymorphism}\label{sec:functorial}
 \citeasnoun{FunctorialPolymorphism} introduce a formal model of parametric polymorphism in which the parametricity property is described by naturality conditions. Given an enriched cartesian closed category $\mathbb{C}$ of primitive types, multi-variance functors of the form $(\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$ are used to model polymorphic types with $n$ type variables. In this interpretation, terms are given by natural transformations and primitive types are modelled by constant functors.
 \par
 A deeper intuition of how types may be understood as functors of the form $(\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$, is found by examination of prominent examples. The type of the polymorphic identity function, $\forall T.\ T \Rightarrow T$, is modelled as a functor of the form $\mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{C}$. The type of the Y-combinator, $\forall T.\ (T \Rightarrow T) \Rightarrow T$, is modelled as a functor of the form $\mathbb{C}^{op} \times \mathbb{C}^{op} \times \mathbb{C} \times \mathbb{C} \rightarrow \mathbb{C}$, which is dummy in the first argument.
@@ -69,8 +67,6 @@ Discuss existing extensions to the functorial polymorphism and the `solutions' t
 \citeasnoun{StructuralPolymorphism} describe the notion of `structors'; a generalisation of functors which carry morphisms to spans of morphisms.
 \newline\newline
 \citeasnoun{CanonicalDinatural} define `canonical dinatural transformations', a constrained form of dinatural transformations, and relates them to context-free grammars and the polymorphic operator.
-\newline\newline
-Lead in to the next section on a new constraint in the literature involving petri nets and reachability.
 
 \subsection{Many-Variable Functorial Calculus}\label{sec:manyvar}
 The categorical semantics of System F, described in \ref{sec:systemfcat}, requires the construction of a category which carries additional structure. The conditions imposed on this structure are concerned with the equality of specific compositions of morphisms, and are termed coherence conditions.
@@ -134,7 +130,7 @@ The creation of such cycles directly corresponds to the problem of composing din
 \par
 Kelly distinguishes the class of graphs in which cycles are prohibited, termed $P^*_0$, from those which permit cycles, termed $P^*$. A formulation of the category $P^*_0$ is given, while a suitable definition of $P^*$ requires a natural method for ordering cycles, which permits substitution, and is left as an open problem.
 
-\subsection{Composition as Reachability}
+\subsection{Composition as Reachability}\label{sec:compasreach}
 In their paper, `On Compositionality of Dinatural Transformations', \citeasnoun{DinaturalCompose} make use of Petri net models in order to establish a sufficient condition under which the composition of dinatural transformations preserves dinaturality. 
 \par
 In the pursuit of a Godement calculus for dinatural transformations, Kelly's many-variable functorial calculus is extended to include transformations where arguments are not linked in pairs. An example of such a transformation, given by McCusker and Santamaria, is the diagonal $\delta : A \rightarrow A \times A$. The coherence properties of such generalised dinatural transformations are formulated as Petri nets. These Petri nets are composed in a similar fashion to the graphs presented by Kelly, i.e., by pasting the codomain of one net along the domain of another. 
@@ -216,7 +212,6 @@ An example of a Petri net containing a cycle, can be obtained by composing two n
   \label{fig:petricycle}
 \end{figure}
 By observing the Petri net given in Figure \ref{fig:petricycle}, it can readibly be seen that the highlighted cycle prevents reachability of the marking $M^d$. Thus, the dinaturality of the composition $\psi \cdot \phi$ does not follow from the dinaturality of $\phi$ and $\psi$. 
-\par
 
 
 \end{document}

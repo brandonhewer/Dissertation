@@ -25,7 +25,21 @@
 \subsection{A categorical semantics for unification}
 {
 \noindent
-\textbf{Definition 1.} Given a category $\mathbb{C}$ and a list $\alpha \in List\{+,-\}$, where $|\alpha| = n$, define 
+\textbf{Definition 1.} Given a list $\theta \in List\{+,-\}$, define $\theta^{+} = \theta$ and $\theta^{-}$ to be the list in which the sign of every element is flipped (i.e. every $+$ is switched to $-$ and vice versa).\\
+}
+
+{
+\noindent
+\textbf{Definition 2.} Given a list $\theta \in List\{+,-\}$, $\theta$ is said to `match' a pattern $\gamma \in List\{+,-\}$, $n = |\gamma|$, with `substitution' $s \in List\{+,-\}$, denoted $\theta = \gamma(s)$, if
+\begin{flalign*}
+\theta = s^{\gamma_1} \mdoubleplus s^{\gamma_2} \mdoubleplus ... \mdoubleplus s^{\gamma_n}
+\end{flalign*}
+where $\mdoubleplus$ is the concatenation operator. Note that $n|s| = |\theta|$.\\
+}
+
+{
+\noindent
+\textbf{Definition 4.} Given a category $\mathbb{C}$ and a list $\alpha \in List\{+,-\}$, where $|\alpha| = n$, define 
 \begin{flalign*}
 \mathbb{C}^{\alpha} = \mathbb{C}^{\alpha_1} \times \mathbb{C}^{\alpha_2} \times ... \times \mathbb{C}^{\alpha_n},
 \end{flalign*}
@@ -34,12 +48,7 @@ where $\mathbb{C}^+ = \mathbb{C}$ and $\mathbb{C}^- = \mathbb{C}^{op}$.\\
 
 {
 \noindent
-\textbf{Definition 2.} Given a list $\alpha \in List\{+,-\}$, define $\alpha^{+} = \alpha$ and $\alpha^{-}$ to be the list in which the sign of every element is flipped (i.e. every $+$ is switched to $-$ and vice versa).\\
-}
-
-{
-\noindent
-\textbf{Definition 3.} Given a category $\mathbb{C}$, a list $\alpha \in List\{+,-\}$, and a functor $F : \mathbb{C}^\alpha \rightarrow \mathbb{C}$ where $|\alpha| = n$, define 
+\textbf{Definition 5.} Given a category $\mathbb{C}$, a list $\alpha \in List\{+,-\}$, and a functor $F : \mathbb{C}^\alpha \rightarrow \mathbb{C}$ where $|\alpha| = n$, define 
 \begin{flalign*}
 F^{\alpha} = F^{\alpha_1} \times F^{\alpha_2} \times ... \times F^{\alpha_n},
 \end{flalign*}
@@ -48,7 +57,7 @@ where $F^+ : \mathbb{C}^\alpha \rightarrow \mathbb{C} = F$ and $F^- : \mathbb{C}
 
 {
 \noindent
-\textbf{Definition 4.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors
+\textbf{Definition 6.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors
 \begin{flalign*}
 F : \mathbb{C}^{\gamma} \rightarrow \mathbb{C},\ G: \mathbb{C}^{\alpha} \rightarrow \mathbb{C},\ H : \mathbb{C}^{\beta} \rightarrow \mathbb{C},
 \end{flalign*}
@@ -65,7 +74,7 @@ where $F^+ = F$ and $F^- = F^{op}$.\\
 
 {
 \noindent
-\textbf{Theorem 5.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors
+\textbf{Theorem 7.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors
 \begin{flalign*}
 F : \mathbb{C}^{\gamma} \rightarrow \mathbb{C}, G: \mathbb{C}^{\alpha} \rightarrow \mathbb{C}, H : \mathbb{C}^{\beta} \rightarrow \mathbb{C},
 \end{flalign*}
@@ -78,16 +87,7 @@ $\phi * F$ is dinatural. Dinatural transformations are therefore closed under le
 
 {
 \noindent
-\textbf{Definition 6.} Given a list $q \in List\{+,-\}$, q is said to `match' a pattern $p \in List\{+,-\}$, $n = |p|$, with `substitution' $s \in List\{+,-\}$, denoted $q = p(s)$, if
-\begin{flalign*}
-q = s^{p_1} \mdoubleplus s^{p_2} \mdoubleplus ... \mdoubleplus s^{p_n}
-\end{flalign*}
-where $\mdoubleplus$ is the concatenation operator. Note that $n|s| = |q|$.\\
-}
-
-{
-\noindent
-\textbf{Definition 7.} Let $\mathbb{C}$ be a category and $\alpha$, $\beta \in List\{+, -\}$ be lists, where $|\alpha| \leq |\beta|$. Given functors
+\textbf{Definition 8.} Let $\mathbb{C}$ be a category and $\alpha$, $\beta \in List\{+, -\}$ be lists, where $|\alpha| \leq |\beta|$. Given functors
 \begin{flalign*}
 F : \mathbb{C}^{\alpha} \rightarrow \mathbb{C},\ G: \mathbb{C}^{\beta} \rightarrow \mathbb{C},
 \end{flalign*}
@@ -104,7 +104,7 @@ $F$ is said to `unify' with $G$ by means of the `substitution functor' $S$, expr
 
 {
 \noindent
-\textbf{Definition 8.} Given a cartesian closed category $\mathbb{C}$, lists $\alpha, \beta, \alpha', \beta' \in List\{+,-\}$, functors
+\textbf{Definition 9.} Given a cartesian closed category $\mathbb{C}$, lists $\alpha, \beta, \alpha', \beta' \in List\{+,-\}$, functors
 \begin{flalign*}
 F : \mathbb{C}^{\alpha} \rightarrow \mathbb{C}, G: \mathbb{C}^{\beta} \rightarrow \mathbb{C},\\
 H : \mathbb{C}^{\alpha'} \rightarrow \mathbb{C}, K: \mathbb{C}^{\beta'} \rightarrow \mathbb{C},
@@ -126,7 +126,7 @@ Note that $\psi \cdot \phi$ is not necessarily a dinatural transformation.\\
 
 {
 \noindent
-\textbf{Definition 9.} Let $[n] = \{i \in \mathbb{N} : i \leq n\}$ and $F: \mathbb{C}^\alpha \rightarrow \mathbb{C}$ and $G: \mathbb{C}^\beta \rightarrow \mathbb{C}$ be functors. The type of a dinatural transformation (McCusker and Santamaria 2018), 
+\textbf{Definition 10.} Let $[n] = \{i \in \mathbb{N} : i \leq n\}$ and $F: \mathbb{C}^\alpha \rightarrow \mathbb{C}$ and $G: \mathbb{C}^\beta \rightarrow \mathbb{C}$ be functors. The type of a dinatural transformation (McCusker and Santamaria 2018), 
 $\phi : F \rightarrow G$, is given by three sets $[\alpha], [\beta], [k]$, and two functions $\sigma : [\alpha] \rightarrow [k]$, $\tau : [\beta] \rightarrow [k]$ and is denoted $f = \cospan{[\alpha]}{\sigma}{[k]}{\tau}{[\beta]}$. Given a type $f$, $\phi$ is given to be a family of morphisms
 \begin{flalign*}
 \left(\phi_{A_1,...,A_k} : F(A_{\sigma(1)},...,A_{\sigma(|\alpha|)}) \rightarrow G(A_{\tau(1)},...,A_{\tau(|\beta|)})\right)_{A_1 \times...\times A_k \in \mathbb{C}^k}.
@@ -136,7 +136,7 @@ The functions $\sigma$ and $\tau$ are said to determine which arguments of $F$ a
 
 {
 \noindent
-\textbf{Definition 10.} The construction of a type given in (8) is a familiar one; it is a cospan in the category $Set$. McCusker and Santamaria construct the category $\mathbb{T}$ypes of transformation types, where $ob(\mathbb{T}\text{ypes}) = \{[i] : i \in \mathbb{N}\}$ and $\forall f : n \rightarrow m$, $f$ is given by a cospan of the form $\cospan{n}{\sigma}{k}{\tau}{m}$. Composition of a morphism f and $g = \cospan{m}{\sigma'}{p}{\tau'}{t}$, $g \cdot f = \cospan{n}{\zeta \cdot \sigma}{q}{\xi \cdot \tau'}{t}$ is given by calculating the pushout, 
+\textbf{Definition 11.} The construction of a type given in (8) is a familiar one; it is a cospan in the category $Set$. McCusker and Santamaria construct the category $\mathbb{T}$ypes of transformation types, where $ob(\mathbb{T}\text{ypes}) = \{[i] : i \in \mathbb{N}\}$ and $\forall f : n \rightarrow m$, $f$ is given by a cospan of the form $\cospan{n}{\sigma}{k}{\tau}{m}$. Composition of a morphism f and $g = \cospan{m}{\sigma'}{p}{\tau'}{t}$, $g \cdot f = \cospan{n}{\zeta \cdot \sigma}{q}{\xi \cdot \tau'}{t}$ is given by calculating the pushout, 
 \begin{flalign*}
 (q \in ob(\mathbb{T}\text{ypes}),\ \xi : p \rightarrow q,\ \zeta : k \rightarrow q),
 \end{flalign*}
@@ -145,7 +145,7 @@ of $\tau$ against $\sigma'$. This pushout is calculated in the usual way for set
 
 {
 \noindent
-\textbf{Definition 11.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors 
+\textbf{Definition 12.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors 
 \begin{flalign*}
 F : \mathbb{C}^\gamma \rightarrow \mathbb{C}, G : \mathbb{C}^\alpha \rightarrow \mathbb{C}, H : \mathbb{C}^\beta \rightarrow \mathbb{C},
 \end{flalign*}

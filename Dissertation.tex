@@ -2,7 +2,7 @@
 \documentclass[11pt,openright,hidelinks,a4paper]{article}
 
 \input{Definitions/DissertationDefs}
-\input{FormalSpecification/FormalGrammars/GrammarTerminals}
+\input{Design/FormalGrammars/GrammarTerminals}
 
 \makeatletter
 \providecommand*{\input@path}{}
@@ -13,10 +13,10 @@
     {./LiteratureReview/ParametricPolymorphism//}{./ParametricPolymorphism//}
     {./LiteratureReview/Petrinets//}{./Petrinets//}
   {./TowardsATool//}
+    {./TowardsATool/SystemFK//}{./SystemFK//}
     {./TowardsATool/Unification//}{./Unification//}
-  {./FormalSpecification//}
-    {./FormalSpecification/FormalGrammars//}{./FormalGrammars//}
   {./Design//}
+    {./Design/FormalGrammars//}{./FormalGrammars//}
   {./Implementation//}
   {./Results//}
   {./Evaluation//}
@@ -64,7 +64,6 @@
 
 \subfile{LiteratureReview}
 \subfile{TowardsATool}
-\subfile{Specification}
 \subfile{Design}
 \subfile{Implementation}
 \subfile{Results}
@@ -73,6 +72,6 @@
 
 \newpage
 
-\bibliography{./LiteratureReview/ANaturalModel/ANaturalModel,./LiteratureReview/CategoryTheory/CategoryTheory,./LiteratureReview/ParametricPolymorphism/ParametricPolymorphism,./LiteratureReview/Petrinets/Petrinets}
+\bibliography{./LiteratureReview/ANaturalModel/ANaturalModel,./LiteratureReview/CategoryTheory/CategoryTheory,./LiteratureReview/ParametricPolymorphism/ParametricPolymorphism,./LiteratureReview/Petrinets/Petrinets,./TowardsATool/TowardsATool}
 
 \end{document}

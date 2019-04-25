@@ -5,12 +5,114 @@
 
 \section{Towards a Computational Tool}
 \subsection{A brief reflection}
-The construction of programs, to solve complex problems, is central to the field of computer science. Although there does not exist any known single solution to every computational problem, an abundance of general problem-solving techniques have been devised. Perhaps the most ubiquitous of these techniques, is the approach of decomposing a problem into smaller pieces. 
+The construction of programs, to solve computational problems, is central to the field of computer science. Although there does not exist any known single solution to every computational problem, an abundance of general problem-solving techniques have been devised. Perhaps the most ubiquitous of these techniques, is the approach of decomposing a problem into smaller pieces. Evidently, this strategy requires a means by which to recompose partial solutions into a single cohesive result.
+\par
+Intuition is a valuable tool for reformulating complex computational problems as the composition of smaller, manageable sub-problems. Unfortunately, human intuition is not, at present, translatable to a formal, mathematical setting. As a consequence, intuition alone cannot be fashioned into a formal language for describing compositional approaches to solving computational problems. In the pursuit of such a formalisation, it is practical to consider typical composable elements of programs.
+\par
+Various composable constructs arise across diverse programming paradigms. One such popular example is that of object composition in object-oriented programming languages. A formal theory of object-oriented programming, grounded in mathematical logic, is not commonly recognised, as a consequence of the complexity of mutation and differing subtyping models. The discerning reader might at this point recall that a formal theory of computation, grounded in mathematical logic, has already been discussed in great detail; typed lambda calculi.
+\par
+Lambda abstractions are a natural choice for composable constructs from which any computation can be described. That is to say, a program can be described as a composition of functions which operate on types. Notably, after defining the constituent functions, this approach avoids any further reference to their underlying implementation. This compositional approach is, in essence, the idea behind the categorical semantics of the simply typed lambda calculus, given in  Section \ref{sec:systemfcat}.
+\par
+Pragmatically, it is reasonable to wonder whether any practical results can be obtained from such an abstract, category theoretic perspective. Indeed, the most that can be hoped for, with such limited information, is a collection of conditions asserting the equality of specific compositions of functions. As discussed in Section \ref{sec:manyvar}, these are known as coherence conditions and, as a consequence of the Curry-Howard-Lambek correspondence, often translate to non-trivial computational theorems. 
+\par
+Naturality is amongst the most ubiquitous of coherence conditions, along with the more general conditions of extranaturality and dinaturality. Recall that endofunctors, acting on a cartesian closed category, are used to model polymorphic types in System F by Bainbridge et al. (Section \ref{sec:functorial}). Accordingly, dinatural transformations between these functors correspond to parametrically polymorphic functions. This class of functions share the familiar property of parametricity.
+\par
+\citeasnoun{ALogicForPP} describe a second-order logic for the terms of System F, and provide a proof that parametricity, from the perspective of Reynold's binary relation semantics, implies dinaturality. This result equivalently states that Wadler's free theorems are in direct correspondence with dinatural coherence conditions. Incidentally, an intuitive depiction of dinatural coherence conditions has already been explored.
+\par
+In Section \ref{sec:compasreach}, a graphical representation of 
 
-\subsection{Hindley-Milner type system}
+\subsection{Hindley-Milner type system}\label{sec:HMType}
+Unfortunately, \citeasnoun{SystemFInference} confirmed the absence of any tractable type-inference algorithm for System F. While this may appear an insurmountable problem, in practice, \citeasnoun{Milner} had developed a type-inference algorithm for a restricted form of System F in the functional programming language ML (Meta Language).
 
-\subsection{Types to Petri nets}
+\begin{figure}[H]
+\begin{equation*}
+  \begin{prooftree}
+    \hypo{x : \sigma \in \Gamma}
+    \infer1[TVar]{\Gamma \vdash x : \sigma}
+  \end{prooftree}
+\end{equation*}
+\begin{equation*}
+  \begin{prooftree}
+    \hypo{\Gamma \vdash e : \sigma'}
+    \hypo{\sigma' \sqsubseteq \sigma}
+    \infer2[TInst]{\Gamma \vdash e : \sigma}
+  \end{prooftree}
+\end{equation*}
+\begin{equation*}
+  \begin{prooftree}
+    \hypo{\Gamma \vdash e : \tau \rightarrow \tau'}
+    \hypo{\Gamma \vdash e' : \tau}
+    \infer2[TApp]{\Gamma \vdash e\ e' : \tau'}
+  \end{prooftree}
+\end{equation*}
+\begin{equation*}
+  \begin{prooftree}
+    \hypo{\Gamma, x : \tau \vdash e : \tau'}
+    \infer1[TAbs]{\Gamma \vdash \lambda x.e : \tau \rightarrow \tau'}
+  \end{prooftree}
+\end{equation*}
+\begin{equation*} 
+  \begin{prooftree}
+    \hypo{\Gamma \vdash e : \sigma}
+    \hypo{\Gamma, x : \sigma \vdash e' : \tau}
+    \infer2[TLet]{\Gamma \vdash \textbf{let } x = e \textbf{ in } e' : \tau}
+  \end{prooftree}
+\end{equation*}
+\begin{equation*}
+  \begin{prooftree}
+    \hypo{\Gamma \vdash e : \sigma}
+    \hypo{\alpha \notin \textit{free}(\Gamma)}
+    \infer2[TGen]{\Gamma \vdash e : \forall \alpha.\sigma}
+  \end{prooftree}
+\end{equation*}
+\end{figure}
+
+\begin{flalign}
+  \textit{free}(c) &= \emptyset\\
+  \textit{free}(\alpha) &= \{\alpha\}\\
+  \textit{free}(\forall \alpha.\tau) &= \{\beta \in \textit{free}(\tau) : \beta \neq \alpha\}\\ 
+  \textit{free}(\tau_1 \rightarrow \tau_2) &= \textit{free}(\tau_1) \cup \textit{free}(\tau_2)\\
+  \textit{free}(\tau_1\ \tau_2) &= \textit{free}(\tau_1) \cup \textit{free}(\tau_2)
+\end{flalign}
+
+\begin{flalign}
+  \beta[\sigma/\alpha] &=
+  \begin{cases}
+    \sigma & \text{if } \beta = \alpha\\
+    \beta & \text{otherwise}
+  \end{cases}\\
+  (\forall \beta.\tau)[\sigma/\alpha] &=
+  \begin{cases}
+    \forall \beta.\tau & \text{if } \beta = \alpha\\
+    \forall \gamma.(\tau[\gamma/\beta][\sigma/\alpha]) & \text{otherwise}
+  \end{cases}\\
+  & \qquad \text{where } \gamma \notin \textit{free}(\tau) \\
+  (\tau_1\ \tau_2)[\sigma/\alpha] &= \tau_1[\sigma/\alpha]\ \tau_2[\sigma/\alpha]\\
+  (\tau_1 \rightarrow \tau_2)[\sigma/\alpha] &= \tau_1[\sigma/\alpha] \rightarrow \tau_2[\sigma/\alpha]
+\end{flalign}
+
+\begin{flalign}
+  U(\tau, \tau) &= [\ ]\\
+  U(\alpha, \alpha) &= [\ ]\\
+  U(\alpha, \tau),\ U(\tau, \alpha) &=
+  \begin{cases}
+    [\tau / \alpha] & \text{if } \alpha \notin \textit{free}(\tau)\\
+    \bot & \text{otherwise}
+  \end{cases}\\
+  U(\tau_1\ \tau_2, \tau_1'\ \tau_2') &= \theta_2 \mdoubleplus \theta_1\\
+  &\ \ \ \text{ where } \theta_1 = U(\tau_1, \tau_1'),\\
+  &\qquad\qquad\,\theta_2 = U(\tau_2[\theta_1], \tau_2'[\theta_1])\\
+  U(\tau_1 \rightarrow \tau_2, \tau_1' \rightarrow \tau_2') &= \theta_2 \mdoubleplus \theta_1\\
+  &\ \ \ \text{ where } \theta_1 = U(\tau_1, \tau_1'),\\
+  &\qquad\qquad\,\theta_2 = U(\tau_2[\theta_1], \tau_2'[\theta_1])
+\end{flalign}
+
+Defining a variant on System F, called System $F_\kappa$. The following definition of higher-kinded types will be used:
+
+\subfile{SystemFK}
 
 \subfile{Unification}
+
+\subsection{Types to Petri nets}
 
 \end{document}
