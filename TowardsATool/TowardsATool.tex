@@ -17,9 +17,59 @@ Pragmatically, it is reasonable to wonder whether any practical results can be o
 \par
 Naturality is amongst the most ubiquitous of coherence conditions, along with the more general conditions of extranaturality and dinaturality. Recall that endofunctors, acting on a cartesian closed category, are used to model polymorphic types in System F by Bainbridge et al. (Section \ref{sec:functorial}). Accordingly, dinatural transformations between these functors correspond to parametrically polymorphic functions. This class of functions share the familiar property of parametricity.
 \par
-\citeasnoun{ALogicForPP} describe a second-order logic for the terms of System F, and provide a proof that parametricity, from the perspective of Reynold's binary relation semantics, implies dinaturality. This result equivalently states that Wadler's free theorems are in direct correspondence with dinatural coherence conditions. Incidentally, an intuitive depiction of dinatural coherence conditions has already been explored.
+\citeasnoun{ALogicForPP} describe a second-order logic for the terms of System F, and provide a proof that parametricity, from the perspective of Reynold's binary relation semantics, implies dinaturality. As a consequence, Wadler's free theorems can be understood as dinatural coherence conditions. Indeed, Wadler recognised this himself, suggesting that parametricity could be more concisely formulated in terms of lax natural transformations.
 \par
-In Section \ref{sec:compasreach}, a graphical representation of 
+Parametricity has the characteristic of equating all occurrences of a type variable. Given only the type of a parametrically polymorphic function, this is a necessary assumption. However, this assumption has an unfortunate consequence; structural information can be lost.
+\begin{lstlisting}[
+  caption={Product of the uncurried church numeral type and the identity},
+  label={Haskell-ParametricityFail}
+]
+applyToFirst :: (a -> a, a, a) -> (a, a)
+applyToFirst (f, x, y) = (f x, y)
+\end{lstlisting}
+Consider the function given in Listing \ref{Haskell-ParametricityFail}. The free theorem for this type would certainly yield a complex equation. Fortunately, there exists an equivalence between free theorems and dinatural coherence conditions. As a consequence, the formulation of coherence conditions as Petri nets, given by McCusker and Santamaria, is applicable to free theorems. This formulation will be given  formally in Section \ref{sec:TypeToPetri}. For the \lstinline{applyToFirst} function, the Petri net corresponding to the free theorem, is given in Figure \ref{fig:applyToFirst}.
+\begin{figure}[H]
+\begin{center}
+\begin{tikzcd}[column sep=0.4em]
+  {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[rd] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[llld] \\
+   &  &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lllu] \arrow[ld] \arrow[rd] &  &  &  \\
+   &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} &  & 
+  \end{tikzcd}
+  =
+  \begin{tikzcd}[column sep=tiny]
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[rd] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[ld] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[llld] \\
+     &  &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lllu] \arrow[ld] \arrow[rd] &  &  &  \\
+     &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} &  & 
+    \end{tikzcd}
+  \end{center}
+  \caption{The free theorem of \lstinline{applyToFirst} as a Petri net.}
+\label{fig:applyToFirst}
+\end{figure}
+The coherence condition given in Figure \ref{fig:applyToFirst} equates every occurrence of the type variable \lstinline{a} in \lstinline{applyToFirst}. However, by observation of \lstinline{applyToFirst}, it is clear that the last occurences of \lstinline{a} in  the domain and codomain are only equated with each other. The introduction of naturality types, as described in Section \ref{sec:compasreach}, provide a categorical manner in which to describe this condition. This more descriptive condition is depicted as a Petri net in Figure \ref{fig:applyToFirstBetter}.
+\begin{figure}[H]
+  \begin{center}
+  \begin{tikzcd}[column sep=tiny]
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] \\
+     & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lu] \arrow[d] & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[d] &  \\
+     & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & 
+    \end{tikzcd}
+    =
+    \begin{tikzcd}[column sep=tiny]
+      {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[d] & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[ld] & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[ld] \\
+       & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lu] \arrow[d] & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[d] &  \\
+       & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} & 
+      \end{tikzcd}
+    \end{center}
+\caption{A more descriptive condition on \lstinline{applyToFirst}.}
+\label{fig:applyToFirstBetter}
+\end{figure}
+Two clear benefits, relating to the graphical expression of free theorems, have emerged; brevity and generality. The described Petri nets allow for the depiction of the usual free theorems, and with the addition of naturality types, are also able to depict more descriptive conditions. 
+\par
+Furthermore, when the domain and codomain of two Petri net models have an identical structure, they may be composed simply by pasting the respective domain along the codomain. Such a simple operation is unfortunately not always possible, even if the underlying types are composable. This is a consequence of the difference between composition in a Hindley-Milner type system, and composition of dinatural transformations. The described problem will be returned to shortly.
+\par
+In summary, a graphical representation of dinatural coherence conditions and, equivalently, free theorems on parametrically polymorphics types, has been given. This representation provides  a concise, general and composable way to explore the relationship between parametricity and dinaturality. Thus, a computational tool is proposed for generating Petri nets from parametrically polymorphic types, which are operational and composable. 
+\par
+To achieve the proposed aim of a computational tool, it is necessary to determine a formal system of types on which to operate. This system should be suitable for expressing dinatural transformations in the generalised functorial calculus described by McCusker and Santamaria. As previously described, it will also be necessary to unify the ideas of composition in the chosen type system and of the underlying dinatural transformations. Finally, a formal method for generating Petri nets from types in the chosen system, will be given. As specified, the first task is to construct an appropriate type system.
 
 \subsection{Hindley-Milner type system}\label{sec:HMType}
 Unfortunately, \citeasnoun{SystemFInference} confirmed the absence of any tractable type-inference algorithm for System F. While this may appear an insurmountable problem, in practice, \citeasnoun{Milner} had developed a type-inference algorithm for a restricted form of System F in the functional programming language ML (Meta Language).
@@ -107,12 +157,12 @@ Unfortunately, \citeasnoun{SystemFInference} confirmed the absence of any tracta
   &\qquad\qquad\,\theta_2 = U(\tau_2[\theta_1], \tau_2'[\theta_1])
 \end{flalign}
 
-Defining a variant on System F, called System $F_\kappa$. The following definition of higher-kinded types will be used:
+Briefly describe $F_\omega$ and problem with Hindley Milner and $F_\omega$
 
 \subfile{SystemFK}
 
 \subfile{Unification}
 
-\subsection{Types to Petri nets}
+\subsection{Types to Petri nets}\label{sec:TypeToPetri}
 
 \end{document}
