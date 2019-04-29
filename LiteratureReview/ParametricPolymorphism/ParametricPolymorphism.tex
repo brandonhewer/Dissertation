@@ -17,7 +17,7 @@ map f (x:xs) = f x : map f xs
 \end{lstlisting}
 Parametrically polymorphic functions such as `map' may be described as acting exclusively on structure. A variety of formalisations of parametric polymorphism, which try to capture this intuition, have been developed. One such formal approach is the polymorphic lambda calculus.
 
-\subsection{System F}
+\subsection{System F}\label{sec:systemf}
 Parametric polymorphism can be formally described by the second-order polymorphic lambda calculus, also known as the Girard-Reynolds polymorphic lambda calculus or System F. The second-order polymorphic lambda calculus was independently discovered by \citeasnoun{GirardPolyLambda} and \citeasnoun{ReynoldsPolyLambda}.
 
 System F extends the semantics of the simply typed lambda calculus, by introducing the notion of type-level universal quantification. Type-level abstraction is formally denoted with the upper-case $\Lambda$. The identity function is expressed in System F as
@@ -106,7 +106,7 @@ By specialising to the case where the relation $\mathcal{A}$ is a function, we c
 \\
 \citeasnoun{FreeImprovements} extend the relational semantics for types, by adding an integer representation of the call-by-value evaluation cost to the codomain. For each semantic operation its behaviour on the cost parameter is defined. For example, the cost of pairs and lists is defined to be the sum of the costs of their elements. Seidel and Voigtl{\"a}nder use this extension to the relational semantics to derive quantitative theorems about the runtime of terms within a restricted form of the polymorphic lambda calculus.
 
-\subsection{Curry-Howard-Lambek Correspondence}
+\subsection{Curry-Howard-Lambek Correspondence}\label{sec:curryhowardlambek}
 A sequent calculus is an inference system for first-order logic. The most basic construct in a sequent calculus, known as a sequent, has the form
 \begin{flalign}\label{eq:sequent}
   X_1,\ X_2,\ \ldots,\ X_N \vdash Y_1,\ Y_2,\ \ldots,\ Y_M.

@@ -7,17 +7,21 @@
 \makeatletter
 \providecommand*{\input@path}{}
 \g@addto@macro\input@path{
+  {./Introduction//}
   {./LiteratureReview//}
     {./LiteratureReview/ANaturalModel//}{./ANaturalModel//}
     {./LiteratureReview/CategoryTheory//}{./CategoryTheory//}
     {./LiteratureReview/ParametricPolymorphism//}{./ParametricPolymorphism//}
     {./LiteratureReview/Petrinets//}{./Petrinets//}
   {./TowardsATool//}
+    {./TowardsATool/HindleyMilner//}{./HindleyMilner//}
+    {./TowardsATool/Reflection//}{./Reflection//}
     {./TowardsATool/SystemFK//}{./SystemFK//}
+    {./TowardsATool/TypeToPetriNet//}{./TypeToPetriNet//}
     {./TowardsATool/Unification//}{./Unification//}
   {./Design//}
     {./Design/FormalGrammars//}{./FormalGrammars//}
-  {./Implementation//}
+  {./Features//}
   {./Results//}
   {./Evaluation//}
   {./Conclusion//}
@@ -62,12 +66,20 @@
 \setcounter{page}{1}
 \pagenumbering{arabic}
 
+\subfile{Introduction}
+\newpage
 \subfile{LiteratureReview}
+\newpage
 \subfile{TowardsATool}
+\newpage
 \subfile{Design}
-\subfile{Implementation}
+\newpage
+\subfile{Features}
+\newpage
 \subfile{Results}
+\newpage
 \subfile{Evaluation}
+\newpage
 \subfile{Conclusion}
 
 \newpage

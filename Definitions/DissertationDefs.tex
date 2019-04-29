@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{bm}
 \usepackage{caption}
 \usepackage{csquotes}
@@ -123,6 +124,14 @@
 \draw[->,decorate] (\thesarrow.south west) -- (\thesarrow.south east);
 \end{tikzpicture}%
 }
+
+\theoremstyle{definition}
+\newtheorem*{remark}{Remark}
+\newtheorem*{notation}{Notation}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
 
 %%
 %% Format definitions for the style

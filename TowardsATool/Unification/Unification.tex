@@ -22,42 +22,164 @@
   }
 }
 
-\subsection{A categorical semantics for unification}
-{
-\noindent
-\textbf{Definition 1.} Given a list $\theta \in List\{+,-\}$, define $\theta^{+} = \theta$ and $\theta^{-}$ to be the list in which the sign of every element is flipped (i.e. every $+$ is switched to $-$ and vice versa).\\
-}
+\subsection{Categorical semantics for System $F_\kappa$}
+Recall that Petri nets in the desired computational tool correspond to dinatural coherence conditions. The intended system should provide a means to compose types, and present the coherence condition of the composite type as a Petri net. Unification and substitution are required for composition in System $F_\kappa$. Accordingly, it is necessary to understand and formulate the categorical semantics underlying unification and substitution. 
+\par
+Furthermore, depicting conditions in which not all occurrences of a type variable are equated, requires understanding McCusker and Santamaria's notion of a naturality type. In addition, the ramifications of unification and substitution on naturality types, will need to be determined. This will facilitate a categorical semantics for System $F_\kappa$.
 
-{
-\noindent
-\textbf{Definition 2.} Given a list $\theta \in List\{+,-\}$, $\theta$ is said to `match' a pattern $\gamma \in List\{+,-\}$, $n = |\gamma|$, with `substitution' $s \in List\{+,-\}$, denoted $\theta = \gamma(s)$, if
+\begin{proposition}\label{props:constant}
+For every type $\tau$, in System $F_\kappa$, there exists a constant type constructor $\mathcal{C}_\tau : * \Rightarrow *$ given by $C (\sigma) = \tau$. To prove $C_\tau$ is a type constructor, in System $F_\kappa$, it is necessary to show the existence of a polymorphic function
+\begin{equation*}
+\mathcal{F}_{C_\tau} : (\alpha \rightarrow \beta) \rightarrow C_\tau (\alpha) \rightarrow C_\tau (\beta),
+\end{equation*}
+which satisfies the functorial laws. This is achieved by defining 
+\begin{equation*}
+\mathcal{F}_{C_\tau}(f) = \lambda x^\tau.x. 
+\end{equation*}
+It is routine to prove both laws are satisfied.
+\end{proposition}
+
+\begin{proposition}\label{props:id}
+In System $F_\kappa$, there exists an identity type constructor $Id : * \Rightarrow *$, given by $Id(\tau) = \tau$. To prove $Id$ is a type constructor, in System $F_\kappa$, it is necessary to show the existence of a polymorphic function
+\begin{equation*}
+\mathcal{F}_{Id} : (\alpha \rightarrow \beta) \rightarrow Id (\alpha) \rightarrow Id (\beta),
+\end{equation*}
+which satisfies the functorial laws. This is achieved by defining 
+\begin{equation*}
+\mathcal{F}_{Id}(f) = f
+\end{equation*}
+It is routine to prove both laws are satisfied.
+\end{proposition}
+
+\begin{proposition}\label{props:arrow}
+In System $F_\kappa$, $\rightarrow$ is a type constructor of the form 
 \begin{flalign*}
-\theta = s^{\gamma_1} \mdoubleplus s^{\gamma_2} \mdoubleplus ... \mdoubleplus s^{\gamma_n}
+(\rightarrow) : *^- \Rightarrow * \Rightarrow *.
 \end{flalign*}
-where $\mdoubleplus$ is the concatenation operator. Note that $n|s| = |\theta|$.\\
-}
-
-{
-\noindent
-\textbf{Definition 4.} Given a category $\mathbb{C}$ and a list $\alpha \in List\{+,-\}$, where $|\alpha| = n$, define 
+Observe the application of $\rightarrow$ on types:
 \begin{flalign*}
-\mathbb{C}^{\alpha} = \mathbb{C}^{\alpha_1} \times \mathbb{C}^{\alpha_2} \times ... \times \mathbb{C}^{\alpha_n},
+(\rightarrow)(\tau_1,\ \tau_2) = \tau_1 \rightarrow \tau_2.
 \end{flalign*}
-where $\mathbb{C}^+ = \mathbb{C}$ and $\mathbb{C}^- = \mathbb{C}^{op}$.\\
-}
+To prove $\rightarrow$ is a type constructor in System $F_\kappa$, it is necessary to show there exists a polymorphic function
+\begin{flalign*}
+  \mathcal{F}_\rightarrow : (\alpha_1 \rightarrow \alpha_2) \rightarrow (\beta_1 \rightarrow \beta_2) \rightarrow (\alpha_2 \rightarrow \beta_1) \rightarrow (\alpha_1 \rightarrow \beta_2),
+\end{flalign*}
+such that the functorial laws, outlined in Definition 6, are satisfied. Given terms 
+\begin{flalign*}
+f : \sigma_2 \rightarrow \tau_2,\ g : \sigma_1 \rightarrow \sigma_2,\ h : \tau_1 \rightarrow \sigma_1,
+\end{flalign*}  
+$\mathcal{F}_\rightarrow$ is defined as
+\begin{flalign*}
+  \mathcal{F}_\rightarrow(h, f) = g \mapsto f \circ g \circ h.
+\end{flalign*}  
+The identity law is shown to be satisfied by
+\begin{flalign*}
+  \mathcal{F}_\rightarrow(\iota_{\sigma_1}, \iota_{\sigma_2}) = g \mapsto \iota_{\sigma_2} \circ g \circ \iota_{\sigma_1} = g \mapsto g.
+\end{flalign*}  
+Given terms $f' : \tau_2 \rightarrow \rho_2$, $g' : \tau_1 \rightarrow \tau_2$, $h' : \rho_1 \rightarrow \tau_1$,
+\begin{flalign*}
+  \mathcal{F}_\rightarrow(h', f') \circ \mathcal{F}_\rightarrow(h, f) &= (g' \mapsto f' \circ g' \circ h') \circ (g \mapsto f \circ g \circ h)\\
+  &= g \mapsto f' \circ (f \circ g \circ h) \circ h'\\
+  &= g \mapsto (f' \circ f) \circ g \circ (h \circ h')\\
+  &= \mathcal{F}_\rightarrow(h \circ h', f' \circ f),
+\end{flalign*} 
+thus, as expected, composition is preserved.
+\end{proposition}
 
-{
-\noindent
-\textbf{Definition 5.} Given a category $\mathbb{C}$, a list $\alpha \in List\{+,-\}$, and a functor $F : \mathbb{C}^\alpha \rightarrow \mathbb{C}$ where $|\alpha| = n$, define 
+\begin{proposition}\label{prop:times}
+  In System $F_\kappa$, $\times$ is a type constructor of the form
+  \begin{equation*}
+    (\times) : * \Rightarrow * \Rightarrow *.
+  \end{equation*}
+  Observe the application of $\times$ on types:
+  \begin{equation*}
+    (\times)(\tau_1,\ \tau_2) = \tau_1 \times \tau_2.
+  \end{equation*}
+  To prove $\times$ is a type constructor in System $F_\kappa$, it is necessary to show there exists a polymorphic function
+  \begin{equation*}
+    \mathcal{F}_\times : (\alpha_1 \rightarrow \alpha_2) \rightarrow (\beta_1 \rightarrow \beta_2) \rightarrow (\alpha_1 \times \beta_1) \rightarrow (\alpha_2 \times \beta_2),
+  \end{equation*}
+  such that the functorial laws, outlined in Definition 6, are satisfied. Given terms 
+  \begin{equation*}
+    f : \tau_1 \rightarrow \sigma_1,\ g : \tau_2 \rightarrow \sigma_2,\ p : \tau_1 \times \tau_2, 
+  \end{equation*}
+  $\mathcal{F}_\times$ is defined as
+  \begin{equation*}
+    \mathcal{F}_\times(f, g) = p \rightarrow \langle (f \circ \pi_1)\ p,\ (g \circ \pi_2)\ p \rangle.
+  \end{equation*} 
+  The identity law is shown to be satisfied by
+  \begin{flalign*}
+    \mathcal{F}_\times(\iota_{\tau_1}, \iota_{\tau_2}) &= p \rightarrow \langle (\iota_{\tau_1} \circ \pi_1)\ p,\ (\iota_{\tau_2} \circ \pi_2)\ p \rangle \\&= p \rightarrow \langle \pi_1\ p,\ \pi_2\ p \rangle \\&= p \rightarrow p.
+  \end{flalign*}
+Given terms $f' : \sigma_1 \rightarrow \mu_1$, $g' : \sigma_2 \rightarrow \mu_2$, $p' : \sigma_1 \times \sigma_2$,
+\begin{flalign*}
+  \mathcal{F}_\times(f',g') \circ \mathcal{F}_\times(f,g) &= (p' \rightarrow \langle (f' \circ \pi_1)\ p',\ (g' \circ \pi_2)\ p' \rangle)\ \circ \\
+  &\quad\ (p \rightarrow \langle (f \circ \pi_1)\ p,\ (g \circ \pi_2)\ p \rangle)\\
+  &= p \rightarrow \langle (f' \circ f \circ \pi_1)\ p,\ (g' \circ g \circ \pi_2)\ p \rangle\\
+  &= \mathcal{F}_\times(f' \circ f, g' \circ g),
+\end{flalign*}
+thus, as expected, composition is preserved.
+\end{proposition}
+
+\begin{definition}
+Let $\theta$, $\gamma \in List\{+,-\}$ be lists, where $|\theta| = n$ and $|\gamma| = m$. Given kinds $\upsilon_1^\theta$, $\upsilon_2^\gamma$, and type constructors $T_1 : \upsilon_1^\theta$ and $T_2 : \upsilon_2^\gamma$, the type constructor
+\begin{equation*}
+  T_1(T_2) : \omega^{(\gamma\ \mdoubleplus\ [\theta_2,\ \theta_3,\ \ldots,\ \theta_n])}
+\end{equation*}
+is given by
+\begin{equation*}
+  T_1(T_2)\left(\sigma_2,\ \ldots,\ \sigma_n,\ \tau_1,\ \ldots,\ \tau_m) = T_1(T_2(\tau_1,\ \ldots,\ \tau_m),\ \sigma_2,\ \ldots,\ \sigma_n\right).
+\end{equation*}
+The proof that $T_1(T_2)$ is a type constructor in System $F_\kappa$ is given by the functoriality of $T_1$. Multiple applications of this operation, such as $T_1(T_2)(T_3)$, can be expressed uncurried as $T_1(T_2,\ T_3)$.
+\end{definition}
+
+\begin{definition}
+  Let $\theta$ be a list, where $|\theta| = n$, and $\upsilon^\theta$ be a kind, in System $F_\kappa$. A type $\tau$ is said to have a higher-kinded representation if there exists a type constructor $T : \upsilon^\theta$ and there exists types $\sigma_1,\ \sigma_2,\ \ldots,\ \sigma_n$, such that
+  \begin{flalign*}
+    T\ \sigma_1\ \sigma_2\ \ldots\ \sigma_n = \tau.
+  \end{flalign*}
+  $T$ is said to be a higher-kinded representation of $\tau$.
+\end{definition}
+
+\begin{theorem}\label{th:kindrep}
+Recall the definitions for the functors $\mathcal{C}_c$, $Id$, $\rightarrow$, $\times$ outlined in propositions \ref{props:constant}, \ref{props:id}, \ref{props:arrow} and \ref{prop:times}, respectively. It follows that for every type $\tau$ in System $F_\kappa$, there exists a unique, canonical higher-kinded representation of $\tau$, denoted $\mathcal{M}(\tau)$, given by
+\begin{flalign*}
+  \mathcal{M}(c) &= \mathcal{C}_c,\\
+  \mathcal{M}(\alpha) &= Id,\\
+  \mathcal{M}(\tau_1 \times \tau_2) &=  (\times)(\mathcal{M}(\tau_1),\ \mathcal{M}(\tau_2))\\
+  \mathcal{M}(\tau_1 \rightarrow \tau_2) &= (\rightarrow)(\mathcal{M}(\tau_1),\ \mathcal{M}(\tau_2))\\
+  \mathcal{M}(T\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= T (\mathcal{M}(\tau_1),\ \mathcal{M}(\tau_2),\ \ldots,\ \mathcal{M}(\tau_n))\\
+  \mathcal{M}(F\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= F (\mathcal{M}(\tau_1),\ \mathcal{M}(\tau_2),\ \ldots,\ \mathcal{M}(\tau_n)),
+\end{flalign*}
+where $T$ is a type constructor and $F$ is a polymorphic type constructor, both with $n$ arguments.
+\end{theorem}
+
+\begin{definition}
+Given a category $\mathbb{C}$ and a list $\theta \in List\{+,-\}$, where $|\theta| = n$, define 
+\begin{flalign*}
+\mathbb{C}^{\theta} = \mathbb{C}^{\theta} \times \mathbb{C}^{\theta_2} \times ... \times \mathbb{C}^{\theta_n},
+\end{flalign*}
+where $\mathbb{C}^+ = \mathbb{C}$ and $\mathbb{C}^- = \mathbb{C}^{op}$.
+\end{definition}
+
+\begin{corollary}\label{cor:functor}
+Let $\theta \in List\{+,-\}$ be a list, and $\upsilon^\theta$ be a higher-kinded type in System $F_\kappa$. Recall that Theorem \ref{th:kindrep} states that given any type $\tau$, there exists a unique, canonical higher-kinded representation $T : \upsilon^\theta = \mathcal{M}(\tau)$. Given the category $\mathbb{C}$, of System $F_\kappa$ types, it follows that there exists a unique, canonical functor representation $G : \mathbb{C}^\theta \rightarrow \mathbb{C}$ of $\tau$. $G$ operates on types identically to $T$, and operates on terms identically to $\mathcal{F}_T$. The functoriality of $G$ is given by the definition of $\mathcal{F}_T$.
+\end{corollary}
+
+\begin{remark}
+  An approach for uniquely identifying functors from types in System $F_\kappa$ is formulated in Corollary \ref{cor:functor}. As a consequence, the remaining definitions in this section, pertaining to a categorical semantics for composition in System $F_\kappa$, will be expressed in terms of the functors involved.
+\end{remark}
+
+\begin{definition}
+Given a category $\mathbb{C}$, a list $\alpha \in List\{+,-\}$, and a functor $F : \mathbb{C}^\alpha \rightarrow \mathbb{C}$ where $|\alpha| = n$, define 
 \begin{flalign*}
 F^{\alpha} = F^{\alpha_1} \times F^{\alpha_2} \times ... \times F^{\alpha_n},
 \end{flalign*}
-where $F^+ : \mathbb{C}^\alpha \rightarrow \mathbb{C} = F$ and $F^- : \mathbb{C}^{\alpha^-} \rightarrow \mathbb{C}^{op} = F^{op}$.\\
-}
+where $F^+ : \mathbb{C}^\alpha \rightarrow \mathbb{C} = F$ and $F^- : \mathbb{C}^{\alpha^-} \rightarrow \mathbb{C}^{op} = F^{op}$.
+\end{definition}
 
-{
-\noindent
-\textbf{Definition 6.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors
+\begin{definition}
+Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors
 \begin{flalign*}
 F : \mathbb{C}^{\gamma} \rightarrow \mathbb{C},\ G: \mathbb{C}^{\alpha} \rightarrow \mathbb{C},\ H : \mathbb{C}^{\beta} \rightarrow \mathbb{C},
 \end{flalign*}
@@ -69,25 +191,11 @@ the left whiskering of $\phi$ with F is given by
 \begin{flalign*}
 (\phi * F)_X : G (F^{\alpha_1}(X), ..., F^{\alpha_n}(X)) \rightarrow H (F^{\beta_1}(X), ..., F^{\beta_n}(X)) = \phi_{F(X)},
 \end{flalign*}
-where $F^+ = F$ and $F^- = F^{op}$.\\
-}
+where $F^+ = F$ and $F^- = F^{op}$.
+\end{definition}
 
-{
-\noindent
-\textbf{Theorem 7.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors
-\begin{flalign*}
-F : \mathbb{C}^{\gamma} \rightarrow \mathbb{C}, G: \mathbb{C}^{\alpha} \rightarrow \mathbb{C}, H : \mathbb{C}^{\beta} \rightarrow \mathbb{C},
-\end{flalign*}
-and a dinatural transformation
-\begin{flalign*}
-\phi : G \rightarrow H,
-\end{flalign*}
-$\phi * F$ is dinatural. Dinatural transformations are therefore closed under left whiskering. (Proof to be added)\\
-}
-
-{
-\noindent
-\textbf{Definition 8.} Let $\mathbb{C}$ be a category and $\alpha$, $\beta \in List\{+, -\}$ be lists, where $|\alpha| \leq |\beta|$. Given functors
+\begin{definition}\label{def:catunify}
+Let $\mathbb{C}$ be a category and $\alpha$, $\beta \in List\{+, -\}$ be lists, where $|\alpha| \leq |\beta|$. Given functors
 \begin{flalign*}
 F : \mathbb{C}^{\alpha} \rightarrow \mathbb{C},\ G: \mathbb{C}^{\beta} \rightarrow \mathbb{C},
 \end{flalign*}
@@ -99,12 +207,11 @@ and there exists a functor $S : \mathbb{C}^s \rightarrow \mathbb{C}$ such that
 \begin{flalign*}
 G \cdot S^\beta \cong F, 
 \end{flalign*}
-$F$ is said to `unify' with $G$ by means of the `substitution functor' $S$, expressed as $F \sim G : S$.\\
-}
+$F$ is said to `unify' with $G$ by means of the `substitution functor' $S$, expressed as $F \sim G : S$.
+\end{definition}
 
-{
-\noindent
-\textbf{Definition 9.} Given a cartesian closed category $\mathbb{C}$, lists $\alpha, \beta, \alpha', \beta' \in List\{+,-\}$, functors
+\begin{definition}
+Given a category $\mathbb{C}$, lists $\alpha, \beta, \alpha', \beta' \in List\{+,-\}$, functors
 \begin{flalign*}
 F : \mathbb{C}^{\alpha} \rightarrow \mathbb{C}, G: \mathbb{C}^{\beta} \rightarrow \mathbb{C},\\
 H : \mathbb{C}^{\alpha'} \rightarrow \mathbb{C}, K: \mathbb{C}^{\beta'} \rightarrow \mathbb{C},
@@ -113,7 +220,7 @@ and dinatural transformations
 \begin{flalign*}
 \phi : F \rightarrow G, \psi : H \rightarrow K,
 \end{flalign*}
-if $G \sim H : S$ then $\psi$ is composable with $\phi * S$; the domain of $\psi$ is naturally isomorphic to the codomain of $\phi * S$ (5). Composition is given by
+if $G \sim H : S$ then $\psi$ is composable with $\phi * S$; the domain of $\psi$ is naturally isomorphic to the codomain of $\phi * S$ (Definition \ref{def:catunify}). Composition is given by
 \begin{flalign*}
 \psi \cdot \phi = \psi \circ (\phi * S).
 \end{flalign*}
@@ -121,39 +228,41 @@ Conversely, if $H \sim G: S'$, composition is given by
 \begin{flalign*}
 \psi \cdot \phi = (\psi * S') \circ \phi.
 \end{flalign*}
-Note that $\psi \cdot \phi$ is not necessarily a dinatural transformation.\\
-}
+Note that $\psi \cdot \phi$ is not necessarily a dinatural transformation.
+\end{definition}
 
-{
-\noindent
-\textbf{Definition 10.} Let $[n] = \{i \in \mathbb{N} : i \leq n\}$ and $F: \mathbb{C}^\alpha \rightarrow \mathbb{C}$ and $G: \mathbb{C}^\beta \rightarrow \mathbb{C}$ be functors. The type of a dinatural transformation (McCusker and Santamaria 2018), 
+\begin{definition}\label{def:nattype}
+Let $[n] = \{i \in \mathbb{N} : i \leq 
+n\}$ and $F: \mathbb{C}^\alpha \rightarrow \mathbb{C}$ and $G: \mathbb{C}^\beta \rightarrow \mathbb{C}$ be functors. The type of a dinatural transformation (McCusker and Santamaria 2018), 
 $\phi : F \rightarrow G$, is given by three sets $[\alpha], [\beta], [k]$, and two functions $\sigma : [\alpha] \rightarrow [k]$, $\tau : [\beta] \rightarrow [k]$ and is denoted $f = \cospan{[\alpha]}{\sigma}{[k]}{\tau}{[\beta]}$. Given a type $f$, $\phi$ is given to be a family of morphisms
 \begin{flalign*}
 \left(\phi_{A_1,...,A_k} : F(A_{\sigma(1)},...,A_{\sigma(|\alpha|)}) \rightarrow G(A_{\tau(1)},...,A_{\tau(|\beta|)})\right)_{A_1 \times...\times A_k \in \mathbb{C}^k}.
 \end{flalign*}
-The functions $\sigma$ and $\tau$ are said to determine which arguments of $F$ and $G$ are to be equated.\\
-}
+The functions $\sigma$ and $\tau$ are said to determine which arguments of $F$ and $G$ are to be equated.
+\end{definition}
 
-{
-\noindent
-\textbf{Definition 11.} The construction of a type given in (8) is a familiar one; it is a cospan in the category $Set$. McCusker and Santamaria construct the category $\mathbb{T}$ypes of transformation types, where $ob(\mathbb{T}\text{ypes}) = \{[i] : i \in \mathbb{N}\}$ and $\forall f : n \rightarrow m$, $f$ is given by a cospan of the form $\cospan{n}{\sigma}{k}{\tau}{m}$. Composition of a morphism f and $g = \cospan{m}{\sigma'}{p}{\tau'}{t}$, $g \cdot f = \cospan{n}{\zeta \cdot \sigma}{q}{\xi \cdot \tau'}{t}$ is given by calculating the pushout, 
+\begin{definition}
+The construction of a type given in Definition \ref{def:nattype} is a familiar one; it is a cospan in the category $Set$. McCusker and Santamaria construct the category $\mathbb{T}$ypes of transformation types, where $ob(\mathbb{T}\text{ypes}) = \{[i] : i \in \mathbb{N}\}$ and $\forall f : n \rightarrow m$, $f$ is given by a cospan of the form $\cospan{n}{\sigma}{k}{\tau}{m}$. Composition of a morphism f and $g = \cospan{m}{\sigma'}{p}{\tau'}{t}$, $g \cdot f = \cospan{n}{\zeta \cdot \sigma}{q}{\xi \cdot \tau'}{t}$ is given by calculating the pushout, 
 \begin{flalign*}
 (q \in ob(\mathbb{T}\text{ypes}),\ \xi : p \rightarrow q,\ \zeta : k \rightarrow q),
 \end{flalign*}
-of $\tau$ against $\sigma'$. This pushout is calculated in the usual way for sets, where $q$ is given to be quotient of the disjoint union of $k$ and $p$ by the equivalence relation $\tau(x) \sim \sigma'(x)$.\\
-}
+of $\tau$ against $\sigma'$. This pushout is calculated in the usual way for sets, where $q$ is given to be quotient of the disjoint union of $k$ and $p$ by the equivalence relation $\tau(x) \sim \sigma'(x)$.
+\end{definition}
 
-{
-\noindent
-\textbf{Definition 12.} Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors 
+\begin{definition}\label{def:subtype}
+Given a category $\mathbb{C}$, lists $\alpha, \beta, \gamma \in List\{+,-\}$, functors 
 \begin{flalign*}
 F : \mathbb{C}^\gamma \rightarrow \mathbb{C}, G : \mathbb{C}^\alpha \rightarrow \mathbb{C}, H : \mathbb{C}^\beta \rightarrow \mathbb{C},
 \end{flalign*}
 and a dinatural transformation $\phi : G \rightarrow H$, of type $\cospan{[\alpha]}{\sigma}{[k]}{\tau}{[\beta]}$, the type of $\phi * F$ is given by $\cospan{[\alpha * \gamma]}{\sigma'}{[k * \gamma]}{\tau'}{[\beta * \gamma]}$, where 
 \begin{flalign*}
-\sigma' = \bigcup\limits_{i=1}^{|\alpha|} \{(|\gamma| * (i - 1) + j,\ \sigma(i) + j - 1)\ |\ j \in \gamma \}\\
-\tau' = \bigcup\limits_{i=1}^{|\beta|} \{(|\gamma| * (i - 1) + j,\ \tau(i) + j - 1)\ |\ j \in \gamma \}.
+\sigma' &= \bigcup\limits_{i=1}^{|\alpha|} \{(|\gamma| * (i - 1) + j,\ \sigma(i) + j - 1)\ |\ j \in \gamma \},\\
+\tau' &= \bigcup\limits_{i=1}^{|\beta|} \{(|\gamma| * (i - 1) + j,\ \tau(i) + j - 1)\ |\ j \in \gamma \}.
 \end{flalign*}
-}
+\end{definition}
+
+\begin{remark}
+By developing a categorical semantics for System $F_\kappa$, the ramification of substitution on naturality types was found. This result is given in Definition \ref{def:subtype}, and is attained by understanding that substitution in System $F_\kappa$, corresponds to the left-whiskering of a dinatural transformation with a functor. By formulating a categorical semantics for System $F_\kappa$, the construction of Petri net models from types can now be formalised.
+\end{remark}
 
 \end{document}

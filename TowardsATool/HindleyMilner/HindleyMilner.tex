@@ -1,0 +1,179 @@
+% !TeX root = HindleyMilner.tex
+\documentclass[../../Dissertation.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Hindley-Milner type system}\label{sec:HMType}
+An initial candidate for an appropriate type system, which is suitable for describing a generalised functorial calculus, is the second-order polymorphic lambda calculus. System F provides a formalisation of parametric polymorphism, and has a recognized categorical semantics \cite{SystemFVariableTypes}. Unfortunately, \citeasnoun{SystemFInference} confirmed the absence of any tractable type-inference algorithm for System F. While this may appear an insurmountable problem, in practice, \citeasnoun{Milner} had developed a type-inference algorithm for a restricted form of System F in the functional programming language ML (Meta Language). Milner's restricted form of System F was a rediscovery of earlier work by \citeasnoun{Hindley}, and is thus termed the Hindley-Milner type system (HM).
+\par
+In System F, universal quantification over types may appear anywhere within a term. This flexibility is the source of both impredicativity, as described in Section \ref{sec:systemf}, and the inability to create a tractable type inference algorithm. HM resolves this by restricting quantification to the outermost scope of types. However, without any additional constructs in the calculus, this restriction prevents more than a single instantiation of any polymorphic type, within a given context.
+\par
+Given lambda terms $\textit{succ} : \mathbb{N} \rightarrow \mathbb{N}$ and $\textit{id} : \forall \alpha. \alpha \rightarrow \alpha$, consider the term $\lambda x. \textit{id}\ (\textit{id}\ \textit{succ}\ x)$. Observe that $\textit{id}$ is applied to $\textit{succ}$ of type $\mathbb{N} \rightarrow \mathbb{N}$, and is thus inferred to be of type $(\mathbb{N} \rightarrow \mathbb{N}) \rightarrow \alpha$. Subsequently, $\textit{id}\ \textit{succ} : \alpha$ is applied to $x$, thus $\alpha$ is found to be of type $\mathbb{N} \rightarrow \mathbb{N}$. Finally, $\textit{id}$ is applied to $\textit{id}\ \textit{succ}\ x : \mathbb{N}$, requiring $\textit{id}$ be of type $\mathbb{N} \rightarrow \alpha$. Contradicting types for $\textit{id}$ have been found, and thus the term is not typable. 
+\par
+The provided example demonstrates a problem which arises as a consequence of only permitting a single instantiation of a polymorphic type, in a given context. HM resolves this problem with the addition of let-polymorphism. Formulated as a let binding, the previous example is given as 
+\begin{equation*}
+\textbf{let } \textit{id} = \lambda x.x \textbf{ in } \lambda x.\textit{id}\ (\textit{id}\ succ\ x).
+\end{equation*}
+
+Implementing HM within a computational system, requires a complete description of possible types of well-formed terms. This description is given formally in Figure \ref{fig:HindleyMilner}, in the language of a sequent calculus.
+
+\begin{figure}[H]
+\begin{equation*}
+  \begin{prooftree}
+    \hypo{x : \sigma \in \Gamma}
+    \infer1[TVar]{\Gamma \vdash x : \sigma}
+  \end{prooftree}
+\end{equation*}
+\begin{equation*}
+  \begin{prooftree}
+    \hypo{\Gamma \vdash e : \sigma'}
+    \hypo{\sigma' \sqsubseteq \sigma}
+    \infer2[TInst]{\Gamma \vdash e : \sigma}
+  \end{prooftree}
+\end{equation*}
+\begin{equation*}
+  \begin{prooftree}
+    \hypo{\Gamma \vdash e : \tau \rightarrow \tau'}
+    \hypo{\Gamma \vdash e' : \tau}
+    \infer2[TApp]{\Gamma \vdash e\ e' : \tau'}
+  \end{prooftree}
+\end{equation*}
+\begin{equation*}
+  \begin{prooftree}
+    \hypo{\Gamma, x : \tau \vdash e : \tau'}
+    \infer1[TAbs]{\Gamma \vdash \lambda x.e : \tau \rightarrow \tau'}
+  \end{prooftree}
+\end{equation*}
+\begin{equation*} 
+  \begin{prooftree}
+    \hypo{\Gamma \vdash e : \sigma}
+    \hypo{\Gamma, x : \sigma \vdash e' : \tau}
+    \infer2[TLet]{\Gamma \vdash \textbf{let } x = e \textbf{ in } e' : \tau}
+  \end{prooftree}
+\end{equation*}
+\begin{equation*}
+  \begin{prooftree}
+    \hypo{\Gamma \vdash e : \sigma}
+    \hypo{\alpha \notin \textit{free}(\Gamma)}
+    \infer2[TGen]{\Gamma \vdash e : \forall \alpha.\sigma}
+  \end{prooftree}
+\end{equation*}
+\caption{Well-formedness judgements for HM.}
+\label{fig:HindleyMilner}
+\end{figure}
+
+The function $\textit{free}$, appearing in the `TGen' rule of the well-formedness judgements, computes the set of free variables appearing within a context. A complete definition of $\textit{free}$, in HM, is given in Figure \ref{fig:HindleyMilnerFree}. Note that $c$ is used to denote a primitive type, while $\alpha$ and $\beta$ are used for type variables. 
+
+\begin{figure}[H]
+\begin{flalign*}
+  \textit{free}(c) &= \emptyset\\
+  \textit{free}(\alpha) &= \{\alpha\}\\
+  \textit{free}(\forall \alpha.\tau) &= \{\beta \in \textit{free}(\tau) : \beta \neq \alpha\}\\ 
+  \textit{free}(\tau_1 \rightarrow \tau_2) &= \textit{free}(\tau_1) \cup \textit{free}(\tau_2)\\
+  \textit{free}(\tau_1\ \tau_2) &= \textit{free}(\tau_1) \cup \textit{free}(\tau_2)
+\end{flalign*}
+\caption{Determining free type variables in HM.}
+\label{fig:HindleyMilnerFree}
+\end{figure}
+
+As briefly described in an outline of the desired computational tool, a mechanism for composing types is required. Composition of types in HM is achieved by calculating and applying a unifying substitution, such that the codomain of one function type matches the domain of the other. For example, in the composition of types 
+\begin{equation*}
+  \forall \alpha. (\alpha \rightarrow \alpha) \rightarrow \alpha;\ \forall \beta. (\beta \rightarrow \beta) \rightarrow \beta,
+\end{equation*}
+a unification algorithm would be expected to yield a substitution $[(\beta \rightarrow \beta)/\alpha]$. Applying the calculated substitution would then generate the type 
+\begin{equation*}
+\forall \beta.((\beta \rightarrow \beta) \rightarrow \beta \rightarrow \beta) \rightarrow \beta \rightarrow \beta,
+\end{equation*}
+whose codomain matches the domain of $\forall \beta.(\beta \rightarrow \beta) \rightarrow \beta$, thus producing the following composite type
+\begin{equation*}
+  \forall \beta.((\beta \rightarrow \beta) \rightarrow \beta \rightarrow \beta) \rightarrow \beta.
+\end{equation*}
+A complete definition of type substitution in HM is given in Figure \ref{fig:HindleyMilnerSub}.
+
+\begin{figure}[H]
+\begin{flalign*}
+  \beta[\sigma/\alpha] &=
+  \begin{cases}
+    \sigma & \text{if } \beta = \alpha\\
+    \beta & \text{otherwise}
+  \end{cases}\\
+  (\forall \beta.\tau)[\sigma/\alpha] &=
+  \begin{cases}
+    \forall \beta.\tau & \text{if } \beta = \alpha\\
+    \forall \gamma.(\tau[\gamma/\beta][\sigma/\alpha]) & \text{otherwise}
+  \end{cases}\\
+  & \qquad \text{where } \gamma \notin \textit{free}(\tau) \\
+  (\tau_1\ \tau_2)[\sigma/\alpha] &= \tau_1[\sigma/\alpha]\ \tau_2[\sigma/\alpha]\\
+  (\tau_1 \rightarrow \tau_2)[\sigma/\alpha] &= \tau_1[\sigma/\alpha] \rightarrow \tau_2[\sigma/\alpha]
+\end{flalign*}
+\caption{Substitution in HM.}
+\label{fig:HindleyMilnerSub}
+\end{figure}
+
+The provided definition of substitution in HM is used in the unification algorithm, given in Figure \ref{fig:HindleyMilnerUni}. Note that $\bot$ is used to denote the bottom type, which refers to a failed unification. Such a failure arises as a consequence of the occurs check; a type variable $\alpha$ can not appear free in $\tau$ if $\tau$ and $\alpha$ are to be unified.
+\begin{figure}[H]
+\begin{flalign*}
+  U(\tau, \tau) &= [\ ]\\
+  U(\alpha, \alpha) &= [\ ]\\
+  U(\alpha, \tau),\ U(\tau, \alpha) &=
+  \begin{cases}
+    [\tau / \alpha] & \text{if } \alpha \notin \textit{free}(\tau)\\
+    \bot & \text{otherwise}
+  \end{cases}\\
+  U(\tau_1\ \tau_2, \tau_1'\ \tau_2') &= \theta_2 \mdoubleplus \theta_1\\
+  &\ \ \ \text{ where } \theta_1 = U(\tau_1, \tau_1'),\\
+  &\qquad\qquad\,\theta_2 = U(\tau_2[\theta_1], \tau_2'[\theta_1])\\
+  U(\tau_1 \rightarrow \tau_2, \tau_1' \rightarrow \tau_2') &= \theta_2 \mdoubleplus \theta_1\\
+  &\ \ \ \text{ where } \theta_1 = U(\tau_1, \tau_1'),\\
+  &\qquad\qquad\,\theta_2 = U(\tau_2[\theta_1], \tau_2'[\theta_1])
+\end{flalign*}
+\caption{Unification in HM.}
+\label{fig:HindleyMilnerUni}
+\end{figure}
+
+HM is sufficient for the purposes of a tool which depicts the coherence conditions of parametrically polymorphic types as Petri nets. However, without extension, it is impractical for the purposes of exploring a generalised functorial calculus over types. Consider the representation of the product functor in HM, given by
+\begin{equation}
+  pair \equiv \forall \alpha\ \beta\ \gamma.\lambda x^\alpha. \lambda y^\beta. \lambda f^{\alpha \rightarrow \beta \rightarrow \gamma}. f\ x\ y,
+\end{equation}
+with the required projections
+\begin{flalign}
+  fst \equiv \forall \alpha\ \beta\ \gamma.\lambda p^{(\alpha \rightarrow \beta \rightarrow \alpha) \rightarrow \gamma}.p\ (\lambda x^\alpha.\lambda y^\beta.x),\\
+  snd \equiv \forall \alpha\ \beta\ \gamma.\lambda p^{(\alpha \rightarrow \beta \rightarrow \beta) \rightarrow \gamma}.p\ (\lambda x^\alpha.\lambda y^\beta.y).
+\end{flalign}
+This representation is notably verbose. In addition, it is unclear from the syntax how a pair corresponds to the product functor $\mathbb{C} \times \mathbb{C} \rightarrow \mathbb{C}$. This would be a concern in a tool designed for exploring the relationship between parametricity and dinatural coherence conditions in a generalised functorial calculus. 
+\par
+Given terms $x : \alpha$ and $y : \beta$, a more desirable representation for their product may be given by $(x, y) : \alpha \times \beta$, with projections $\pi_1(x, y) = x$ and $\pi_2(x, y) = y$. It might be argued that this issue is solved by simply including the necessary typing rules and well-formedness judgements in the definition of HM. Indeed, this is a common extension used when modelling typed lambda calculi in a cartesian closed category. 
+\par
+Unfortunately, the described solution would only add a concise representation for products within the type system.  The desired computational tool should enable exploration of dinatural transformations in a generalised functorial calculus i.e., between mixed-variance functors. It is infeasible to extend HM with a concise, interpretable representation of every possible mixed-variance functor. A construct which emulates this class of generalised functors, within a type system, would map one or more types to a single type. Fortunately, this idea of type-level operations has been investigated extensively.
+\par
+The higher-order polymorphic lambda calculus, alternatively denoted System $F_\omega$, was first introduced by \citeasnoun{GirardFOmega}, in his original formulation of System $F$. System $F_\omega$ adds higher-kinded types to System $F$. A higher-kinded type, also known as a type operator or type constructor, is a function which operates on types. The type of such a function is termed a kind, to distinguish it from types in the underlying system, and is of the form
+\begin{equation*}
+  K ::= *\ |\ K \Rightarrow K.
+\end{equation*}
+\par
+Revisiting the earlier example of product, but instead formulating it in System $F_\omega$, we define a type constructor $(\ ,\ ) : * \Rightarrow * \Rightarrow *$, given by
+\begin{flalign}
+  (\alpha, \beta) \equiv \forall \gamma.\lambda x^\alpha. \lambda y^\beta. \lambda f^{\alpha \rightarrow \beta \rightarrow \gamma}. f\ x\ y. 
+\end{flalign}
+The discerning reader will notice that this example does not illustrate how type constructors solve the necessity of providing a definition for every functor. Furthermore, it is not necessarily the case that every type constructor respects the functorial laws. The first concern will be addressed immediately, and the latter will be returned to shortly.
+\par
+The desired expressiveness of System $F_\omega$ is achieved with the introduction of polymorphic type constructors. A polymorphic type constructor with $n$ arguments is a promising device for describing the class of functors with $n$ arguments. Thus, a polymorphic type constructor $F : * \Rightarrow * \Rightarrow *$, has the potential to describe the class of functors which share the form of the product. However, to return to an earlier described problem, not all type constructors obey the functorial laws, which remains an obstacle to the intended use case.
+\par
+To demonstrate that not all type constructors are functorial, consider a type constructor $T : * \rightarrow *$, given by 
+\begin{flalign*}
+  T\ \alpha = \alpha \rightarrow \alpha.
+\end{flalign*}
+If $T$ is functorial in System $F_\kappa$, there must exist a function
+\begin{flalign*}
+  \mathcal{F} : \forall \alpha. \forall \beta.(\alpha \rightarrow \beta) \rightarrow T\ \alpha \rightarrow T\ \beta,
+\end{flalign*}
+such that given the identity $\iota_\tau : \tau \rightarrow \tau$, and any functions $f : \tau \rightarrow \tau'$, $g : \tau' \rightarrow \sigma$, the following conditions hold:
+\begin{flalign*}
+  \mathcal{F}(\iota_\tau) &= \iota_{\mathcal{F}(\tau)},\\
+  \mathcal{F}(g \circ f) &= \mathcal{F}(g) \circ \mathcal{F}(f).
+\end{flalign*}
+However, given a function $h : X \rightarrow Y$, and a term $t : X \rightarrow X$, it is not possible to create a term of type $Y \rightarrow Y$. After composing $h$ with $t$ to obtain a term of type $X \rightarrow Y$, there is no way to map $h$ over the remaining contravariant $X$. This is an example of a more general problem in System $F_\omega$; mixed-variance functoriality of type constructors cannot be expressed by the syntax.
+\par 
+Furthermore, System $F_\omega$ inherits a familiar problem from System $F$. There exists no decidable type-inference algorithm for System $F_\omega$. Recall the intended aim of identifying a type system which describes a generalised functorial calculus. An appropriate type system requires a decidable type-inference algorithm, and a restricted formulation of higher-kinded types. Accordingly, the notion of higher-kinded types will be used in order to extend HM.
+
+\end{document}

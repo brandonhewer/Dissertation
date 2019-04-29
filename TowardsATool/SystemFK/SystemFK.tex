@@ -13,19 +13,21 @@ Higher-kinded types in System $F_\kappa$ are of the form
 The syntax of higher-kinded types given in (\ref{eq:hkt}) has two noteworthy departures from that of System $F_\omega$. In constrast to System $F_\omega$, two primitive kinds are given, $*$ and $*^-$, which are used to denote positive and negative variance, respectively. In addition, the syntax of kinds in System $F_\kappa$ prevents the construction of higher-order kinds. These departures are necessary in establishing the requirement that type constructors in System $F_\kappa$ satisfy the functorial laws.
 \par
 To construct a computational tool, which utilises the types of System $F_\kappa$, it is required that the outlined ideas be made precise. An extension of the unification algorithm to incorporate type constructors will also be essential for composing types in System $F_\kappa$. As  such, a formalisation of System $F_\kappa$ is given.
-\\\\
-{
-\noindent
-\textbf{Definition 1.} Given a list $\theta \in List\{+, -\}$, $n = |\theta|$, a higher-kinded type $\upsilon^\theta$ in System $F_\kappa$ is of the form 
+
+\begin{notation}
+  Given a set $X$, $List\ X$ will be used to denote the free monoid on $X$. An element of $List\ X$ is a finite list of objects which exist in $X$.
+\end{notation}
+
+\begin{definition}
+Given a list $\theta \in List\{+, -\}$, $n = |\theta|$, a kind $\upsilon^\theta$, in System $F_\kappa$, is of the form 
 \begin{flalign*}
 *^{\theta_1} \Rightarrow *^{\theta_2} \Rightarrow \ldots \Rightarrow *^{\theta_n} \Rightarrow *,
 \end{flalign*}
-where $*^+ = *$.\\
-}
+where $*^+ = *$.
+\end{definition}
 
-{
-\noindent
-\textbf{Definition 2.} The well-formedness judgements for kinding in System $F_\kappa$ are given by
+\begin{definition} 
+The well-formedness judgements for kinding in System $F_\kappa$ are given by
 \begin{equation*}
   \begin{prooftree}
     \hypo{T : \upsilon^\theta \in \Delta}
@@ -69,11 +71,10 @@ where $*^+ = *$.\\
     \infer1[KGen]{\Delta \vdash \forall \left(F : \upsilon^\theta\right).X : *}
   \end{prooftree}
 \end{equation*}
-}
+\end{definition}
 
-{
-\noindent
-\textbf{Definition 3.} Given a kinding context $\Delta$, the well-formedness judgements for typing in System $F_\kappa$ are given by
+\begin{definition}
+Given a kinding context $\Delta$, the well-formedness judgements for typing in System $F_\kappa$ are given by
 \begin{equation*}
   \begin{prooftree}
     \hypo{x : \sigma \in \Gamma}
@@ -119,6 +120,22 @@ where $*^+ = *$.\\
 \end{equation*}
 \begin{equation*}
   \begin{prooftree}
+    \hypo{\Delta,\ \Gamma \vdash e : \tau}
+    \hypo{\Delta,\ \Gamma \vdash e' : \tau'}
+    \infer2[TProd]{\Delta,\ \Gamma \vdash \langle e, e' \rangle : \tau \times \tau'}
+  \end{prooftree}
+\end{equation*}
+\begin{equation*}
+  \begin{prooftree}
+    \hypo{\Delta,\ \Gamma \vdash e : \tau \times \tau'}
+    \infer1[TProj]{\Delta,\ \Gamma \vdash \pi_i(e) : \tau(i)}
+  \end{prooftree}\qquad
+  \begin{prooftree}
+    \infer0[TUnit]{\Delta,\ \Gamma \vdash \langle \rangle : 1}
+  \end{prooftree}
+\end{equation*}
+\begin{equation*}
+  \begin{prooftree}
     \hypo{\Delta,\ \Gamma \vdash e : \sigma}
     \hypo{F \notin \textit{free}(\Gamma)}
     \infer2[TKGen]{\Delta,\ \Gamma \vdash e : \forall (F : \upsilon^\theta).\sigma}
@@ -131,20 +148,18 @@ where $*^+ = *$.\\
     \infer2[TKApp]{\Delta,\ \Gamma \vdash e : \sigma[T/F]}
   \end{prooftree}
 \end{equation*}
-}
+\end{definition}
 
-{
-\noindent
-\textbf{Definition 4.} Let $\theta \in List\{+, -\}$ be a list, where $n = |\theta|$, and $\upsilon^\theta$ be a higher-kinded type, in System $F_\kappa$. The function $\textit{free}$, which computes the set of free variables in a term, is extended in System $F_\kappa$ by
+\begin{definition}
+Let $\theta \in List\{+, -\}$ be a list, where $n = |\theta|$. Define $\upsilon^\theta$ to be the kind of the type constructor $T$, in System $F_\kappa$. The function $\textit{free}$, which computes the set of free variables in a term, is extended in System $F_\kappa$ by
 \begin{flalign*}
-  \textit{free}((T : \upsilon^\theta)\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= \{ T \} \cup \bigcup\limits_{i=1}^{n} \textit{free}(\tau_i)\\
+  \textit{free}(T\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= \{ T \} \cup \bigcup\limits_{i=1}^{n} \textit{free}(\tau_i)\\
   \textit{free}(\forall (F : \upsilon^\theta).\tau) &= \{ x \in \textit{free}(\tau) : x \neq F \}.
 \end{flalign*}
-}
+\end{definition}
 
-{
-\noindent
-\textbf{Definition 5.} Let $\theta \in List\{+, -\}$ be a list, where $n = |\theta|$, and $\upsilon^\theta$ be a higher-kinded type, in System $F_\kappa$. Given a type constructor $T : \upsilon^\theta$ and polymorphic type constructors $F : \upsilon^\theta$, $G : \upsilon^\theta$, the Hindley-Milner substitution rules are extended for System $F_\kappa$ as follows
+\begin{definition}
+Let $\theta \in List\{+, -\}$ be a list, where $n = |\theta|$.  Define $\upsilon^\theta$ to be the kind of the type constructor $T$ and polymorphic type constructors $F$, $G$, in System $F_\kappa$. The Hindley-Milner substitution rules are extended for System $F_\kappa$ as follows
 \begin{flalign*}
   ((\forall H : \upsilon^\theta).\tau)[T/G] &=
   \begin{cases}
@@ -160,13 +175,12 @@ where $*^+ = *$.\\
   (F\ \tau_1\ \tau_2\ \ldots\ \tau_n)[\sigma/\alpha] &= F\ \tau_1[\sigma/\alpha]\ \tau_2[\sigma/\alpha]\ \ldots\ \tau_n[\sigma/\alpha],\\
   (T\ \tau_1\ \tau_2\ \ldots\ \tau_n)[\sigma/\alpha] &= T\ \tau_1[\sigma/\alpha]\ \tau_2[\sigma/\alpha]\ \ldots\ \tau_n[\sigma/\alpha].
 \end{flalign*}
-}
+\end{definition}
 
-{
-\noindent
-\textbf{Definition 6.} Let $\theta \in List\{+, -\}$ be a list, where $n = |\theta|$, and $\upsilon^\theta$ be a higher-kinded type, in System $F_\kappa$. Given a type constructor $T : \upsilon^\theta$ there must exist a polymorphic function
+\begin{definition}
+Let $\theta \in List\{+, -\}$ be a list, where $n = |\theta|$, and $\upsilon^\theta$ be a kind in System $F_\kappa$. Given a type constructor $T : \upsilon^\theta$ there must exist a polymorphic function
 \begin{flalign*}
-  \mathcal{F} : (\alpha_1 \rightarrow \alpha_1') \rightarrow \ldots \rightarrow (\alpha_n \rightarrow \alpha_n') &\rightarrow T(\beta_1,\ldots,\beta_n) \rightarrow T(\beta_1',\ldots,\beta_n'),\\
+  \mathcal{F}_T : (\alpha_1 \rightarrow \alpha_1') \rightarrow \ldots \rightarrow (\alpha_n \rightarrow \alpha_n') &\rightarrow T(\beta_1,\ldots,\beta_n) \rightarrow T(\beta_1',\ldots,\beta_n'),\\
   \text{where } \beta_i =
   \begin{cases}
     \alpha_i & \text{if } \theta_i = +\\
@@ -180,7 +194,7 @@ where $*^+ = *$.\\
 \end{flalign*}
 such that given the identity $\iota_\tau = \lambda x^\tau.x$,
 \begin{flalign*}
-  \mathcal{F}(\iota_{\tau_1},\ \iota_{\tau_2},\ \ldots,\ \iota_{\tau_n}) &= \iota_{T^(\tau_1,\ \tau_2,\ \ldots,\ \tau_n)},
+  \mathcal{F}_T(\iota_{\tau_1},\ \iota_{\tau_2},\ \ldots,\ \iota_{\tau_n}) &= \iota_{T^(\tau_1,\ \tau_2,\ \ldots,\ \tau_n)},
 \end{flalign*}
 and given terms
 \begin{flalign*}
@@ -189,77 +203,42 @@ and given terms
 \end{flalign*}
 the following equality holds:
 \begin{gather*}
-  \mathcal{F}(g_1 \circ f_1,\ g_2 \circ f_2,\ \ldots,\ g_n \circ f_n) = \mathcal{F}(h_1,\ h_2,\ \ldots,\ h_n) \circ \mathcal{F}(h_1',\ h_2',\ \ldots,\ h_n'),\\
+  \mathcal{F}_T(g_1 \circ f_1,\ g_2 \circ f_2,\ \ldots,\ g_n \circ f_n) = \mathcal{F}_T(h_1,\ h_2,\ \ldots,\ h_n) \circ \mathcal{F}(h_1',\ h_2',\ \ldots,\ h_n'),\\
   \text{where } h_i =
   \begin{cases}
-    g_i & \text{if } \beta_i = +\\
+    g_i & \text{if } \theta_i = +\\
     f_i & \text{otherwise}
   \end{cases},\ 
   h_i' =
   \begin{cases}
-    f_i & \text{if } \beta_i = +\\
+    f_i & \text{if } \theta_i = +\\
     g_i & \text{otherwise}
   \end{cases}.
 \end{gather*}
-Note that this is an assertion that every type constructor in System $F_\kappa$ must be functorial.\\
-}
+Note that this is an assertion that every type constructor in System $F_\kappa$ must be functorial.
+\end{definition}
 
-{
-\noindent
-\textbf{Proposition 7.} Let $\theta \in List\{+, -\}$ be a list where $n = |\theta|$, and $\upsilon^\theta$ be a higher-kinded type, in System $F_\kappa$. Given a type constructor $T : \upsilon^\theta$, partial application yields another type constructor, given by
-\begin{gather*}
-T(\tau_1) : *^{\theta_2} \Rightarrow *^{\theta_3} \Rightarrow \ldots \Rightarrow *^{\theta_n} \Rightarrow *,\\ 
-T(\tau_1)(\tau_2,\ \tau_3,\ \ldots,\ \tau_n) = T(\tau_1,\ \tau_2,\ \tau_3,\ \ldots,\ \tau_n).
-\end{gather*}
-The proof that $T(\tau_1)$ is a well-formed type constructor in System $F_\kappa$ is given by the functoriality of $T$.\\
-}
+\begin{definition}
+Given a list $\theta \in List\{+,-\}$, define $\theta^{+} = \theta$ and $\theta^{-}$ to be the list in which the sign of every element is flipped (i.e. every $+$ is switched to $-$ and vice versa).
+\end{definition}
 
-{
-\noindent
-\textbf{Proposition 8.} In System $F_\kappa$, $\rightarrow$ is a type constructor of the form 
+\begin{definition}
+Given a list $\theta \in List\{+,-\}$, $\theta$ is said to `match' a pattern $\gamma \in List\{+,-\}$, $n = |\gamma|$, with `substitution' $s \in List\{+,-\}$, denoted $\theta = \gamma(s)$, if
 \begin{flalign*}
-(\rightarrow) : *^- \Rightarrow * \Rightarrow *.
+\alpha = s^{\gamma_1} \mdoubleplus s^{\gamma_2} \mdoubleplus ... \mdoubleplus s^{\gamma_n}
 \end{flalign*}
-Observe the application of $\rightarrow$ on types:
-\begin{flalign*}
-(\rightarrow)(\tau_1,\ \tau_2) = \tau_1 \rightarrow \tau_2.
-\end{flalign*}
-To prove $\rightarrow$ is a type constructor in System $F_\kappa$, it is necessary to show there exists a polymorphic function
-\begin{flalign*}
-  \mathcal{F} : (\alpha_1 \rightarrow \alpha_2) \rightarrow (\beta_1 \rightarrow \beta_2) \rightarrow (\alpha_2 \rightarrow \beta_1) \rightarrow (\alpha_1 \rightarrow \beta_2),
-\end{flalign*}
-such that the functorial laws, outlined in Definition 3, are satisfied. Given terms 
-\begin{flalign*}
-f : \sigma_2 \rightarrow \tau_2,\ g : \sigma_1 \rightarrow \sigma_2,\ h : \tau_1 \rightarrow \sigma_1,
-\end{flalign*}  
-$\mathcal{F}$ is defined as
-\begin{flalign*}
-  \mathcal{F}(h, f) = g \mapsto f \circ g \circ h.
-\end{flalign*}  
-The identity law is shown to be satisfied by
-\begin{flalign*}
-  \mathcal{F}(\iota_{\sigma_1}, \iota_{\sigma_2}) = g \mapsto \iota_{\sigma_2} \circ g \circ \iota_{\sigma_1} = g \mapsto g.
-\end{flalign*}  
-Given terms $f' : \tau_2 \rightarrow \rho_2$, $g' : \tau_1 \rightarrow \tau_2$, $h' : \rho_1 \rightarrow \tau_1$,
-\begin{flalign*}
-  \mathcal{F}(h \circ h', f' \circ f) &= g \mapsto (f' \circ f) \circ g \circ (h \circ h')\\
-  &= g \mapsto f' \circ (f \circ g \circ h) \circ h'\\
-  &= (g \mapsto f' \circ g' \circ h') \circ (g \mapsto f \circ g \circ h)\\
-  &= \mathcal{F}(f', h') \circ \mathcal{F}(f, h), 
-\end{flalign*} 
-thus, as expected, composition is preserved.\\
-}
+where $\mdoubleplus$ is the concatenation operator. Note that $n|s| = |\alpha|$.
+\end{definition}
 
-{
-\noindent
-\textbf{Definition 9.} Given the Hindley-Milner unification function $U$, define the function $U^*$ as
+\begin{definition}\label{def:unify}
+Given the Hindley-Milner unification function $U$, define the function $U^*$ as
 \begin{flalign*}
   U^*([\ ], [\ ], S) &= [\ ],\\
   U^*([\tau_1,\tau_2,\ldots,\tau_n],[\sigma_1,\sigma_2,\ldots,\sigma_n], S) &= X \mdoubleplus U^*([\tau_2,\ldots,\tau_n],[\sigma_2,\ldots,\sigma_n], Y)\\
-  &\quad\ \text{where } X = U(\tau_1, \sigma_1)\\
+  &\quad\ \text{where } X = U(\tau_1[S], \sigma_1[S])\\
   &\qquad \qquad \ Y = S \mdoubleplus X.
 \end{flalign*}
-Let $\theta$, $\gamma \in List\{+, -\}$ be lists, where $n = |\theta|$, $m = |\gamma|$, and $\upsilon^\theta$ and $\omega^\gamma$ be higher-kinded types in System $F_\kappa$. Denote $[\tau_1,\tau_2,\ldots,\tau_n]$ as $[\![\tau]\!]_n$. Given type constructors $T_1 : \upsilon^\theta$, $T_2 : \omega^\gamma$, and polymorphic type constructors $F : \upsilon^\theta$, $G : \omega^\gamma$, $U$ can be extended in System $F_\kappa$ as follows
+Let $\theta$, $\gamma \in List\{+, -\}$ be lists, where $n = |\theta|$, $m = |\gamma|$, and $\upsilon^\theta$ and $\omega^\gamma$ be kinds in System $F_\kappa$. Denote $[\tau_1,\tau_2,\ldots,\tau_n]$ as $[\![\tau]\!]_n$. Given type constructors $T_1 : \upsilon^\theta$, $T_2 : \omega^\gamma$, and polymorphic type constructors $F : \upsilon^\theta$, $G : \omega^\gamma$, $U$ can be extended in System $F_\kappa$ as follows
 \begin{flalign*}
   U(T_1\ \tau_1\ \ldots\ \tau_n,\ T_2\ \sigma_1\ \ldots\ \sigma_m) &=
   \begin{cases}
@@ -268,19 +247,20 @@ Let $\theta$, $\gamma \in List\{+, -\}$ be lists, where $n = |\theta|$, $m = |\g
   \end{cases},\\
   U(F\ \tau_1\ \ldots\ \tau_n,\ G\ \sigma_1\ \ldots\ \sigma_m) &=
   \begin{cases}
-    U^*([\![\tau]\!]_n, [\![\sigma]\!]_n, [F/G]) & \text{if } \theta = \gamma\\
+    U^*([\![\tau]\!]_n, [\![\sigma]\!]_n, [F/G]) & \text{if } \exists s : \theta = \gamma(s) \\
     \bot & \text{otherwise}
   \end{cases},\\
-  U(T_1\ \tau_1\ \ldots\ \tau_n,\ F\ \sigma_1\ \ldots\ \sigma_n) &= [T_1/F],\\
-  U(F\ \tau_1\ \ldots\ \tau_n,\ T_1\ \sigma_1\ \ldots\ \sigma_n) &= [T_1/F].
+  U(T_1\ \tau_1\ \ldots\ \tau_n,\ F\ \sigma_1\ \ldots\ \sigma_n) &=
+  U^*([\![\tau]\!]_n, [\![\sigma]\!]_n, [T_1/F])\\
+  U(F\ \tau_1\ \ldots\ \tau_n,\ T_1\ \sigma_1\ \ldots\ \sigma_n) &= 
+  U^*([\![\tau]\!]_n, [\![\sigma]\!]_n, [T_1/F]).
 \end{flalign*}
-}
+\end{definition}
 
-{
-\noindent
-\textbf{Remark.} Although the given description of System $F_\kappa$ provides the necessary framework for the desired computation tool, it is far from comprehensive. An exploration of additional properties of System $F_\kappa$ is left to future work.
+\begin{remark}
+Although the given description of System $F_\kappa$ provides the necessary framework for the desired computation tool, it is far from comprehensive. An exploration of additional properties of System $F_\kappa$ is left to future work.
 \par
-System $F_\kappa$ describes a generalised functorial calculus, as formulated by McCusker and Santamaria, over the types of the Hindley-Milner type system. Accordingly, further investigation of System $F_\kappa$ would benefit from a description of the categorical semantics which underlies the involved functors and transformations.
-}
+System $F_\kappa$ describes a  generalised functorial calculus over the types of the Hindley-Milner type system. Accordingly, further investigation of System $F_\kappa$ would benefit from a description of the categorical semantics which underlies the involved functors and dinatural transformations.
+\end{remark}
 
 \end{document}
