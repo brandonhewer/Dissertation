@@ -8,7 +8,8 @@
   &\typeterminal &::=&\ \functionterminal\ |\ \btypeterminal\\
   &\functionterminal &::=&\ \btypeterminal\ ``\rightarrow"\ \functionterminal\\
   &\btypeterminal &::=&\ \variablelistterminal\ |\ \atypeterminal\\
-  &\variablelistterminal &::=&\ \variableterminal\ \whitespaceterminal\ \variablelistterminal\ |\ \variableterminal\\
+  &\variablelistterminal &::=&\ \variableterminal\ \whitespaceterminal\ \variablelistterminal\\
+  &&&\ |\ \variableterminal\\
   &\variableterminal &::=&\ \atypeterminal\ \varianceterminal\\
   &\varianceterminal &::=&\ ``+"\ |\ ``-"\ |\ \emptyset\\
   &\atypeterminal &::=&\ \numberterminal\ |\ ``("\ \typeterminal\ ``)"\\

@@ -74,6 +74,15 @@ The well-formedness judgements for kinding in System $F_\kappa$ are given by
 \end{definition}
 
 \begin{definition}
+Types in System $F_\kappa$ are of the form
+\begin{flalign*}
+c\ &|\ \alpha\ |\ \tau_1 \times \tau_2\ |\ \tau_1 \rightarrow \tau_2\ |\ \forall \alpha. \sigma\\
+&|\ T\ \tau_1\ \tau_2\ \ldots\ \tau_n\ |\ F\ \tau_1\ \tau_2\ \ldots\ \tau_n\ |\ \forall (F : \upsilon^\theta). \sigma,
+\end{flalign*}
+where $c$ is a primitive type, $\alpha$ is a type variable, $T$ is a type constructor and $F$ is a polymorphic type constructor.
+\end{definition}
+
+\begin{definition}
 Given a kinding context $\Delta$, the well-formedness judgements for typing in System $F_\kappa$ are given by
 \begin{equation*}
   \begin{prooftree}
@@ -225,9 +234,9 @@ Given a list $\theta \in List\{+,-\}$, define $\theta^{+} = \theta$ and $\theta^
 \begin{definition}
 Given a list $\theta \in List\{+,-\}$, $\theta$ is said to `match' a pattern $\gamma \in List\{+,-\}$, $n = |\gamma|$, with `substitution' $s \in List\{+,-\}$, denoted $\theta = \gamma(s)$, if
 \begin{flalign*}
-\alpha = s^{\gamma_1} \mdoubleplus s^{\gamma_2} \mdoubleplus ... \mdoubleplus s^{\gamma_n}
+\theta = s^{\gamma_1} \mdoubleplus s^{\gamma_2} \mdoubleplus ... \mdoubleplus s^{\gamma_n}
 \end{flalign*}
-where $\mdoubleplus$ is the concatenation operator. Note that $n|s| = |\alpha|$.
+where $\mdoubleplus$ is the concatenation operator. Note that $n|s| = |\theta|$.
 \end{definition}
 
 \begin{definition}\label{def:unify}
@@ -240,6 +249,7 @@ Given the Hindley-Milner unification function $U$, define the function $U^*$ as
 \end{flalign*}
 Let $\theta$, $\gamma \in List\{+, -\}$ be lists, where $n = |\theta|$, $m = |\gamma|$, and $\upsilon^\theta$ and $\omega^\gamma$ be kinds in System $F_\kappa$. Denote $[\tau_1,\tau_2,\ldots,\tau_n]$ as $[\![\tau]\!]_n$. Given type constructors $T_1 : \upsilon^\theta$, $T_2 : \omega^\gamma$, and polymorphic type constructors $F : \upsilon^\theta$, $G : \omega^\gamma$, $U$ can be extended in System $F_\kappa$ as follows
 \begin{flalign*}
+  U (\tau_1 \times \tau_2, \sigma_1 \times \sigma_2) &= U^*([\![\tau]\!]_2, [\![\sigma]\!]_2, [\ ]),\\
   U(T_1\ \tau_1\ \ldots\ \tau_n,\ T_2\ \sigma_1\ \ldots\ \sigma_m) &=
   \begin{cases}
     U^*([\![\tau]\!]_n, [\![\sigma]\!]_n, [\ ]) & \text{if } T_1 = T_2\\
@@ -251,7 +261,7 @@ Let $\theta$, $\gamma \in List\{+, -\}$ be lists, where $n = |\theta|$, $m = |\g
     \bot & \text{otherwise}
   \end{cases},\\
   U(T_1\ \tau_1\ \ldots\ \tau_n,\ F\ \sigma_1\ \ldots\ \sigma_n) &=
-  U^*([\![\tau]\!]_n, [\![\sigma]\!]_n, [T_1/F])\\
+  U^*([\![\tau]\!]_n, [\![\sigma]\!]_n, [T_1/F]),\\
   U(F\ \tau_1\ \ldots\ \tau_n,\ T_1\ \sigma_1\ \ldots\ \sigma_n) &= 
   U^*([\![\tau]\!]_n, [\![\sigma]\!]_n, [T_1/F]).
 \end{flalign*}

@@ -4,14 +4,88 @@
 \begin{document}
 
 \section{System Design}
+A formal approach to constructing Petri nets from types is developed in Section \ref{sec:towardsatool}. This formalisation provides the theoretical foundation for a computational tool. However, the development of a functional software application, requires determining and designing specific implementation details. Examples of implementation details include formal specifications of user input, design of graphical components, and the choice of programming language. 
+\par
+Accordingly, the design of key features of the desired software application will  be detailed in this section. It is necessary to first provide a high-level overview of the key features and their interdependencies.
+
 \subsection{High-level architecture}
+The proposed application should accept a System $F_\kappa$ type, a naturality type, and a type variable as input from a user. Input provided by a user should be used to generate a Petri net, using the formulation given in section \ref{sec:TypeToPetri}. The application should permit the creation of several Petri nets and provide a mechanism by which to compose them. 
 
 \subsection{Type grammars}
-\subfile{DataTypeGrammar}
-\subfile{NaturalityTypeGrammar}
+The proposed application requires a means by which to accept and interpret an input type from a user. Types are to be provided in a textual format. In order to interpret the textual input, a type parser will be required. A parser requires a formal depiction of a context-free grammar for types in System $F_\kappa$. Backus-Naur form (BNF) is a typical, and appropriate notation for describing a context-free grammar. Accordingly, a formal grammar on types, expressed in BNF, is given in Figure \ref{fig:typegrammar}.
 
-\subsection{Petri net design}
-\subsection{Workspace design}
+\begin{figure}[H]
+\subfile{DataTypeGrammar}
+\caption{Formal grammar for types in System $F_\kappa$, expressed in BNF.}
+\label{fig:typegrammar}
+\end{figure}
+
+The grammar on types depicted in Figure \ref{fig:typegrammar}, introduces \lstinline{=>} as a terminal. This terminal is used to highlight the functors involved in the corresponding dinatural transformation. For example, the string \lstinline{a -> a => a} corresponds to a dinatural transformation between the $\rightarrow$ functor and the identity functor. The \lstinline{=>} terminal is of the lowest precedence in the provided grammar.
+\par
+The variance of an argument provided to a type constructor is specified by appending either a \lstinline{+} or a \lstinline{-}. If neither is appended, positive variance (covariance) is assumed. For example, the type \lstinline{F a a- a- a} is a valid functor in four arguments, which is covariant in the first and last and contravariant in the second and third. The type constructor \lstinline{F}, corresponds to the higher-kinded type $* \Rightarrow *^- \Rightarrow *^- \Rightarrow *$ in System $F_\kappa$. The type \lstinline{F a a- a- a} is unifiable with both \lstinline{(a -> a) -> a -> a} and \lstinline{F (a -> a)- (a -> a)}.
+\par
+Notably, there is no means by which to denote universal quantification or any primitive type, within the provided grammar. Indeed, every identifier is implicitly treated as a type variable which has been universally quantified. This also remains true for functor identifiers. As such, every type and type constructor is considered to be parametrically polymorphic. While this may appear to limit which Petri nets can be generated, this is not the case. This supposed problem will be explored further in Section \ref{sec:petrinetdesign}.
+\par
+Another noteworthy feature of the provided grammar, is the absence of an explicit representation of a product type. This choice simplifies the syntax while not impacting the range of expressible types. Example representations of a product type include \lstinline{Pair a b} or simply \lstinline{F a b}. 
+\par
+In addition to a System $F_\kappa$ type, a user is also expected to provide input which describes a naturality type. A naturality type is defined by two  functions. The first of these functions maps each type variable, in the domain of a transformation, to a number. The second function operates identically on the codomain. Any representation of a naturality type should associate to every type variable, a number.
+\par
+Returning to an earlier example, given in Listing 8, consider the function
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+applyToFirst :: (a -> a, a, a) -> (a, a).
+\end{lstlisting}
+\end{tabular}
+\end{center}
+The type of \lstinline{applyToFirst} may be expressed as a transformation, in the outlined grammar, as 
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+F (a -> a) a a => G a a.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+An intuitive depiction of a corresponding naturality type can be attained by writing the same term, and replacing each type variable with the number that it is mapped to. The default naturality type, where every occurrence of \lstinline{a} is equated, can therefore be expressed as 
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+F (1 -> 1) 1 1 => G 1 1.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Within this depiction of a naturality type, the functor identifiers \lstinline{F} and \lstinline{G} provide redundant information. This naturality type can therefore simply be expressed as
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(1 -> 1) 1 1 => 1 1.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+The more descriptive coherence condition on \lstinline{applyToFirst}, depicted in Figure \ref{fig:applyToFirstBetter}, is described by the naturality type
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(1 -> 1) 1 2 => 1 2.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+\par
+The formal grammar for the described representation of naturality type is provided in Figure \ref{fig:natgrammar}.
+
+\begin{figure}[H]
+\subfile{NaturalityTypeGrammar}
+\caption{Formal grammar for naturality types, expressed in BNF.}
+\label{fig:natgrammar}
+\end{figure}
+
+\subsection{Petri net design}\label{sec:petrinetdesign}
+\subsection{Workspace design}\label{sec:workspacedesign}
+
 \subsection{Language and Tooling}
+Determining an appropriate programming language in which to implement the proposed application, requires understanding the problem domain. 
+\par
+Parsing types into abstract syntax trees, and generating the corresponding Petri net models, will be accomplished in the C++ programming language.
+\par
 
 \end{document}

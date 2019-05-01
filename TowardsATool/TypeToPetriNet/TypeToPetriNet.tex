@@ -4,16 +4,131 @@
 \begin{document}
 
 \subsection{Types to Petri nets}\label{sec:TypeToPetri}
+As formerly discussed, the construction of a Petri net from a type requires the additional information of a naturality type. A naturality type, represented by two functions, determines which instances of a type variable are to be equated. Furthermore, any appropriate formulation of a Petri net model, must be capable of describing coherence conditions obtained by composition.
+
+\begin{definition}\label{def:petricomp}
+  Let $\tau_1,\ \tau_2,\ \ldots,\ \tau_n$ be types, and $t_1,\ t_2,\ \ldots,\ t_{n-1}$ be natural numbers.  Recall the functor representation of a type given in Corollary \ref{cor:functor}. Define
+  \begin{gather*}
+    \Theta_i = \mathcal{V}(\tau_i),\quad 
+    \lVert \Theta \rVert_m = \sum_{i=1}^{m}|\Theta_i|,\quad
+    \lVert t \rVert_m = \sum_{i=1}^{m}t_i.
+  \end{gather*} 
+  Denote $[x_1,x_2,\ldots,x_n]$ as $[\![x]\!]_n$. Given functions
+  \begin{gather*}
+    f_1 : [|\Theta_1|] \rightarrow [t_1],\ f_2 : [|\Theta_2|] \rightarrow [t_2],\ \ldots,\ f_{n-1} : [|\Theta_{n-1}|] \rightarrow [t_{n-1}],\\
+    g_1 : [|\Theta_2|] \rightarrow [t_1],\ g_2 : [|\Theta_3|] \rightarrow [t_2],\ \ldots,\ g_{n-1} : [|\Theta_{n}|] \rightarrow [t_{n-1}],
+  \end{gather*}
+  the Petri net $\mathcal{P}([\![\tau]\!]_n,\; [\![f]\!]_{n-1},\; [\![g]\!]_{n-1})$ is defined as follows
+  \begin{flalign*}
+    |P| = \lVert \Theta \rVert_n,\ |T| &= \lVert t \rVert_{n-1},\\\\
+    \forall k \in [n - 1]\ \forall l \in [|\Theta_k|],\ m \in [t_k] :\\
+    D^-_{i,j} &=
+    \begin{cases}
+      1 & \text{if } \Theta_{k,l} = + \land f_k(l) = m\\
+      0 & \text{otherwise}
+    \end{cases},\\
+    D^+_{i,j} &=
+    \begin{cases}
+      1 & \text{if } \Theta_{k,l} = - \land f_k(l) = m\\
+      0 & \text{otherwise}
+    \end{cases},\\
+    \text{where } i &= l + \lVert \Theta \rVert_{k-1},\ 
+    j = m + \lVert t \rVert_{k-1},\\\\
+    \forall k \in [n - 1]\ \forall l \in [|\Theta_{k+1}|],\ m \in [t_k] :\\
+    D^-_{i,j} &=
+    \begin{cases}
+      1 & \text{if } \Theta_{k+1,l} = - \land g_k(l) = m\\
+      0 & \text{otherwise}
+    \end{cases},\\
+    D^+_{i,j} &=
+    \begin{cases}
+      1 & \text{if } \Theta_{k+1,l} = + \land g_k(l) = m\\
+      0 & \text{otherwise}
+    \end{cases},\\
+    \text{where } i &= l + \lVert \Theta \rVert_k,\ 
+    j = m + \lVert t \rVert_{k-1},\\\\
+    \forall k \in [n]\ \forall l \in [|\Theta_k|] : M^0_i &=
+    \begin{cases}
+      0 & \text{if } \exists j : D^+_{i,j} = 1\\
+      1 & \text{otherwise}
+    \end{cases},\\
+    \text{where } i &= l + \lVert \Theta \rVert_{k-1}.
+  \end{flalign*}
+\end{definition}
+
+\begin{remark}
+  The complete definition of any well-formed Petri net, corresponding to coherence conditions in System $F_\kappa$, is given in Definition \ref{def:petricomp}. While this definition may at first appear nebulous, use cases and examples will be provided. This general definition will be necessary for formalising the operation of composition.
+\end{remark}
+
+\begin{definition} The destructuring of a type in System $F_\kappa$, into a list of the constituent primitives and type variables is formally defined by
+\begin{flalign*}
+  \mathcal{Q} (c) &= [c]\\
+  \mathcal{Q} (\alpha) &= [\alpha]\\
+  \mathcal{Q} (\tau_1 \rightarrow \tau_2) &= \mathcal{Q} (\tau_1) \mdoubleplus\mathcal{Q} (\tau_2)\\
+  \mathcal{Q} (\tau_1 \times \tau_2) &= \mathcal{Q} (\tau_1) \mdoubleplus \mathcal{Q} (\tau_2)\\
+  \mathcal{Q} (T\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= \mathcal{Q} (\tau_1) \mdoubleplus \mathcal{Q} (\tau_2) \mdoubleplus \ldots \mdoubleplus \mathcal{Q} (\tau_n)\\
+  \mathcal{Q} (F\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= \mathcal{Q} (\tau_1) \mdoubleplus \mathcal{Q} (\tau_2) \mdoubleplus \ldots \mdoubleplus \mathcal{Q} (\tau_n)
+\end{flalign*}
+\end{definition}
 
 \begin{definition}
+  Let $\sigma$ be a type in System $F_\kappa$ and $\alpha$ be a type variable. Define $\theta = \mathcal{V}(\sigma)$. Given a Petri net model
+  \begin{flalign*}
+    \mathbf{A} = \mathcal{P}([\![\tau]\!]_n,\; [\![f]\!]_{n-1},\; [\![g]\!]_{n-1}),
+  \end{flalign*}
+  the operation of substitution on $\mathbf{A}$ is defined as
+  \begin{flalign*}
+    \mathbf{A}[\sigma/\alpha] &= \mathcal{P}([\![\tau']\!]_n,\; [\![f']\!]_{n-1},\; [\![g']\!]_{n-1})\\
+    \text{where }&\\
+    \tau'_i &= \tau_i[\sigma/\alpha],\ 
+    v_i = |\mathcal{V}(\tau_i)|,\ 
+    q_i = \mathcal{Q}(\tau_i),\\
+    f'_i &= \bigcup\limits_{k=1}^{v_i} \{(|\theta| * (k - 1) + j,\ f_i(k) + j - 1)\ |\ j \in \theta \land q_{ij} = \alpha \},\\
+    g'_{i-1} &= \bigcup\limits_{k=1}^{v_i}\{(|\theta| * (k - 1) + j,\ g_i(k) + j - 1)\ |\ j \in \theta \land q_{ij} = \alpha \}.
+  \end{flalign*}
+\end{definition}
+
+\begin{definition}
+  Given two Petri net models 
+  \begin{flalign*}
+    \mathbf{A} = \mathcal{P}([\![\tau]\!]_n,\; [\![f]\!]_{n-1},\; [\![g]\!]_{n-1}),\\
+    \mathbf{B} = \mathcal{P}([\![\sigma]\!]_m,\; [\![h]\!]_{m-1},\; [\![k]\!]_{m-1}),
+  \end{flalign*}
+  the operation of pasting the domain of $\mathbf{B}$ along the codomain of $\mathbf{A}$, is defined formally by
+  \begin{flalign*}
+    \mathbf{B} \bullet \mathbf{A} = \mathcal{P}([\![\tau]\!]_{n-1} \mdoubleplus [\![\sigma]\!]_{m},\; [\![f]\!]_{n-1} \mdoubleplus [\![h]\!]_{m-1},\; [\![g]\!]_{n-1} \mdoubleplus [\![k]\!]_{m-1}).
+  \end{flalign*}
+\end{definition}
+
+\begin{definition}
+  Given two Petri net models 
+  \begin{flalign*}
+    \mathbf{A} = \mathcal{P}([\![\tau]\!]_n,\; [\![f]\!]_{n-1},\; [\![g]\!]_{n-1}),\\
+    \mathbf{B} = \mathcal{P}([\![\sigma]\!]_m,\; [\![h]\!]_{m-1},\; [\![k]\!]_{m-1}),
+  \end{flalign*}
+  their composition, denoted $\mathbf{B} \cdot \mathbf{A}$, is given by
+  \begin{flalign*}
+    \mathbf{B} \cdot \mathbf{A} = B[s] \bullet A[s] \text{ where } s = U(\tau_n,\ \sigma_1).
+  \end{flalign*}
+\end{definition}
+
+\begin{definition}\label{def:instantunit}
   Given a type $\tau = \forall \alpha_1.\forall \alpha_2\ldots\forall \alpha_n.\sigma$, define
   \begin{equation*}
-    \tau_{\alpha_i} = \forall \alpha_i.\sigma[1/\alpha_1]\ldots[1/\alpha_{i-1}][1/\alpha_{i+1}]\ldots[1/\alpha_n],
+    \tau\{\alpha_i\} = \forall \alpha_i.\sigma[1/\alpha_1]\ldots[1/\alpha_{i-1}][1/\alpha_{i+1}]\ldots[1/\alpha_n],
   \end{equation*}
   i.e., the type generated by instantiating all type variables in $\tau$, excluding $\alpha_i$, with the unit type.
 \end{definition}
 
 \begin{definition}
+  Given a type $\sigma$, in System $F_\kappa$, and a Petri net model 
+  \begin{equation*}
+  \mathcal{P}([\![\tau]\!]_n,\; [\![f]\!]_{n-1},\; [\![g]\!]_{n-1})
+  \end{equation*}
+  define
+  \begin{equation*}
+    \mathcal{P}_\alpha([\![\tau']\!]_n,\; [\![f]\!]_{n-1},\; [\![g]\!]_{n-1}) \text{ where } \tau'_i = \tau_i\{\alpha\}.
+  \end{equation*}
 \end{definition}
 
 \end{document}

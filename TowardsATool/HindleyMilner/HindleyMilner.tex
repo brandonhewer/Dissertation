@@ -69,8 +69,7 @@ The function $\textit{free}$, appearing in the `TGen' rule of the well-formednes
   \textit{free}(c) &= \emptyset\\
   \textit{free}(\alpha) &= \{\alpha\}\\
   \textit{free}(\forall \alpha.\tau) &= \{\beta \in \textit{free}(\tau) : \beta \neq \alpha\}\\ 
-  \textit{free}(\tau_1 \rightarrow \tau_2) &= \textit{free}(\tau_1) \cup \textit{free}(\tau_2)\\
-  \textit{free}(\tau_1\ \tau_2) &= \textit{free}(\tau_1) \cup \textit{free}(\tau_2)
+  \textit{free}(\tau_1 \rightarrow \tau_2) &= \textit{free}(\tau_1) \cup \textit{free}(\tau_2)
 \end{flalign*}
 \caption{Determining free type variables in HM.}
 \label{fig:HindleyMilnerFree}
@@ -103,7 +102,6 @@ A complete definition of type substitution in HM is given in Figure \ref{fig:Hin
     \forall \gamma.(\tau[\gamma/\beta][\sigma/\alpha]) & \text{otherwise}
   \end{cases}\\
   & \qquad \text{where } \gamma \notin \textit{free}(\tau) \\
-  (\tau_1\ \tau_2)[\sigma/\alpha] &= \tau_1[\sigma/\alpha]\ \tau_2[\sigma/\alpha]\\
   (\tau_1 \rightarrow \tau_2)[\sigma/\alpha] &= \tau_1[\sigma/\alpha] \rightarrow \tau_2[\sigma/\alpha]
 \end{flalign*}
 \caption{Substitution in HM.}
@@ -120,10 +118,7 @@ The provided definition of substitution in HM is used in the unification algorit
     [\tau / \alpha] & \text{if } \alpha \notin \textit{free}(\tau)\\
     \bot & \text{otherwise}
   \end{cases}\\
-  U(\tau_1\ \tau_2, \tau_1'\ \tau_2') &= \theta_2 \mdoubleplus \theta_1\\
-  &\ \ \ \text{ where } \theta_1 = U(\tau_1, \tau_1'),\\
-  &\qquad\qquad\,\theta_2 = U(\tau_2[\theta_1], \tau_2'[\theta_1])\\
-  U(\tau_1 \rightarrow \tau_2, \tau_1' \rightarrow \tau_2') &= \theta_2 \mdoubleplus \theta_1\\
+  U(\tau_1 \rightarrow \tau_2, \tau_1' \rightarrow \tau_2') &= \theta_2 \circ \theta_1\\
   &\ \ \ \text{ where } \theta_1 = U(\tau_1, \tau_1'),\\
   &\qquad\qquad\,\theta_2 = U(\tau_2[\theta_1], \tau_2'[\theta_1])
 \end{flalign*}
@@ -151,9 +146,9 @@ The higher-order polymorphic lambda calculus, alternatively denoted System $F_\o
   K ::= *\ |\ K \Rightarrow K.
 \end{equation*}
 \par
-Revisiting the earlier example of product, but instead formulating it in System $F_\omega$, we define a type constructor $(\ ,\ ) : * \Rightarrow * \Rightarrow *$, given by
+Revisiting the earlier example of product, but instead formulating it in System $F_\omega$, the type constructor $(\ ,\ ) : * \Rightarrow * \Rightarrow *$ is given by
 \begin{flalign}
-  (\alpha, \beta) \equiv \forall \gamma.\lambda x^\alpha. \lambda y^\beta. \lambda f^{\alpha \rightarrow \beta \rightarrow \gamma}. f\ x\ y. 
+  (\tau,\ \sigma) \equiv \forall \gamma.(\tau \rightarrow \sigma \rightarrow \gamma) \rightarrow \gamma. 
 \end{flalign}
 The discerning reader will notice that this example does not illustrate how type constructors solve the necessity of providing a definition for every functor. Furthermore, it is not necessarily the case that every type constructor respects the functorial laws. The first concern will be addressed immediately, and the latter will be returned to shortly.
 \par
