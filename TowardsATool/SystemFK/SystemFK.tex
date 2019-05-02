@@ -160,12 +160,23 @@ Given a kinding context $\Delta$, the well-formedness judgements for typing in S
 \end{definition}
 
 \begin{definition}
-Let $\theta \in List\{+, -\}$ be a list, where $n = |\theta|$. Define $\upsilon^\theta$ to be the kind of the type constructor $T$, in System $F_\kappa$. The function $\textit{free}$, which computes the set of free variables in a term, is extended in System $F_\kappa$ by
+Let $\theta \in List\{+, -\}$ be a list, where $n = |\theta|$. Define $\upsilon^\theta$ to be the kind of the type constructor $T$, and polymorphic  type constructor $F$. The function $\textit{free}$, which computes the set of free variables in a term, is extended in System $F_\kappa$ by
 \begin{flalign*}
-  \textit{free}(T\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= \{ T \} \cup \bigcup\limits_{i=1}^{n} \textit{free}(\tau_i)\\
+  \textit{free}(T\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= \bigcup\limits_{i=1}^{n} \textit{free}(\tau_i)\\
+  \textit{free}(F\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= \{ F \} \cup \bigcup\limits_{i=1}^{n} \textit{free}(\tau_i)\\
   \textit{free}(\forall (F : \upsilon^\theta).\tau) &= \{ x \in \textit{free}(\tau) : x \neq F \}.
 \end{flalign*}
 \end{definition}
+
+\begin{example} Let $F : * \Rightarrow * \Rightarrow *$ and $G : * \Rightarrow *$ be polymorphic type constructors in System $F_\kappa$. Consider the type
+\begin{equation*}
+  \tau = \forall F.\ \forall \alpha. F\ (G\ \alpha)\ \beta.
+\end{equation*}
+The free variables in $\tau$ are given by
+\begin{equation*}
+  \textit{free}(\tau) = \{G,\ \beta\}.
+\end{equation*}
+\end{example}
 
 \begin{definition}
 Let $\theta \in List\{+, -\}$ be a list, where $n = |\theta|$.  Define $\upsilon^\theta$ to be the kind of the type constructor $T$ and polymorphic type constructors $F$, $G$, in System $F_\kappa$. The Hindley-Milner substitution rules are extended for System $F_\kappa$ as follows
@@ -185,6 +196,21 @@ Let $\theta \in List\{+, -\}$ be a list, where $n = |\theta|$.  Define $\upsilon
   (T\ \tau_1\ \tau_2\ \ldots\ \tau_n)[\sigma/\alpha] &= T\ \tau_1[\sigma/\alpha]\ \tau_2[\sigma/\alpha]\ \ldots\ \tau_n[\sigma/\alpha].
 \end{flalign*}
 \end{definition}
+
+\begin{example}
+  Let $F : * \Rightarrow * \Rightarrow *$ and $G : * \Rightarrow *$ be polymorphic type constructors in System $F_\kappa$. Consider the type
+  \begin{equation*}
+    \tau = \forall F.\ \forall \alpha.F\ (G\ \alpha)\ (F\ \alpha\ \beta).
+  \end{equation*}
+  Substitution of the type variable $\beta$, produces
+  \begin{equation*}
+    \tau[\sigma/\beta] = \forall F.\ \forall \gamma.F\ (G\ \gamma)\ (F\ \gamma\ \sigma),
+  \end{equation*}
+  while substitution of the type constructor variable $G$, produces
+  \begin{equation*}
+    \tau[(T : * \Rightarrow *)/G] = \forall H.\ \forall \alpha.H\ (T\ \alpha)\ (H\ \alpha\ \sigma).
+  \end{equation*}
+\end{example}
 
 \begin{definition}
 Let $\theta \in List\{+, -\}$ be a list, where $n = |\theta|$, and $\upsilon^\theta$ be a kind in System $F_\kappa$. Given a type constructor $T : \upsilon^\theta$ there must exist a polymorphic function
@@ -239,10 +265,46 @@ Given a list $\theta \in List\{+,-\}$, $\theta$ is said to `match' a pattern $\g
 where $\mdoubleplus$ is the concatenation operator. Note that $n|s| = |\theta|$.
 \end{definition}
 
+\begin{example}
+  The list 
+  \begin{center}
+  \begin{tabular}{c}
+  \begin{lstlisting}
+    [+, -, -, +],
+  \end{lstlisting}
+  \end{tabular}
+  \end{center}
+  matches the pattern
+  \begin{center}
+  \begin{tabular}{c}
+  \begin{lstlisting}
+    [-, +],
+  \end{lstlisting}
+  \end{tabular}
+  \end{center}
+  with substitution
+  \begin{center}
+  \begin{tabular}{c}
+  \begin{lstlisting}
+    [-, +].
+  \end{lstlisting}
+  \end{tabular}
+  \end{center}
+  This can intuitively be understood by substituting \lstinline{[-, +]}, whenever \lstinline{+} appears in \lstinline{[-, +]}, and substituting the list with flipped signs, \lstinline{[+, -]}, whenever \lstinline{-} appears. This operation would yield the nested list
+  \begin{center}
+  \begin{tabular}{c}
+  \begin{lstlisting}
+    [[+, -], [-, +]],
+  \end{lstlisting}
+  \end{tabular}
+  \end{center}
+  which can be flattened to produce the expected result of \lstinline{[+, -, -, +]}.
+\end{example}
+
 \begin{definition}\label{def:unify}
 Given the Hindley-Milner unification function $U$, define the function $U^*$ as
 \begin{flalign*}
-  U^*([\ ], [\ ], S) &= [\ ],\\
+  U^*([\ ], [\ ], S) &= S,\\
   U^*([\tau_1,\tau_2,\ldots,\tau_n],[\sigma_1,\sigma_2,\ldots,\sigma_n], S) &= X \mdoubleplus U^*([\tau_2,\ldots,\tau_n],[\sigma_2,\ldots,\sigma_n], Y)\\
   &\quad\ \text{where } X = U(\tau_1[S], \sigma_1[S])\\
   &\qquad \qquad \ Y = S \mdoubleplus X.

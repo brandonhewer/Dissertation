@@ -130,8 +130,23 @@ is given by
 \begin{equation*}
   T_1(T_2)\left(\sigma_2,\ \ldots,\ \sigma_n,\ \tau_1,\ \ldots,\ \tau_m) = T_1(T_2(\tau_1,\ \ldots,\ \tau_m),\ \sigma_2,\ \ldots,\ \sigma_n\right).
 \end{equation*}
-The proof that $T_1(T_2)$ is a type constructor in System $F_\kappa$ is given by the functoriality of $T_1$. Multiple applications of this operation, such as $T_1(T_2)(T_3)$, can be expressed uncurried as $T_1(T_2,\ T_3)$. 
+The proof that $T_1(T_2)$ is a type constructor in System $F_\kappa$ is given by defining $\mathcal{F}_{T_1(T_2)}$ as
+\begin{flalign*}
+  \mathcal{F}_{T_1(T_2)}(f_2,\ \ldots,\ f_n,\ g_1,\ \ldots,\ g_m) = \mathcal{F}_{T_1}(\mathcal{F}_{T_2}(g_1,\ \ldots,\ g_m),\ f_2,\ \ldots,\ f_n).
+\end{flalign*}
+Multiple applications of this operation, such as $T_1(T_2)(T_3)$, can be expressed uncurried as $T_1(T_2,\ T_3)$. 
 \end{definition}
+
+\begin{example}
+  Recall the definitions for the functors $\rightarrow$ and $\times$, outlined in propositions \ref{props:arrow} and  \ref{prop:times}, respectively. The type constructor $\rightarrow(\times)$ is given by
+  \begin{equation*}
+    (\rightarrow(\times))(\gamma,\ \alpha,\ \beta) = \alpha \times \beta \rightarrow \gamma.
+  \end{equation*}
+  A second example, $\rightarrow(\rightarrow, \rightarrow)$, is given by
+  \begin{equation*}
+    (\rightarrow(\rightarrow, \rightarrow))(\alpha,\ \alpha',\ \beta,\ \beta') = (\alpha \rightarrow \alpha') \rightarrow \beta \rightarrow \beta'.
+  \end{equation*}
+\end{example}
 
 \begin{definition}
   Let $\theta$ be a list, where $|\theta| = n$, and $\upsilon^\theta$ be a kind, in System $F_\kappa$. A type $\tau$ is said to have a higher-kinded representation if there exists a type constructor $T : \upsilon^\theta$ and there exists types $\sigma_1,\ \sigma_2,\ \ldots,\ \sigma_n$, such that
@@ -141,18 +156,60 @@ The proof that $T_1(T_2)$ is a type constructor in System $F_\kappa$ is given by
   $T$ is said to be a higher-kinded representation of $\tau$.
 \end{definition}
 
+\begin{example}
+  Given a type $\tau \times \sigma \rightarrow \tau' \times \sigma'$, the type constructor $\rightarrow(\times, \times)$ is a corresponding higher-kinded representation. The condition is satisfied by
+  \begin{equation*}
+    (\rightarrow(\times, \times))(\tau,\ \sigma,\ \tau',\ \sigma') = \tau \times \sigma \rightarrow \tau' \times \sigma'.
+  \end{equation*}
+\end{example}
+
 \begin{theorem}\label{th:kindrep}
-Recall the definitions for the functors $\mathcal{C}_c$, $Id$, $\rightarrow$, $\times$ outlined in propositions \ref{props:constant}, \ref{props:id}, \ref{props:arrow} and \ref{prop:times}, respectively. It follows that for every type $\tau$ in System $F_\kappa$, there exists a unique, canonical higher-kinded representation of $\tau$, denoted $\mathcal{M}(\tau)$, given by
+Recall the definitions for the functors $Id$, $\rightarrow$, $\times$ outlined in propositions \ref{props:constant}, \ref{props:id}, \ref{props:arrow} and \ref{prop:times}, respectively. It follows that for every type $\tau$ in System $F_\kappa$, there exists a higher-kinded representation of $\tau$, denoted $\mathcal{K}(\tau)$, given by
 \begin{flalign*}
-  \mathcal{M}(c) &= \mathcal{C}_c,\\
-  \mathcal{M}(\alpha) &= Id,\\
-  \mathcal{M}(\tau_1 \times \tau_2) &=  (\times)(\mathcal{M}(\tau_1),\ \mathcal{M}(\tau_2))\\
-  \mathcal{M}(\tau_1 \rightarrow \tau_2) &= (\rightarrow)(\mathcal{M}(\tau_1),\ \mathcal{M}(\tau_2))\\
-  \mathcal{M}(T\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= T (\mathcal{M}(\tau_1),\ \mathcal{M}(\tau_2),\ \ldots,\ \mathcal{M}(\tau_n))\\
-  \mathcal{M}(F\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= F (\mathcal{M}(\tau_1),\ \mathcal{M}(\tau_2),\ \ldots,\ \mathcal{M}(\tau_n)),
+  \mathcal{K}(c) &= c,\\
+  \mathcal{K}(\alpha) &= Id,\\
+  \mathcal{K}(\tau_1 \times \tau_2) &=  (\times)(\mathcal{K}(\tau_1),\ \mathcal{K}(\tau_2))\\
+  \mathcal{K}(\tau_1 \rightarrow \tau_2) &= (\rightarrow)(\mathcal{K}(\tau_1),\ \mathcal{K}(\tau_2))\\
+  \mathcal{K}(T\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= T (\mathcal{K}(\tau_1),\ \mathcal{K}(\tau_2),\ \ldots,\ \mathcal{K}(\tau_n))\\
+  \mathcal{K}(F\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= F (\mathcal{K}(\tau_1),\ \mathcal{K}(\tau_2),\ \ldots,\ \mathcal{K}(\tau_n)),
 \end{flalign*}
-where $T$ is a type constructor and $F$ is a polymorphic type constructor, both with $n$ arguments.
+where $T$ is a type constructor and $F$ is a polymorphic type constructor, both with $n$ arguments. Note that $\mathcal{M}(\tau)$ may be of the kind $*$, if $\tau$ contains no type variables. As such, there exists a type constructor for any type $\tau$, denoted $\mathcal{M}(\tau)$, given by
+\begin{flalign*}
+  \mathcal{M}(\tau) &=
+  \begin{cases}
+    T & \text{if } |\theta| > 0\\
+    \mathcal{C}_T & \text{otherwise}
+  \end{cases}\\
+  &\qquad \text{where } (T : \upsilon^\theta) = \mathcal{K}(\tau).
+\end{flalign*}
 \end{theorem}
+
+\begin{example}
+  Let $\mathbb{N}$ be a primitive type. Given a type 
+  \begin{equation*}
+    \tau = \forall \alpha.(\alpha \rightarrow \mathbb{N}),
+  \end{equation*}
+  there exists a corresponding higher-kinded representation $\mathcal{M}(\tau)$, given by
+  \begin{equation*}
+    (\rightarrow(Id,\ \mathbb{N}))(\alpha) = \alpha \rightarrow \mathbb{N}.
+  \end{equation*}
+  Similarly, given a type
+  \begin{equation*}
+    \sigma = \forall \alpha.\forall \beta.\alpha \times \beta,
+  \end{equation*}
+  there exists a higher-kinded representation $\mathcal{M}(\sigma)$, given by
+  \begin{equation*}
+    (\times(Id,Id))(\alpha,\ \beta) = \alpha \times \beta.
+  \end{equation*}
+  Finally, given a more complex type
+  \begin{equation*}
+    \rho = \forall \alpha.\ \forall \beta.(\alpha \rightarrow \mathbb{N}) \rightarrow \alpha \times \beta,
+  \end{equation*}
+  there exists a higher-kinded representation $\mathcal{M}(\rho)$, given by
+  \begin{equation*}
+    (\rightarrow(\rightarrow(Id, \mathbb{N}),\times(Id,Id)))(\alpha,\ \beta) = (\alpha \rightarrow \mathbb{N}) \rightarrow \alpha \times \beta.
+  \end{equation*}
+\end{example}
 
 \begin{definition}
 Given a category $\mathbb{C}$ and a list $\theta \in List\{+,-\}$, where $|\theta| = n$, define 

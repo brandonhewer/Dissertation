@@ -9,7 +9,7 @@ A formal approach to constructing Petri nets from types is developed in Section 
 Accordingly, the design of key features of the desired software application will  be detailed in this section. It is necessary to first provide a high-level overview of the key features and their interdependencies.
 
 \subsection{High-level architecture}
-The proposed application should accept a System $F_\kappa$ type, a naturality type, and a type variable as input from a user. Input provided by a user should be used to generate a Petri net, using the formulation given in section \ref{sec:TypeToPetri}. The application should permit the creation of several Petri nets and provide a mechanism by which to compose them. 
+The proposed application should accept a System $F_\kappa$ type, a naturality type, and a type variable as input from a user. Input provided by a user should be used to generate a Petri net, using the formulation given in Section \ref{sec:TypeToPetri}. The application should permit the creation of several Petri nets and provide a mechanism by which to compose them. 
 
 \subsection{Type grammars}
 The proposed application requires a means by which to accept and interpret an input type from a user. Types are to be provided in a textual format. In order to interpret the textual input, a type parser will be required. A parser requires a formal depiction of a context-free grammar for types in System $F_\kappa$. Backus-Naur form (BNF) is a typical, and appropriate notation for describing a context-free grammar. Accordingly, a formal grammar on types, expressed in BNF, is given in Figure \ref{fig:typegrammar}.
@@ -22,7 +22,7 @@ The proposed application requires a means by which to accept and interpret an in
 
 The grammar on types depicted in Figure \ref{fig:typegrammar}, introduces \lstinline{=>} as a terminal. This terminal is used to highlight the functors involved in the corresponding dinatural transformation. For example, the string \lstinline{a -> a => a} corresponds to a dinatural transformation between the $\rightarrow$ functor and the identity functor. The \lstinline{=>} terminal is of the lowest precedence in the provided grammar.
 \par
-The variance of an argument provided to a type constructor is specified by appending either a \lstinline{+} or a \lstinline{-}. If neither is appended, positive variance (covariance) is assumed. For example, the type \lstinline{F a a- a- a} is a valid functor in four arguments, which is covariant in the first and last and contravariant in the second and third. The type constructor \lstinline{F}, corresponds to the higher-kinded type $* \Rightarrow *^- \Rightarrow *^- \Rightarrow *$ in System $F_\kappa$. The type \lstinline{F a a- a- a} is unifiable with both \lstinline{(a -> a) -> a -> a} and \lstinline{F (a -> a)- (a -> a)}.
+The variance of an argument provided to a type constructor is specified by appending either a \lstinline{+} or a \lstinline{-}. If neither is appended, positive variance (covariance) is assumed. For example, the type \lstinline{F a a- a- a} is a valid functor in four arguments, which is covariant in the first and last and contravariant in the second and third. The type constructor \lstinline{F}, corresponds to the higher-kinded type $* \Rightarrow *^- \Rightarrow *^- \Rightarrow *$ in System $F_\kappa$. The type \lstinline{F a a- a- a} is unifiable with both \lstinline{(a -> a)} \lstinline{-> a -> a} and \lstinline{F (a -> a)- (a -> a)}.
 \par
 Notably, there is no means by which to denote universal quantification or any primitive type, within the provided grammar. Indeed, every identifier is implicitly treated as a type variable which has been universally quantified. This also remains true for functor identifiers. As such, every type and type constructor is considered to be parametrically polymorphic. While this may appear to limit which Petri nets can be generated, this is not the case. This supposed problem will be explored further in Section \ref{sec:petrinetdesign}.
 \par
@@ -38,7 +38,7 @@ applyToFirst :: (a -> a, a, a) -> (a, a).
 \end{lstlisting}
 \end{tabular}
 \end{center}
-The type of \lstinline{applyToFirst} may be expressed as a transformation, in the outlined grammar, as 
+The type of \lstinline{applyToFirst} may be expressed as a transformation, in the outlined grammar, as
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
@@ -46,7 +46,7 @@ F (a -> a) a a => G a a.
 \end{lstlisting}
 \end{tabular}
 \end{center}
-An intuitive depiction of a corresponding naturality type can be attained by writing the same term, and replacing each type variable with the number that it is mapped to. The default naturality type, where every occurrence of \lstinline{a} is equated, can therefore be expressed as 
+An intuitive depiction of a corresponding naturality type can be attained by writing the same term, and replacing each type variable with the number which it is mapped to. The default naturality type, where every occurrence of \lstinline{a} is equated, can therefore be expressed as 
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
@@ -71,7 +71,7 @@ The more descriptive coherence condition on \lstinline{applyToFirst}, depicted i
 \end{tabular}
 \end{center}
 \par
-The formal grammar for the described representation of naturality type is provided in Figure \ref{fig:natgrammar}.
+The formal grammar for the described representation of a naturality type is provided in Figure \ref{fig:natgrammar}.
 
 \begin{figure}[H]
 \subfile{NaturalityTypeGrammar}
@@ -80,7 +80,198 @@ The formal grammar for the described representation of naturality type is provid
 \end{figure}
 
 \subsection{Petri net design}\label{sec:petrinetdesign}
+A graphical representation of a Petri net, within the proposed application, must illustrate key information relating to the corresponding coherence condition. This includes the variance of arguments to the involved functors. Multiple depictions of Petri nets have been given throughout previous sections, and these will be drawn upon in the following design.
+\par
+Consider a place node within a Petri net. For the purposes of the proposed application, a place node, and its contents, correspond to an argument to a functor. A place node may be graphically depicted as a circle. However, the variance of the functor argument cannot be determined by this simple representation. This problem is resolved by depicting a place node corresponding to a contravariant argument as a grey circle. A place node may either contain one or zero tokens. An empty place node corresponds to an identity argument. A token is depicted with the letter $f$, denoting a function.
+\par
+In order to distinguish transition nodes from place nodes, a different shape will be used. Transition nodes will be graphically depicted as a square. Recall that a transition node may either be enabled or disabled. To reflect the two possible states, it is necessary to provide a depiction of a disabled transition node. A disabled transition node will be depicted as a black square. 
+\par
+Clicking an enabled transition node, in the proposed application, should fire that transition. This operation will consume the tokens from the input places of the transition, and push tokens to the output places. The action of firing a transition node corresponds to applying the associated coherence condition.
+\par
+The described graphical depiction of Petri nets is best understood by means of example. Consider the concatenation function, whose type, in Haskell, is given by
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(++) :: [a] -> [a] -> [a].
+\end{lstlisting}
+\end{tabular}
+\end{center}
+The type of \lstinline{(++)}  may be expressed as a transformation, within the proposed application, as
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+List a => List a -> List a.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Given the naturality type,
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+1 => 1 -> 1,
+\end{lstlisting}
+\end{tabular}
+\end{center}
+the corresponding Petri net for \lstinline{(++)}, formally given by 
+\begin{equation*}
+\mathcal{P}([List\ a,\ List\ a \rightarrow List\ a],\ [n \mapsto 1],\ [n \mapsto 1]),
+\end{equation*}
+is graphically depicted in Figure \ref{fig:concatpetri}.
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzcd}
+    & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] &  \\
+    & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[rd] &  \\
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[ru] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
+    \end{tikzcd}
+  \end{center}
+  \caption{Petri net for \lstinline{(++)}.}
+  \label{fig:concatpetri}
+\end{figure}
+Firing the transition node in Figure \ref{fig:concatpetri} should yield the Petri net given in Figure \ref{fig:concatpetrif}.
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzcd}
+    & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[d] &  \\
+    & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[rd] &  \\
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} \arrow[ru] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}}
+    \end{tikzcd}
+  \end{center}
+  \caption{Petri net for \lstinline{(++)} (after firing).}
+  \label{fig:concatpetrif}
+\end{figure}
+Given a function \lstinline{f :: a -> b}, this Petri net corresponds to the following free theorem:
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+map f xs ++ map f ys = map f (xs ++ ys).
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Observe that place nodes are partitioned into separate rows. The top and bottom rows correspond to the domain and codomain, respectively. Partitioning the diagram in this manner provides a visual distinction between the functors involved. This visual distinction will be particularly important in composite Petri nets, where several partitioned domains will be involved.
+\par
+For the purposes of demonstrating the graphical depiction of a composite Petri net, a second example will be given. Consider the identity function, whose type, in Haskell, is given by 
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+  id :: a -> a.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+In the syntax of the proposed application, the type of \lstinline{id}, is expressible as the transformation \lstinline{a => a}.  The naturality type for \lstinline{id} is \lstinline{1 => 1}. The corresponding Petri net of \lstinline{id}, formally given by
+\begin{equation*}
+  \mathcal{P}([a,\ a],\ [n \mapsto 1],\ [n \mapsto 1]),
+\end{equation*}
+is graphically depicted in Figure \ref{fig:petriid}.
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzcd}
+      {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] \\
+      {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[d] \\
+      {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
+    \end{tikzcd}
+  \end{center}
+  \caption{Petri net for \lstinline{id}.}
+  \label{fig:petriid}
+\end{figure}
+Composing the transformations \lstinline{id} and \lstinline{(++)}, simply yields \lstinline{(++)}. By application of Definition \ref{def:petricomposition}, the Petri net generated by their composition is graphically depicted in Figure \ref{fig:petriidconcat}.
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzcd}
+      & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] &  \\
+      & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[rd] &  \\
+     {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} \arrow[ru] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[d] \\
+     {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[u] &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[d] \\
+     {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[u] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
+     \end{tikzcd}
+  \end{center}
+  \caption{Petri net generated by the composition \lstinline{id . (++)}.}
+  \label{fig:petriidconcat}
+\end{figure}
+Petri nets, which are generated by composition, preserve the composition boundary. This can be observed in the Petri net corresponding to the composition \lstinline{id . (++)}. Furthermore, the diagram preserves the previous partitioning of place nodes, thus illustrating the functors involved.
+\par
+The graphical representation of Petri nets, in the proposed application, should permit a set of key animations. Scaling will be necessary to view large graphs, which may be generated by multiple compositions. Translation of a Petri net, within its local frame, will be required for focusing on particular components of large graphs. Any animation applied to the graphical representation of a Petri net, must preserve the partitioning of place nodes.
+
 \subsection{Workspace design}\label{sec:workspacedesign}
+Obtaining a dinatural transformation and a naturality type, for the purpose of generating a Petri net, requires a mechanism by which a user can provide the relevant input. A straightforward approach would involve presenting two independent text input fields. Recall that given a transformation, the default naturality type maps all type variables to the same value. For example, given a transformation 
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(a -> a) => a -> a,
+\end{lstlisting}
+\end{tabular}
+\end{center}
+the default naturality type is
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(1 -> 1) => 1 -> 1.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Accordingly, the overhead of creating a naturality type may be eliminated by providing the default naturality type as an initial value. The values in the generated naturality type may then be edited by a user.
+\par
+Thus far, in the design considerations, only types containing a single type variable have been studied. Consider the Haskell function
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+  zip :: [a] -> [b] -> [(a, b)].
+\end{lstlisting}
+\end{tabular}
+\end{center}
+The type of \lstinline{zip} may be expressed as a transformation, in the proposed application, as
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+  List a => List b -> List (Pair a b).
+\end{lstlisting}
+\end{tabular}
+\end{center}
+This transformation is natural in \lstinline{a} and extranatural in \lstinline{b}. A user should be able to explore the different naturality conditions in each type variable. This requires providing the type variable as an additional input. For example, given the \lstinline{zip} transformation, with naturality type
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+  1 => 1 -> (1 1),
+\end{lstlisting}
+\end{tabular}
+\end{center}
+the Petri net corresponding to the naturality condition on \lstinline{a}, is given by
+\begin{equation*}
+  \mathcal{P}_a([List\ a,\ List\ b \rightarrow List\ (Pair\ a\ b)],\ [n \mapsto 1],\ [n \mapsto 1]).
+\end{equation*}
+This Petri net is identical to that of the \lstinline{id} transformation, depicted in Figure \ref{fig:petriid}. In contrast, the Petri net corresponding to the extranaturality condition on \lstinline{b}, given by
+\begin{equation*}
+  \mathcal{P}_b([List\ a,\ List\ b \rightarrow List\ (Pair\ a\ b)],\ [n \mapsto 1],\ [n \mapsto 1]),
+\end{equation*}
+is depicted in Figure \ref{fig:petrizipb}.
+ 
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzcd}
+      & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[rd] &  \\
+     {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[ru] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
+     \end{tikzcd}
+  \end{center}
+  \caption{Petri net for the type variable \lstinline{b} in \lstinline{zip}.}
+  \label{fig:petrizipb}
+\end{figure}
+This example highlights the requirement of three user inputs: a System $F_\kappa$ type, a naturality type, and a type variable. The graphical subcomponents corresponding to these inputs must be grouped into a interface. Furthermore, this interface will exist in an open `workspace', and should be 
+
+\begin{figure}[H]
+\begin{adjustbox}{width=\columnwidth/3,center}
+\centering
+\begin{tabu}{|l|l|}
+\taburulecolor{gray}
+\tabucline[4pt]{1-8}
+\taburulecolor{black}
+\lstinline{a -> a => a} & \multirow{2}{*}{\lstinline{a}} \\ \cline{1-1}
+\lstinline{1 -> 1 => 1} &  \\ \hline
+\end{tabu}
+\end{adjustbox}
+\caption{Design for the user input interface.}
+\label{fig:petriidconcat}
+\end{figure}
+
 
 \subsection{Language and Tooling}
 Determining an appropriate programming language in which to implement the proposed application, requires understanding the problem domain. 

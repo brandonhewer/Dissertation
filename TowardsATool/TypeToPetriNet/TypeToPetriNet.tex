@@ -62,7 +62,7 @@ As formerly discussed, the construction of a Petri net from a type requires the 
 
 \begin{definition} The destructuring of a type in System $F_\kappa$, into a list of the constituent primitives and type variables is formally defined by
 \begin{flalign*}
-  \mathcal{Q} (c) &= [c]\\
+  \mathcal{Q} (c) &= [\ ]\\
   \mathcal{Q} (\alpha) &= [\alpha]\\
   \mathcal{Q} (\tau_1 \rightarrow \tau_2) &= \mathcal{Q} (\tau_1) \mdoubleplus\mathcal{Q} (\tau_2)\\
   \mathcal{Q} (\tau_1 \times \tau_2) &= \mathcal{Q} (\tau_1) \mdoubleplus \mathcal{Q} (\tau_2)\\
@@ -100,7 +100,7 @@ As formerly discussed, the construction of a Petri net from a type requires the 
   \end{flalign*}
 \end{definition}
 
-\begin{definition}
+\begin{definition}\label{def:petricomposition}
   Given two Petri net models 
   \begin{flalign*}
     \mathbf{A} = \mathcal{P}([\![\tau]\!]_n,\; [\![f]\!]_{n-1},\; [\![g]\!]_{n-1}),\\

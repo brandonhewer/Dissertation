@@ -8,7 +8,7 @@ An initial candidate for an appropriate type system, which is suitable for descr
 \par
 In System F, universal quantification over types may appear anywhere within a term. This flexibility is the source of both impredicativity, as described in Section \ref{sec:systemf}, and the inability to create a tractable type inference algorithm. HM resolves this by restricting quantification to the outermost scope of types. However, without any additional constructs in the calculus, this restriction prevents more than a single instantiation of any polymorphic type, within a given context.
 \par
-Given lambda terms $\textit{succ} : \mathbb{N} \rightarrow \mathbb{N}$ and $\textit{id} : \forall \alpha. \alpha \rightarrow \alpha$, consider the term $\lambda x. \textit{id}\ (\textit{id}\ \textit{succ}\ x)$. Observe that $\textit{id}$ is applied to $\textit{succ}$ of type $\mathbb{N} \rightarrow \mathbb{N}$, and is thus inferred to be of type $(\mathbb{N} \rightarrow \mathbb{N}) \rightarrow \alpha$. Subsequently, $\textit{id}\ \textit{succ} : \alpha$ is applied to $x$, thus $\alpha$ is found to be of type $\mathbb{N} \rightarrow \mathbb{N}$. Finally, $\textit{id}$ is applied to $\textit{id}\ \textit{succ}\ x : \mathbb{N}$, requiring $\textit{id}$ be of type $\mathbb{N} \rightarrow \alpha$. Contradicting types for $\textit{id}$ have been found, and thus the term is not typable. 
+Given lambda terms $\textit{succ} : \mathbb{N} \rightarrow \mathbb{N}$ and $\textit{id} : \forall \alpha. \alpha \rightarrow \alpha$, consider the term $\lambda x. \textit{id}\ (\textit{id}\ \textit{succ}\ x)$. Observe that $\textit{id}$ is applied to $\textit{succ}$ of type $\mathbb{N} \rightarrow \mathbb{N}$, and is thus inferred to be of type $(\mathbb{N} \rightarrow \mathbb{N}) \rightarrow \mathbb{N} \rightarrow \mathbb{N}$. Subsequently, $\textit{id}\ \textit{succ} : \mathbb{N} \rightarrow \mathbb{N}$ is applied to $x$, thus $x$ is found to be of type $\mathbb{N}$. Finally, $\textit{id}$ is applied to $\textit{id}\ \textit{succ}\ x : \mathbb{N}$, requiring $\textit{id}$ be of type $\mathbb{N} \rightarrow \mathbb{N}$. Contradicting types for $\textit{id}$ have been found, and thus the term is not typable. 
 \par
 The provided example demonstrates a problem which arises as a consequence of only permitting a single instantiation of a polymorphic type, in a given context. HM resolves this problem with the addition of let-polymorphism. Formulated as a let binding, the previous example is given as 
 \begin{equation*}
@@ -158,7 +158,7 @@ To demonstrate that not all type constructors are functorial, consider a type co
 \begin{flalign*}
   T\ \alpha = \alpha \rightarrow \alpha.
 \end{flalign*}
-If $T$ is functorial in System $F_\kappa$, there must exist a function
+If $T$ is functorial in System $F_\omega$, there must exist a function
 \begin{flalign*}
   \mathcal{F} : \forall \alpha. \forall \beta.(\alpha \rightarrow \beta) \rightarrow T\ \alpha \rightarrow T\ \beta,
 \end{flalign*}
