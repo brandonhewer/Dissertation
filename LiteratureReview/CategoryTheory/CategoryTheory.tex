@@ -28,7 +28,7 @@ Directed graphs are often used to represent categories. A category $\mathbb{C}$ 
 \end{equation}
 The diagram presented in \eqref{category} depicts two objects connected in a directed cyclic graph. The required identity morphism has been included for each object.
 \par
-A prominent example of a category, which is of particular interest to functional programmers, is the category of types and functions in the Haskell programming language. This category is termed $Hask$, and its objects are given by types in Haskell. Morphisms from $X$ to $Y$ are given by functions of the type $X \rightarrow Y$.
+A prominent example of a category, which is of particular interest to functional programmers, is the category of types and functions in the Haskell programming language. This category is termed \lstinline{Hask}, and its objects are given by types in Haskell. Morphisms from \lstinline{X} to \lstinline{Y} are given by functions of the type \lstinline{X -> Y}. The identity morphism on a type \lstinline{X} is given by the function \lstinline{id :: X -> X}. Composition is given by the \lstinline{(.)} function.
 
 \subsection{Product and opposite categories}
 Given two categories $\mathbb{C}$ and $\mathbb{D}$, their product, denoted $\mathbb{C} \times \mathbb{D}$, is the category whose objects are pairs of the form $(X, Y)$, $X \in ob(\mathbb{C})$, $Y \in ob(\mathbb{D})$. For all pairs of morphisms 
@@ -70,7 +70,7 @@ instance Functor [] where
   fmap f []     = []
   fmap f (x:xs) = f x : (fmap f xs)
 \end{lstlisting}
-The list functor, \lstinline{[]} $: Hask \rightarrow Hask$, where $Hask$ is the category of Haskell types, maps any type \lstinline{a} to a type \lstinline{[a]}. Morphisms of the type \lstinline{f : a -> b} are lifted to \lstinline{[a] -> [b]} by defining a function which applies \lstinline{f} to every element in a list. A functor whose co-domain category is the same as its domain, such as \lstinline{[]}, is termed an endo-functor.
+The list functor, \lstinline{[] : Hask -> Hask}, where \lstinline{Hask} is the category of Haskell types, maps any type \lstinline{a} to a type \lstinline{[a]}. Morphisms of the type \lstinline{f : a -> b} are lifted to \lstinline{[a] -> [b]} by defining a function which applies \lstinline{f} to every element in a list. A functor whose co-domain category is the same as its domain, such as \lstinline{[]}, is termed an endo-functor.
 
 The definition of a functor generalises to the notion of a multifunctor. A multifunctor is a functor of the form $\mathbb{C}_1 \times \mathbb{C}_2 \times \cdots \times \mathbb{C}_n \rightarrow \mathbb{D}$, i.e., a functor whose domain is a product category. An example of a multifunctor is given by the product bifunctor in the Haskell programming language, as shown in Listing \ref{Haskell-Product}.
 

@@ -6,10 +6,7 @@
 \section{System Design}
 A formal approach to constructing Petri nets from types is developed in Section \ref{sec:towardsatool}. This formalisation provides the theoretical foundation for a computational tool. However, the development of a functional software application, requires determining and designing specific implementation details. Examples of implementation details include formal specifications of user input, design of graphical components, and the choice of programming language. 
 \par
-Accordingly, the design of key features of the desired software application will  be detailed in this section. It is necessary to first provide a high-level overview of the key features and their interdependencies.
-
-\subsection{High-level architecture}
-The proposed application should accept a System $F_\kappa$ type, a naturality type, and a type variable as input from a user. Input provided by a user should be used to generate a Petri net, using the formulation given in Section \ref{sec:TypeToPetri}. The application should permit the creation of several Petri nets and provide a mechanism by which to compose them. 
+The proposed software tool will be a desktop GUI application. This application should facilitate the creation and composition of Petri nets from types in System $F_\kappa$. The design of key features and graphical components, of the desired software application, will  be detailed in this section.
 
 \subsection{Formal grammars}
 The proposed application requires a means by which to accept and interpret an input type from a user. Types are to be provided in a textual format. In order to interpret the textual input, a type parser will be required. A parser requires a formal depiction of a context-free grammar for types in System $F_\kappa$. Backus-Naur form (BNF) is a typical, and appropriate notation for describing a context-free grammar. Accordingly, a formal grammar on types, expressed in BNF, is given in Figure \ref{fig:typegrammar}.
@@ -299,9 +296,14 @@ Notably absent from the current design model is the spatial relation between the
 \end{figure}
 
 \subsection{Language and Tooling}
-Determining an appropriate programming language in which to implement the proposed application, requires understanding the problem domain. 
+C\lstinline{++}17 will be used for implementing the parsing and composition of types in addition to the generation of in-memory representations of Petri nets. The C\lstinline{++} programming language provides a range of low and high-level programming constructs. Low-level concepts such as manual memory-management and move semantics provide opportunities for improving the performance of the application. High-level concepts such as lambdas and generics, in the form of templates, provide low-cost abstractions for creating more expressive, composable code. 
 \par
-Parsing types into abstract syntax trees, and generating the corresponding Petri net models, will be accomplished in the C++ programming language.
+Template metaprogramming, is a Turing-complete technique for describing compile-time computation in C\lstinline{++}. This technique will be of particular importance in the construction of the type parsing library. The boost spirit X3 library will be used for generating the recursive descent parsers. Boost spirit X3 constructs an approximation to the extended Backus-Naur form using C\lstinline{++} template metaprogramming.
 \par
+The proposed software tool will be a desktop GUI application, developed using the Electron framework. Electron will facilitate the use of powerful web technologies, such as React and D3, for building interactive graphical interfaces. Accordingly, the programming language Typescript will be used for developing the graphical interface. Typescript extends the Javascript language with optional static typing, which includes type-inference.
+\par
+The React library will be used in the development of user interfaces. React provides an approach to building interfaces by means of composition of smaller components. In conjunction with React, the D3 library will be used for creating the Petri net diagrams. D3 supplies a collection of functions which facilitate a streamlined approach to generating data visualisations. In the context of the proposed application, a particular advantage of D3 is the capacity to dynamically generate and animate scalable vector graphics (SVG). Importantly, D3 does not provide pre-made graphical components, but is a library intended for organising data visualisation.
+\par
+Interoperability between C\lstinline{++} and Typescript will be possible by means of creating node native modules from the C\lstinline{++} code. The meta-build tool CMake, will used for describing the build process in which node native modules are created. CMake offers the ability to output project files and build scripts for a range of different integrated development environments and build tools. The Node.js build tool will be used for building the entire Electron application. GoogleTest will be used in the unit testing of C\lstinline{++} code.
 
 \end{document}

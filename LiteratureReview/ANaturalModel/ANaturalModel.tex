@@ -14,11 +14,11 @@ The Curry-Howard-Lambek correspondence provides an isomorphism between a typed l
 \subsection{Categorical Semantics of System F}\label{sec:systemfcat}
 A model of the simply-typed lambda calculus in a cartesian closed category was first described by \citeasnoun{CCCLambda}. Furthermore, Lambek shows the simply-typed lambda calculus is the internal language of any cartesian closed category. The notion of an internal language provides a manner in which to translate propositions within a given logic into categorical propositions. The construction described by Lambek extends to the second-order polymorphic lambda calculus (System F).
 \par
-Types in System F are taken to be objects in a category. The set of morphisms between two types $T$ and $U$ is given by the set of functions of the form $T \Rightarrow U$. The identity morphism is given by the polymorphic identity function. Composition is given by the polymorphic composition function.
+Types in the simply-typed calculus are taken to be objects in a category. The set of morphisms between two types $T$ and $U$ is given by the set of functions of the form $T \Rightarrow U$. The identity morphism is given by the polymorphic identity function. Composition is given by the polymorphic composition function.
 \par
-To complete the construction of a cartesian closed category, it is necessary to show that the category has finite products and that the functor, $- \times X$, has a right adjoint. The terminal object is given by including a unit type, denoted $()$, in the definition of System F. 
+To complete the construction of a cartesian closed category, it is necessary to show that the category has finite products and that the functor, $- \times X$, has a right adjoint. The terminal object is given by including a unit type, denoted $()$, in the definition of the simply-typed lambda  calculus. 
 \par
-Binary products are also included within the definition of System F. For any types $T$ and $U$, there exists a type $T \times U$ and projections $\pi_{T} : T \times U \Rightarrow T$, $\pi_{U} : T \times U \Rightarrow U$, such that for any type $V$ and functions $f : V \Rightarrow T$, $g : V \Rightarrow U$, there exists a function $h : V \Rightarrow T \times U$, such that the following diagram commutes:
+Binary products are also included within the definition. For any types $T$ and $U$, there exists a type $T \times U$ and projections $\pi_{T} : T \times U \Rightarrow T$, $\pi_{U} : T \times U \Rightarrow U$, such that for any type $V$ and functions $f : V \Rightarrow T$, $g : V \Rightarrow U$, there exists a function $h : V \Rightarrow T \times U$, such that the following diagram commutes:
 
 \begin{equation}\label{eq:nat_vertical}
   \begin{tikzpicture}[baseline= (a).base]
@@ -69,7 +69,7 @@ Discuss existing extensions to the functorial polymorphism and the `solutions' t
 \citeasnoun{CanonicalDinatural} define `canonical dinatural transformations', a constrained form of dinatural transformations, and relates them to context-free grammars and the polymorphic operator.
 
 \subsection{Many-Variable Functorial Calculus}\label{sec:manyvar}
-The categorical semantics of System F, described in \ref{sec:systemfcat}, requires the construction of a category which carries additional structure. The conditions imposed on this structure are concerned with the equality of specific compositions of morphisms, and are termed coherence conditions.
+The categorical semantics of the simply-typed lambda calculus, described in \ref{sec:systemfcat}, requires the construction of a category which carries additional structure. The conditions imposed on this structure are concerned with the equality of specific compositions of morphisms, and are termed coherence conditions.
 \par
 In search of an abstract theory of coherence problems, \citeasnoun{ManyVariableFunctorialCalculus} develops a calculus of substitution; a generalisation of composition in the Godement calculus. In Kelly's many-variable functorial calculus, given functors $F : \mathbb{A}^{op} \times \mathbb{A} \times \mathbb{B} \rightarrow \mathbb{C}$, $G : \mathbb{D} \rightarrow \mathbb{A}$ and $H : \mathbb{E} \rightarrow \mathbb{B}$, the composition $F \cdot \left(G^{op} \times G \times H\right) : \mathbb{D}^{op} \times \mathbb{D} \times \mathbb{E} \rightarrow \mathbb{C}$ may instead be given by the substitution $F(G, G, H)$.
 \par
