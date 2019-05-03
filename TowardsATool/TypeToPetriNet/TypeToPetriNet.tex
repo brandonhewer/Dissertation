@@ -60,7 +60,28 @@ As formerly discussed, the construction of a Petri net from a type requires the 
   The complete definition of any well-formed Petri net, corresponding to coherence conditions in System $F_\kappa$, is given in Definition \ref{def:petricomp}. While this definition may at first appear nebulous, use cases and examples will be provided. This general definition will be necessary for formalising the operation of composition.
 \end{remark}
 
-\begin{definition} The destructuring of a type in System $F_\kappa$, into a list of the constituent primitives and type variables is formally defined by
+\begin{example}
+  Consider a type
+  \begin{equation*}
+    \tau = \forall \alpha.(\alpha \rightarrow \alpha) \rightarrow \alpha.
+  \end{equation*}
+  Parametricity implies that $\tau$ is a dinatural transformation between the $\rightarrow$ and $Id$ functors. In order to generate a Petri net model corresponding to the naturality condition on $\tau$, two additional functions are required. The first function assigns a number to each type variable in $(\alpha \rightarrow \alpha)$, the second acts identically on $\alpha$. This will frequently be termed a naturality type, and defines which functor arguments are to be equated.
+  \par
+  The default naturality type is defined by setting both functions to $n \mapsto 1$, thus equating all functor arguments. The Petri net corresponding to the default naturality condition of $\tau$, is formally denoted
+  \begin{equation*}
+    \mathcal{P}([(\alpha \rightarrow \alpha),\ \alpha],\ [n \mapsto 1],\ [n \mapsto 1]).
+  \end{equation*}
+  This Petri net may be graphically depicted by
+  \begin{center}
+    \begin{tikzcd}
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] \\
+      & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lu] \arrow[d] &  \\
+      & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & 
+    \end{tikzcd}.
+  \end{center}
+\end{example}
+
+\begin{definition} The destructuring of a type in System $F_\kappa$, into a list of the constituent type variables is formally defined by
 \begin{flalign*}
   \mathcal{Q} (c) &= [\ ]\\
   \mathcal{Q} (\alpha) &= [\alpha]\\
@@ -70,6 +91,17 @@ As formerly discussed, the construction of a Petri net from a type requires the 
   \mathcal{Q} (F\ \tau_1\ \tau_2\ \ldots\ \tau_n) &= \mathcal{Q} (\tau_1) \mdoubleplus \mathcal{Q} (\tau_2) \mdoubleplus \ldots \mdoubleplus \mathcal{Q} (\tau_n)
 \end{flalign*}
 \end{definition}
+
+\begin{example}
+  Consider a type
+  \begin{equation*}
+    \tau = \forall \alpha. \forall \beta.(\alpha \rightarrow \beta) \rightarrow \alpha \rightarrow \beta.
+  \end{equation*}
+  Destructuring $\tau$ into its constituent type variables yields
+  \begin{equation*}
+    \mathcal{Q}(\tau) = [\alpha,\ \beta,\ \alpha,\ \beta].
+  \end{equation*}
+\end{example}
 
 \begin{definition}
   Let $\sigma$ be a type in System $F_\kappa$ and $\alpha$ be a type variable. Define $\theta = \mathcal{V}(\sigma)$. Given a Petri net model

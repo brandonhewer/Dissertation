@@ -220,11 +220,11 @@ where $\mathbb{C}^+ = \mathbb{C}$ and $\mathbb{C}^- = \mathbb{C}^{op}$.
 \end{definition}
 
 \begin{corollary}\label{cor:functor}
-Let $\theta \in List\{+,-\}$ be a list, and $\upsilon^\theta$ be a higher-kinded type in System $F_\kappa$. Recall that Theorem \ref{th:kindrep} states that given any type $\tau$, there exists a unique, canonical higher-kinded representation $T : \upsilon^\theta = \mathcal{M}(\tau)$. Given the category $\mathbb{C}$, of System $F_\kappa$ types, it follows that there exists a functor representation $\mathcal{R}(\tau) : \mathbb{C}^\theta \rightarrow \mathbb{C}$. $\mathcal{R}(\tau)$ operates on types identically to $T$, and operates on terms identically to $\mathcal{F}_T$. The functoriality of $\mathcal{R}(\tau)$ is given by the definition of $\mathcal{F}_T$. In subsequent definitions, the notation $\mathcal{V}(\tau)$ will be used to denote the list $\theta$, i.e., the list of variances.
+Let $\theta \in List\{+,-\}$ be a list, and $\upsilon^\theta$ be a higher-kinded type in System $F_\kappa$. Recall that Theorem \ref{th:kindrep} states that given any type $\tau$, there exists a type constructor $T : \upsilon^\theta = \mathcal{M}(\tau)$. Given the category $\mathbb{C}$, of System $F_\kappa$ types, it follows that there exists a functor representation $\mathcal{R}(\tau) : \mathbb{C}^\theta \rightarrow \mathbb{C}$. $\mathcal{R}(\tau)$ operates on types identically to $T$, and operates on terms identically to $\mathcal{F}_T$. The functoriality of $\mathcal{R}(\tau)$ is given by the definition of $\mathcal{F}_T$. In subsequent definitions, the notation $\mathcal{V}(\tau)$ will be used to denote the list $\theta$, i.e., the list of variances.
 \end{corollary}
 
 \begin{remark}
-  An approach for uniquely identifying functors from types in System $F_\kappa$ is formulated in Corollary \ref{cor:functor}. As a consequence, the remaining definitions in this section, pertaining to a categorical semantics for composition in System $F_\kappa$, will be expressed in terms of the functors involved.
+  An approach for identifying functors from types in System $F_\kappa$ is formulated in Corollary \ref{cor:functor}. As a consequence, the remaining definitions in this section, pertaining to a categorical semantics for composition in System $F_\kappa$, will be expressed in terms of the functors involved.
 \end{remark}
 
 \begin{definition}

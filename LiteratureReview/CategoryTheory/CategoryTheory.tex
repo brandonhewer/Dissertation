@@ -27,6 +27,8 @@ Directed graphs are often used to represent categories. A category $\mathbb{C}$ 
   \end{tikzpicture}
 \end{equation}
 The diagram presented in \eqref{category} depicts two objects connected in a directed cyclic graph. The required identity morphism has been included for each object.
+\par
+A prominent example of a category, which is of particular interest to functional programmers, is the category of types and functions in the Haskell programming language. This category is termed $Hask$, and its objects are given by types in Haskell. Morphisms from $X$ to $Y$ are given by functions of the type $X \rightarrow Y$.
 
 \subsection{Product and opposite categories}
 Given two categories $\mathbb{C}$ and $\mathbb{D}$, their product, denoted $\mathbb{C} \times \mathbb{D}$, is the category whose objects are pairs of the form $(X, Y)$, $X \in ob(\mathbb{C})$, $Y \in ob(\mathbb{D})$. For all pairs of morphisms 
