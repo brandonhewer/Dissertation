@@ -6,44 +6,170 @@
 \section{Research Analysis} 
 
 \subsection{Dinaturals in the wild}
-
-
+Observe the type of the \lstinline{filter} function
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+filter :: (a -> Bool) -> [a] -> [a].
+\end{lstlisting}
+\end{tabular}
+\end{center}
+An equivalent representation, within the application, is given by
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(a -> Bool) => List a -> List a,
+\end{lstlisting}
+\end{tabular}
+\end{center}
+with the default naturality type
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(0 -> 0) => 0 -> 0.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Providing this as input, in conjunction with the type variable \lstinline{a}, and exporting the result to LaTeX, yields
 \begin{figure}[H]
   \begin{center}
     \begin{tikzcd}
       & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  \\
       & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[u] \arrow[rd] &  \\
      {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[ru] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
-     \end{tikzcd}
+     \end{tikzcd}.
   \end{center}
   \caption{filter}
   \label{fig:petrifilter}
 \end{figure}
-
+\noindent
+Given a predicate \lstinline{p : a -> Bool}, and a function \lstinline{f : a -> b}, this corresponds to the free theorem
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+filter p . map f = map f . filter (p . f).
+\end{lstlisting}
+\end{tabular}
+\end{center}
+\par
+Observe the type of the \lstinline{foldr} function
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+foldr :: (a -> b -> b) -> b -> [a] -> b.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+An equivalent representation, within the application, is given by
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(a -> b -> b) => b -> List a -> b,
+\end{lstlisting}
+\end{tabular}
+\end{center}
+with the default naturality type
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(0 -> 0 -> 0) => 0 -> 0 -> 0.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Providing this as input, in conjunction with the type variable \lstinline{b}, and exporting the result to LaTeX, yields
 \begin{figure}[H]
   \begin{center}
     \begin{tikzcd}
       {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] \\
        & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[lu] \arrow[rd] &  \\
       {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[ru] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
-      \end{tikzcd}
+      \end{tikzcd}.
   \end{center}
   \caption{foldr}
   \label{fig:petrifoldr}
 \end{figure}
-
+\noindent
+Given an accumulator \lstinline{u : a -> b -> b}, and a function \lstinline{f : b -> c}, this corresponds to the free theorem
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}[basicstyle=\ttfamily,style=haskellStyle]
+foldr (\x -> f . u x) . f = 
+\y -> f . foldr (\x -> u x . f) y.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Observe the type of the \lstinline{span} function
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+span :: (a -> Bool) -> [a] -> ([a], [a])
+\end{lstlisting}
+\end{tabular}
+\end{center}
+An equivalent representation, within the application, is given by
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(a -> Bool) => List a -> Pair (List a) (List a),
+\end{lstlisting}
+\end{tabular}
+\end{center}
+with the default naturality type
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(0 -> 0) => 0 -> (0) (0).
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Providing this as input, in conjunction with the type variable \lstinline{a}, and exporting the result to LaTeX, yields
 \begin{figure}[H]
   \begin{center}
     \begin{tikzcd}
       & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  \\
       & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[u] \arrow[d] \arrow[rd] &  \\
      {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[ru] & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
-     \end{tikzcd}
+     \end{tikzcd}.
   \end{center}
   \caption{span}
   \label{fig:petrispan}
 \end{figure}
-
+\noindent
+Given a predicate \lstinline{p : a -> Bool}, and a function \lstinline{f : a -> b}, this corresponds to the free theorem
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+span p . map f = 
+bimap (map f) (map f) . span (p . f).
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Observe the type of the \lstinline{groupBy} function
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+groupBy :: (a -> a -> Bool) -> [a] -> [[a]].
+\end{lstlisting}
+\end{tabular}
+\end{center}
+An equivalent representation, within the application, is given by
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(a -> a -> Bool) => List a -> List (List a),
+\end{lstlisting}
+\end{tabular}
+\end{center}
+with the default naturality type
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(0 -> 0 -> 0) => 0 -> 0.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+\noindent
+Providing this as input, in conjunction with the type variable \lstinline{a}, and exporting the result to LaTeX, yields
 \begin{figure}[H]
   \begin{center}
     \begin{tikzcd}
@@ -55,7 +181,42 @@
   \caption{groupBy}
   \label{fig:groupBy}
 \end{figure}
-
+\noindent
+Given a relation \lstinline{r :: a -> a -> Bool} and a function \lstinline{f :: a -> b}, this corresponds to the free theorem
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}[basicstyle=\ttfamily,style=haskellStyle]
+groupBy r . map f =
+(map . map) f . groupBy (\x y -> r (f x) (f y)).
+\end{lstlisting}
+\end{tabular}
+\end{center}
+\noindent
+Observe the type of the \lstinline{insertBy} function
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+insertBy :: (a -> a -> Ordering) -> a -> [a] -> [a]
+\end{lstlisting}
+\end{tabular}
+\end{center}
+An equivalent representation, within the application, is given by
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(a -> a -> Ordering) => a -> List a -> List a,
+\end{lstlisting}
+\end{tabular}
+\end{center}
+with the default naturality type
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(0 -> 0 -> 0) => 0 -> 0 -> 0.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Providing this as input, in conjunction with the type variable \lstinline{a}, and exporting the result to LaTeX, yields
 \begin{figure}[H]
   \begin{center}
     \begin{tikzcd}[column sep=tiny]
@@ -67,31 +228,91 @@
   \caption{insertBy}
   \label{fig:insertBy}
 \end{figure}
-
+\noindent
+Given an ordering \lstinline{o : a -> a -> Ordering}, and a function \lstinline{f : a -> b}, this corresponds to the free theorem
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(. map f) . insertBy o . f =
+map f . insertBy ((. f) . o . f).
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Observe the type of the \lstinline{dicata} function
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,style=haskellStyle]
+dicata :: (Base a (b, a) -> b) -> (Base a (b, a) -> a) -> a -> b.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+An equivalent representation, within the application, is given by
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,style=haskellStyle]
+(Base a (Pair b a) -> b) => (Base a (Pair b a) -> a) -> a -> b,
+\end{lstlisting}
+\end{tabular}
+\end{center}
+with the default naturality type
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(0 (0 0) -> 0) => (0 (0 0) -> 0) -> 0 -> 0.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Providing this as input, in conjunction with the type variable \lstinline{a}, and exporting the result to LaTeX, yields
 \begin{figure}[H]
   \begin{center}
     \begin{tikzcd}[column sep=tiny]
-      &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[rd] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] &  &  \\
-      &  &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[rd] &  &  &  \\
-     {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[rrru] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[ru] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[lllu]
-     \end{tikzcd}
+      &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  &  \\
+      &  &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lu] \arrow[ru] \arrow[llld] \arrow[ld] &  &  &  \\
+     {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[lu] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[lllu]
+     \end{tikzcd}.
   \end{center}
   \caption{dicata}
   \label{fig:dicata}
 \end{figure}
-
+Observe the type of the \lstinline{prepro} function
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,style=haskellStyle]
+prepro :: (Base a a -> Base a a) -> (Base b a -> a) -> b -> a.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+An equivalent representation, within the application, is given by
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,style=haskellStyle]
+(Base a a -> Base a a) => (Base b a -> a) -> b -> a,
+\end{lstlisting}
+\end{tabular}
+\end{center}
+with the default naturality type
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(0 0 -> 0 0) => (0 0 -> 0) -> 0 -> 0.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Providing this as input, in conjunction with the type variable \lstinline{a}, and exporting the result to LaTeX, yields
 \begin{figure}[H]
   \begin{center}
     \begin{tikzcd}[column sep=tiny]
       {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[llld] \\
        &  &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[lllu] \arrow[lu] \arrow[ld] &  &  &  \\
        &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[lu] &  & 
-      \end{tikzcd}
+      \end{tikzcd}.
   \end{center}
   \caption{prepro}
   \label{fig:prepro}
 \end{figure}
 
 \subsection{Currying and Naturality}
+
+\subsection{Disposable Cycles}
 
 \end{document}

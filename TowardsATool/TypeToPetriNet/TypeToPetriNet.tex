@@ -104,7 +104,7 @@ As formerly discussed, the construction of a Petri net from a type requires the 
 \end{example}
 
 \begin{definition}
-  Let $\sigma$ be a type in System $F_\kappa$ and $\alpha$ be a type variable. Define $\theta = \mathcal{V}(\sigma)$. Given a Petri net model
+  Let $\sigma$ be a type in System $F_\kappa$ and $\alpha$ be a type variable. Define $\theta = \mathcal{V}(\sigma)$. Recall the ramification of substitution on a naturality type, given in Definition \ref{def:subtype}. Given a Petri net model
   \begin{flalign*}
     \mathbf{A} = \mathcal{P}([\![\tau]\!]_n,\; [\![f]\!]_{n-1},\; [\![g]\!]_{n-1}),
   \end{flalign*}
@@ -120,6 +120,35 @@ As formerly discussed, the construction of a Petri net from a type requires the 
   \end{flalign*}
 \end{definition}
 
+\begin{example}\label{ex:diag}
+  Consider the diagonal function $\forall \alpha.\alpha \rightarrow \alpha \times \alpha$. Given a default naturality type, the corresponding Petri net, defined by
+  \begin{equation*}
+    \mathbf{D} = \mathcal{P}([\alpha,\ \alpha \times \alpha],\ [n \mapsto 1],\ [n \mapsto 1]),
+  \end{equation*}
+  may be graphically depicted as
+  \begin{center}
+    \begin{tikzcd}
+    & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] &  \\
+    & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[ld] \arrow[rd] &  \\
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
+    \end{tikzcd}.
+  \end{center}
+  Substituting $\alpha \rightarrow \alpha$ for $\alpha$ yields
+  \begin{flalign*}
+    \mathbf{D}[\alpha \rightarrow \alpha/\alpha] &= \mathcal{P}([\alpha \rightarrow \alpha,\ (\alpha \rightarrow \alpha) \times (\alpha \rightarrow \alpha)],\ [f],\ [g]),\\
+    &\ \ \ \ \text{where } f = n \mapsto n\\
+    &\ \qquad\quad\ \ \; g = \{(1,1),\ (2,2),\ (3,1),\ (4,2)\}.
+  \end{flalign*}
+  which may be graphically depicted as
+  \begin{center}
+      \begin{tikzcd}
+        & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] &  \\
+        & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[u] & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[ld] \arrow[rd] &  \\
+       {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[ru] & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[lu] & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
+       \end{tikzcd}.
+  \end{center}
+\end{example}
+
 \begin{definition}
   Given two Petri net models 
   \begin{flalign*}
@@ -132,6 +161,35 @@ As formerly discussed, the construction of a Petri net from a type requires the 
   \end{flalign*}
 \end{definition}
 
+\begin{example}
+  Observe the Petri net, denoted $\mathbf{D}$, given for the diagonal function, $\forall \alpha.\alpha \rightarrow \alpha \times \alpha$, in Example \ref{ex:diag}. Consider a second type $\forall \alpha.\alpha \times \alpha \rightarrow \alpha$. Given a default naturality type, the corresponding Petri net, defined by
+  \begin{equation*}
+    \mathbf{C} = \mathcal{P}([\alpha \times \alpha,\ \alpha],\ [n \mapsto 1],\ [n \mapsto 1]),
+  \end{equation*}
+  may be graphically depicted as
+  \begin{center}
+    \begin{tikzcd}
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[rd] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] \\
+      & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[d] &  \\
+      & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & 
+    \end{tikzcd}.
+  \end{center}
+  Pasting the domain of $\mathbf{C}$ along the codomain of $\mathbf{D}$, is given by
+  \begin{equation*}
+    \mathbf{C} \bullet \mathbf{D} = \mathcal{P}([\alpha,\ \alpha \times \alpha,\ \alpha],\ [n \mapsto 1,\ n \mapsto 1],\ [n \mapsto 1,\ n \mapsto 1]),
+  \end{equation*}
+  and may be graphically depicted as
+  \begin{center}
+    \begin{tikzcd}
+      & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] &  \\
+      & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[ld] \arrow[rd] &  \\
+     {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[rd] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[ld] \\
+      & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[d] &  \\
+      & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & 
+     \end{tikzcd}.
+  \end{center}
+\end{example}
+
 \begin{definition}\label{def:petricomposition}
   Given two Petri net models 
   \begin{flalign*}
@@ -143,6 +201,43 @@ As formerly discussed, the construction of a Petri net from a type requires the 
     \mathbf{B} \cdot \mathbf{A} = B[s] \bullet A[s] \text{ where } s = U(\tau_n,\ \sigma_1).
   \end{flalign*}
 \end{definition}
+
+\begin{example}
+  Once again observe the Petri net, denoted $\mathbf{D}$, of the diagonal function, provided in Example \ref{ex:diag}. Consider the type 
+  \begin{equation*}
+    \forall \alpha.(\alpha \rightarrow \alpha) \times (\alpha \rightarrow \alpha) \rightarrow \alpha. 
+  \end{equation*}
+  Given a default naturality type, the corresponding Petri net, defined by
+  \begin{equation*}
+    \mathbf{E} = \mathcal{P}([(\alpha \rightarrow \alpha) \times (\alpha \rightarrow \alpha),\ \alpha],\ [n \mapsto 1],\ [n \mapsto 1]),
+  \end{equation*}
+  may be graphically depicted as
+  \begin{center}
+    \begin{tikzcd}[column sep=tiny]
+      {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[rd] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[llld] \\
+       &  &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lllu] \arrow[ru] \arrow[d] &  &  &  \\
+       &  &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} &  &  & 
+      \end{tikzcd}.
+  \end{center}
+  The composition of $\mathbf{E}$ and $\mathbf{D}$ is given by
+  \begin{flalign*}
+    \mathbf{E} \cdot \mathbf{D} &= \mathcal{P}([\alpha \rightarrow \alpha,\ (\alpha \rightarrow \alpha) \times (\alpha \rightarrow \alpha),\ \alpha],\ [f_1,\ f_2],\ [g_1,\ g_2])\\
+    & \quad \ \text{where } f_1 = n \mapsto n\\
+    & \qquad \qquad \: f_2 = n \mapsto 1\\
+    & \qquad \qquad \: g_1 = \{(1,1),\ (2,2),\ (3,1),\ (4,2)\}\\
+    & \qquad \qquad \: g_2 = n \mapsto 1,
+  \end{flalign*}
+  and may be graphically depicted as
+  \begin{center}
+    \begin{tikzcd}[column sep=tiny]
+      &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] &  &  \\
+      &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[u] &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lld] \arrow[rrd] &  &  \\
+     {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} \arrow[rru] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[rd] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} \arrow[llu] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[llld] \\
+      &  &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lllu] \arrow[ru] \arrow[d] &  &  &  \\
+      &  &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} &  &  & 
+     \end{tikzcd}.
+  \end{center}
+\end{example}
 
 \begin{definition}\label{def:instantunit}
   Given a type $\tau = \forall \alpha_1.\forall \alpha_2\ldots\forall \alpha_n.\sigma$, define

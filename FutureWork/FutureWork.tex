@@ -1,0 +1,37 @@
+% !TeX root = FutureWork.tex
+\documentclass[../Dissertation.tex]{subfiles}
+
+\begin{document}
+
+\section{Future Work}
+
+\subsection{Strong Dinaturality}
+Petri nets, within the developed application, correspond to dinaturality conditions of parametrically polymorphic types. However, this  
+
+Given two functors $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$, the structure-preserving condition of a dinatural transformation $\phi : F \rightarrow G$ is described by the following commutative diagram:
+\begin{equation}\label{dinaturality}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.0] (a) at (0,0) {
+      \begin{tikzcd}
+        &  F (X, X) \arrow[rr, "\phi_{X}"] \arrow[rd, "{F(id, f)}"]
+        &
+        &  G (X, X) \arrow[dr, "{G (id, f)}"]
+        &
+        \\ Y \arrow[ur, "p"] \arrow[dr, swap, "q"]
+        &
+        & F(X, X')
+        &
+        &  G (X, X')
+        \\
+        &  F (X', X') \arrow[rr, swap, "\phi_{X'}"]
+        &
+        &  G (X', X') \arrow[ur, swap, "{G (f, id)}"]
+        &
+      \end{tikzcd}.
+    };
+  \end{tikzpicture}
+\end{equation}
+
+\subsection{Operational Improvement}
+
+\end{document}

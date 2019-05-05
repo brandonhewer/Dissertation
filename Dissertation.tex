@@ -24,6 +24,7 @@
   {./Design//}
     {./Design/FormalGrammars//}{./FormalGrammars//}
   {./Features//}
+  {./FutureWork//}
   {./Results//}
   {./Evaluation//}
   {./Conclusion//}
@@ -82,10 +83,49 @@
 \newpage
 \subfile{Evaluation}
 \newpage
+\subfile{FutureWork}
+\newpage
 \subfile{Conclusion}
 
 \newpage
 
-\bibliography{./LiteratureReview/ANaturalModel/ANaturalModel,./LiteratureReview/CategoryTheory/CategoryTheory,./LiteratureReview/ParametricPolymorphism/ParametricPolymorphism,./LiteratureReview/Petrinets/Petrinets,./TowardsATool/TowardsATool}
+\bibliography{./LiteratureReview/ANaturalModel/ANaturalModel,./LiteratureReview/CategoryTheory/CategoryTheory,./LiteratureReview/ParametricPolymorphism/ParametricPolymorphism,./LiteratureReview/Petrinets/Petrinets,./TowardsATool/TowardsATool,./FutureWork/FutureWork}
+
+\newpage
+
+\appendix
+
+\section{Conditions in Different Type Variables}\label{app:differentvars}
+
+\section{Iterated Composition}\label{app:itcomp}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.45]{compose2}
+\end{center}
+\caption{Generation of a Petri net by iterated composition.}
+\label{fig:compose2}
+\end{figure}
+
+\section{Modifying Naturality Types}\label{app:modcomp}
+
+\begin{figure}[H]
+\begin{center}
+%\includegraphics[scale=0.45]{natcompose2}
+\end{center}
+\caption{Composition of components; one with a modified naturality type.}
+\label{fig:natcompose}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+%\includegraphics[scale=0.45]{natcompose}
+\end{center}
+\caption{Composition of components with modified naturality types.}
+\label{fig:natcompose2}
+\end{figure}
+
+\section{Local Scaling and Translation}\label{app:zoomtrans}
+
+\section{Dinaturals in the Wild}\label{app:wilddinaturals}
 
 \end{document}

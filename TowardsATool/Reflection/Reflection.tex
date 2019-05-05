@@ -62,6 +62,32 @@ The coherence condition given in Figure \ref{fig:applyToFirst} equates every occ
 \caption{A more descriptive condition on \lstinline{applyToFirst}.}
 \label{fig:applyToFirstBetter}
 \end{figure}
+
+Furthermore, by observing the implementation of \lstinline{applyToFirst}, it is reasonable to conclude that its provided type is unnecessarily specialised. Indeed, given only the function body of \lstinline{applyToFirst}, a type inference algorithm would find its type to be \lstinline{(a -> b, a, c)} \lstinline{-> (b, c)}. This type contains three unique type variables, each of which corresponds to a different naturality condition. More precisely, the type is said to be natural in \lstinline{b} and \lstinline{c}, and extranatural in \lstinline{a}. The Petri nets corresponding to these naturality conditions are given in Figure \ref{fig:applyToFirstLast}. Read from left to right, these conditions are in the order \lstinline{a}, \lstinline{b}, \lstinline{c}.
+
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzcd}
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] \\
+      & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lu] & 
+    \end{tikzcd}
+    \qquad\qquad
+    \begin{tikzcd}
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] \\
+    {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[d] \\
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
+    \end{tikzcd}
+    \qquad\qquad
+    \begin{tikzcd}
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] \\
+    {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[d] \\
+    {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
+    \end{tikzcd}
+  \end{center}
+\caption{Naturality condition of \lstinline{(a -> b, a, c)} \lstinline{-> (b, c)}.}
+\label{fig:applyToFirstLast}
+\end{figure}
+
 Two clear benefits, relating to the graphical expression of free theorems, have emerged; brevity and generality. The described Petri nets allow for the depiction of the usual free theorems, and with the addition of naturality types, are also able to depict more descriptive conditions. 
 \par
 Furthermore, when the domain and codomain of two Petri net models have an identical structure, they may be composed simply by pasting the respective domain along the codomain. Such a simple operation is unfortunately not always possible, even if the underlying types are composable. This is a consequence of the difference between composition in a Hindley-Milner type system, and composition of dinatural transformations. The described problem will be returned to shortly.

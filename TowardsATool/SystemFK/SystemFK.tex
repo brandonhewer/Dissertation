@@ -342,14 +342,11 @@ Given type constructors $T_1 : \upsilon^\theta$, $T_2 : \omega^\gamma$, and poly
     \tau &= \forall F.\ \forall \alpha.F\ (\alpha \rightarrow \alpha)\ (\alpha \rightarrow \alpha),\\
     \sigma &= \forall G.\ \forall \beta.\ \forall \gamma.G\ \beta\ \beta\ \beta\ (\gamma \rightarrow \gamma).
   \end{flalign*}
-  There exists a unification of $\tau$ and $\sigma$, given by
+  There exists a unification of $\tau$ and $\sigma$, given by $S = U(\tau,\ \sigma)$ such that
   \begin{equation*}
-    S = U(\tau,\ \sigma) = [(\alpha \rightarrow \alpha)/\beta] \circ [\alpha/\gamma] \circ [G/F],
+    \tau[S] = \sigma[S] = \forall G.\ \forall \alpha. G\ (\alpha \rightarrow \alpha)\ (\alpha \rightarrow \alpha)\ (\alpha \rightarrow \alpha)\ (\alpha \rightarrow \alpha). 
   \end{equation*}
-  such that
-  \begin{equation*}
-    \tau[S] = \sigma[S] = G\ (\alpha \rightarrow \alpha)\ (\alpha \rightarrow \alpha)\ (\alpha \rightarrow \alpha)\ (\alpha \rightarrow \alpha). 
-  \end{equation*}
+  Note that this is only possible as a consequence of the polymorphism of $F$ and $G$.
 \end{example}
 
 \begin{remark}
