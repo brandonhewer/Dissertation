@@ -6,9 +6,9 @@
 \section{Future Work}
 
 \subsection{Strong Dinaturality}
-Petri nets, within the developed application, correspond to dinaturality conditions of parametrically polymorphic types. However, this  
+Petri nets, within the developed application, are used to explore the connection between dinaturality and parametricity. The composition of two Petri nets may contain a cycle. The creation of a cycle indicates that there is no means by which to show, in general, that dinaturality is preserved by composition of the underlying dinatural transformations. In contrast the composition of parametrically polymorphic functions, does preserve parametricity.
 
-Given two functors $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$, the structure-preserving condition of a dinatural transformation $\phi : F \rightarrow G$ is described by the following commutative diagram:
+Let $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ be functors. A family of morphisms $\phi_X : F(X, X) \rightarrow G(X, X)$ is a strong dinatural transformation if for every morphism $f : X \rightarrow X' \in \mathbb{C}$, and all objects $Y \in \mathbb{D}$ and morphisms $p : Y \rightarrow F(X, X)$, $q : Y \rightarrow F(X',X)$, if the square on the left commutes, then so does the hexagon,
 \begin{equation}\label{dinaturality}
   \begin{tikzpicture}[baseline= (a).base]
     \node[scale=1.0] (a) at (0,0) {
@@ -19,11 +19,11 @@ Given two functors $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb
         &
         \\ Y \arrow[ur, "p"] \arrow[dr, swap, "q"]
         &
-        & F(X, X')
+        & F(X, X') \arrow[rr, Rightarrow, shorten=3em, xshift=-2mm]
         &
         &  G (X, X')
         \\
-        &  F (X', X') \arrow[ru, "{F(f, id)}"] \arrow[rr, swap, "\phi_{X'}"]
+        &  F (X', X') \arrow[ru, swap, "{F(f, id)}"] \arrow[rr, swap, "\phi_{X'}"]
         &
         &  G (X', X') \arrow[ur, swap, "{G (f, id)}"]
         &
