@@ -6,9 +6,9 @@
 \section{Future Work}
 
 \subsection{Strong Dinaturality}
-Petri nets, within the developed application, are used to explore the connection between dinaturality and parametricity. The composition of two Petri nets may contain a cycle. The creation of a cycle indicates that there is no means by which to show, in general, that dinaturality is preserved by composition of the underlying dinatural transformations. In contrast the composition of parametrically polymorphic functions, does preserve parametricity.
-
-Let $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ be functors. A family of morphisms $\phi_X : F(X, X) \rightarrow G(X, X)$ is a strong dinatural transformation if for every morphism $f : X \rightarrow X' \in \mathbb{C}$, and all objects $Y \in \mathbb{D}$ and morphisms $p : Y \rightarrow F(X, X)$, $q : Y \rightarrow F(X',X)$, if the square on the left commutes, then so does the hexagon,
+Petri nets, within the developed application, are used to explore the connection between dinaturality and parametricity. Recall, that the composition of two Petri nets may contain a cycle. The creation of a cycle indicates that there is no means by which to show, in general, that dinaturality is preserved by composition of the underlying dinatural transformations. In contrast, parametricity is always preserved by the composition of parametrically polymorphic functions. This discrepancy suggests that a property, stronger than dinaturality, is necessary to more accurately model parametricity.
+\par
+The notion of strong dinaturality, was introduced by \citeasnoun{MulryStrong}, in order to characterize fixed-point operators. Let $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ be functors. A strong dinatural transformation is a family of morphisms $\phi_X : F(X, X) \rightarrow G(X, X)$, such that for every morphism $f : X \rightarrow X' \in \mathbb{C}$, and all objects $Y \in \mathbb{D}$ and morphisms $p : Y \rightarrow F(X, X)$, $q : Y \rightarrow F(X',X)$, if, in the following diagram, the diamond on the left commutes, then so does the hexagon:
 \begin{equation}\label{dinaturality}
   \begin{tikzpicture}[baseline= (a).base]
     \node[scale=1.0] (a) at (0,0) {
@@ -31,6 +31,8 @@ Let $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ be functor
     };
   \end{tikzpicture}
 \end{equation}
+\par
+\citeasnoun{Diparametricity} 
 
 \subsection{Operational Improvement}
 

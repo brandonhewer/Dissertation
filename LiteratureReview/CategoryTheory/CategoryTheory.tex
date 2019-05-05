@@ -194,7 +194,7 @@ By observation, the dinaturality condition for the fix function can be verified;
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
-fix (g . f) = g . fix (f . g).
+fix (g . f) = g (fix (f . g)).
 \end{lstlisting}
 \end{tabular}
 \end{center}
