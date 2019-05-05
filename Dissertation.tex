@@ -26,7 +26,6 @@
   {./Features//}
   {./FutureWork//}
   {./Results//}
-  {./Evaluation//}
   {./Conclusion//}
 }
 \makeatother
@@ -81,8 +80,6 @@
 \newpage
 \subfile{Results}
 \newpage
-\subfile{Evaluation}
-\newpage
 \subfile{FutureWork}
 \newpage
 \subfile{Conclusion}
@@ -96,6 +93,54 @@
 \appendix
 
 \section{Conditions in Different Type Variables}\label{app:differentvars}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.45]{applytofirsta}
+\end{center}
+\caption{Petri net generated for type variable \lstinline{a} of \lstinline{applyToFirst}.}
+\label{fig:applyToFirstA}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.45]{applytofirstb}
+\end{center}
+\caption{Petri net generated for type variable \lstinline{b} of \lstinline{applyToFirst}.}
+\label{fig:applyToFirstB}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.45]{applytofirstc}
+\end{center}
+\caption{Petri net generated for type variable \lstinline{c} of \lstinline{applyToFirst}.}
+\label{fig:applyToFirstC}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.45]{typea}
+\end{center}
+\caption{Petri net generated for variable \lstinline{a} of \lstinline{F a- a b- c => G a b- c}.}
+\label{fig:typea}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.45]{typeb}
+\end{center}
+\caption{Petri net generated for variable \lstinline{b} of \lstinline{F a- a b- c => G a b- c}.}
+\label{fig:typeb}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.45]{typec}
+\end{center}
+\caption{Petri net generated for variable \lstinline{c} of \lstinline{F a- a b- c => G a b- c}.}
+\label{fig:typec}
+\end{figure}
 
 \section{Iterated Composition}\label{app:itcomp}
 \begin{figure}[H]
@@ -127,5 +172,6 @@
 \section{Local Scaling and Translation}\label{app:zoomtrans}
 
 \section{Dinaturals in the Wild}\label{app:wilddinaturals}
+
 
 \end{document}

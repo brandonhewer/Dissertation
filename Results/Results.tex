@@ -3,7 +3,10 @@
 
 \begin{document}
 
-\section{Research Analysis} 
+\section{Contribution}
+The theoretical foundations of a tool were outlined in Section \ref{sec:towardsatool}. A novel extension to the Hindley-Milner type system, termed System $F_\kappa$, was introduced. McCusker and Santamaria's formulation of dinaturality conditions as Petri net models was applied to types in System $F_\kappa$. 
+\par
+A software application was developed to facilitate an exploration of the relationship between dinaturality and parametricity. To achieve this, user-supplied types are used to generate composable, operational Petri nets, which correspond to their dinaturality condition.
 
 \subsection{Dinaturals in the wild}
 Observe the type of the \lstinline{filter} function
@@ -43,7 +46,7 @@ Providing this as input, in conjunction with the type variable \lstinline{a}, an
   \label{fig:petrifilter}
 \end{figure}
 \noindent
-Given a predicate \lstinline{p : a -> Bool}, and a function \lstinline{f : a -> b}, this corresponds to the free theorem
+Given a predicate \lstinline{p : b -> Bool}, and a function \lstinline{f : a -> b}, this corresponds to the free theorem
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
@@ -89,7 +92,7 @@ Providing this as input, in conjunction with the type variable \lstinline{b}, an
   \label{fig:petrifoldr}
 \end{figure}
 \noindent
-Given an accumulator \lstinline{u : a -> b -> b}, and a function \lstinline{f : b -> c}, this corresponds to the free theorem
+Given an accumulator \lstinline{u : a -> c -> b}, and a function \lstinline{f : b -> c}, this corresponds to the free theorem
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}[basicstyle=\ttfamily,style=haskellStyle]
@@ -135,7 +138,7 @@ Providing this as input, in conjunction with the type variable \lstinline{a}, an
   \label{fig:petrispan}
 \end{figure}
 \noindent
-Given a predicate \lstinline{p : a -> Bool}, and a function \lstinline{f : a -> b}, this corresponds to the free theorem
+Given a predicate \lstinline{p : b -> Bool}, and a function \lstinline{f : a -> b}, this corresponds to the free theorem
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
@@ -182,7 +185,7 @@ Providing this as input, in conjunction with the type variable \lstinline{a}, an
   \label{fig:groupBy}
 \end{figure}
 \noindent
-Given a relation \lstinline{r :: a -> a -> Bool} and a function \lstinline{f :: a -> b}, this corresponds to the free theorem
+Given a relation \lstinline{r :: b -> b -> Bool} and a function \lstinline{f :: a -> b}, this corresponds to the free theorem
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}[basicstyle=\ttfamily,style=haskellStyle]
@@ -229,7 +232,7 @@ Providing this as input, in conjunction with the type variable \lstinline{a}, an
   \label{fig:insertBy}
 \end{figure}
 \noindent
-Given an ordering \lstinline{o : a -> a -> Ordering}, and a function \lstinline{f : a -> b}, this corresponds to the free theorem
+Given an ordering \lstinline{o : b -> b -> Ordering}, and a function \lstinline{f : a -> b}, this corresponds to the free theorem
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
@@ -313,6 +316,5 @@ Providing this as input, in conjunction with the type variable \lstinline{a}, an
 
 \subsection{Currying and Naturality}
 
-\subsection{Disposable Cycles}
 
 \end{document}
