@@ -270,7 +270,7 @@ Providing this as input, in conjunction with the type variable \lstinline{a}, an
   \begin{center}
     \begin{tikzcd}[column sep=tiny]
       &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  &  \\
-      &  &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lu] \arrow[ru] \arrow[llld] \arrow[ld] &  &  &  \\
+      &  &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[lu] \arrow[ru] \arrow[llld] \arrow[ld] &  &  &  \\
      {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[lu] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[lllu]
      \end{tikzcd}.
   \end{center}
@@ -304,10 +304,10 @@ with the default naturality type
 Providing this as input, in conjunction with the type variable \lstinline{a}, and exporting the result to LaTeX, yields
 \begin{figure}[H]
   \begin{center}
-    \begin{tikzcd}[column sep=tiny]
+      \begin{tikzcd}[column sep=tiny]
       {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[llld] \\
-       &  &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[lllu] \arrow[lu] \arrow[ld] &  &  &  \\
-       &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[lu] &  & 
+        &  &  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[lllu] \arrow[lu] \arrow[lld] \arrow[rrd] &  &  &  \\
+        & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[u] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & 
       \end{tikzcd}.
   \end{center}
   \caption{prepro}
@@ -315,6 +315,30 @@ Providing this as input, in conjunction with the type variable \lstinline{a}, an
 \end{figure}
 
 \subsection{Currying and Naturality}
+
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzcd}
+      {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] \\
+       & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=10pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lu] & 
+      \end{tikzcd}
+  \end{center}
+  \caption{Petri generated for uncurried evaluation map.}
+  \label{fig:prepro}
+\end{figure}
+
+
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzcd}
+      {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} \\
+      {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[u] \\
+      {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[u]
+      \end{tikzcd}
+  \end{center}
+  \caption{Petri generated for curried evaluation map.}
+  \label{fig:prepro}
+\end{figure}
 
 
 \end{document}
