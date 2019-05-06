@@ -4,11 +4,13 @@
 \begin{document}
 
 \section{Contribution}
-The theoretical foundations of a tool were outlined in Section \ref{sec:towardsatool}. A novel extension to the Hindley-Milner type system, termed System $F_\kappa$, was introduced. McCusker and Santamaria's formulation of dinaturality conditions as Petri net models was applied to types in System $F_\kappa$. 
-\par
-A software application was developed to facilitate an exploration of the relationship between dinaturality and parametricity. To achieve this, user-supplied types are used to generate composable, operational Petri nets, which correspond to their dinaturality condition.
+Example use cases will be given to illustrate the practical contribution of the developed application, beyond the underlying theory provided in Section \ref{sec:towardsatool}. Petri nets presented in this section were created using the LaTeX exported by the application.
 
 \subsection{Dinaturals in the wild}
+Perhaps the most apparent use case for the developed application, is computing and presenting the dinaturality condition for a user provided type. Recall that dinaturality conditions correspond to free theorems. Accordingly, a Petri net generated from a type can also be read as the free theorem of that type. 
+\par
+A collection of ubiquitous dinatural transformations, found within the application, will be illustrated. Furthermore, the corresponding free theorems will be provided. Images of each Petri net, being created within the application, are given in Appendix \ref{app:wilddinaturals}.
+
 Observe the type of the \lstinline{filter} function
 \begin{center}
 \begin{tabular}{c}
