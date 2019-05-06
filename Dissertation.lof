@@ -33,10 +33,13 @@
 \contentsline {figure}{\numberline {33}{\ignorespaces Generation of a Petri net by iterated composition.\relax }}{85}{figure.caption.39}% 
 \contentsline {figure}{\numberline {34}{\ignorespaces Composition of components; one with a modified naturality type.\relax }}{86}{figure.caption.40}% 
 \contentsline {figure}{\numberline {35}{\ignorespaces Composition of components with modified naturality types.\relax }}{87}{figure.caption.41}% 
-\contentsline {figure}{\numberline {36}{\ignorespaces Petri net generated for variable \lstinline {a} of \lstinline {filter}.\relax }}{87}{figure.caption.42}% 
-\contentsline {figure}{\numberline {37}{\ignorespaces Petri net generated for variable \lstinline {b} of \lstinline {foldr}.\relax }}{88}{figure.caption.43}% 
-\contentsline {figure}{\numberline {38}{\ignorespaces Petri net generated for variable \lstinline {a} of \lstinline {span}.\relax }}{88}{figure.caption.44}% 
-\contentsline {figure}{\numberline {39}{\ignorespaces Petri net generated for variable \lstinline {a} of \lstinline {groupBy}.\relax }}{89}{figure.caption.45}% 
-\contentsline {figure}{\numberline {40}{\ignorespaces Petri net generated for variable \lstinline {a} of \lstinline {insertBy}.\relax }}{89}{figure.caption.46}% 
-\contentsline {figure}{\numberline {41}{\ignorespaces Petri net generated for variable \lstinline {a} of \lstinline {dicata}.\relax }}{90}{figure.caption.47}% 
-\contentsline {figure}{\numberline {42}{\ignorespaces Petri net generated for variable \lstinline {a} of \lstinline {prepro}.\relax }}{90}{figure.caption.48}% 
+\contentsline {figure}{\numberline {36}{\ignorespaces Large composite Petri net translated to the left.\relax }}{87}{figure.caption.42}% 
+\contentsline {figure}{\numberline {37}{\ignorespaces Large composite Petri net translated to the right.\relax }}{88}{figure.caption.43}% 
+\contentsline {figure}{\numberline {38}{\ignorespaces Zoomed in to a large composite Petri net.\relax }}{88}{figure.caption.44}% 
+\contentsline {figure}{\numberline {39}{\ignorespaces Petri net generated for variable \lstinline {a} of \lstinline {filter}.\relax }}{89}{figure.caption.45}% 
+\contentsline {figure}{\numberline {40}{\ignorespaces Petri net generated for variable \lstinline {b} of \lstinline {foldr}.\relax }}{89}{figure.caption.46}% 
+\contentsline {figure}{\numberline {41}{\ignorespaces Petri net generated for variable \lstinline {a} of \lstinline {span}.\relax }}{90}{figure.caption.47}% 
+\contentsline {figure}{\numberline {42}{\ignorespaces Petri net generated for variable \lstinline {a} of \lstinline {groupBy}.\relax }}{90}{figure.caption.48}% 
+\contentsline {figure}{\numberline {43}{\ignorespaces Petri net generated for variable \lstinline {a} of \lstinline {insertBy}.\relax }}{91}{figure.caption.49}% 
+\contentsline {figure}{\numberline {44}{\ignorespaces Petri net generated for variable \lstinline {a} of \lstinline {dicata}.\relax }}{91}{figure.caption.50}% 
+\contentsline {figure}{\numberline {45}{\ignorespaces Petri net generated for variable \lstinline {a} of \lstinline {prepro}.\relax }}{92}{figure.caption.51}% 

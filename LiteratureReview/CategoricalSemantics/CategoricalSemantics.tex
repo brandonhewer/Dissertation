@@ -4,7 +4,7 @@
 \begin{document}
 In the pursuit of a suitable categorical semantics for parametricity, a well-known isomorphism between formal proof systems, category theory and  programs, will be introduced. This will facilitate the exploration of a composable family of dinatural transformations, which are identified by means of cut-free proofs.
 \par
-A categorical semantics of the simply-typed lambda calculus will be provided.
+Subsequently, a categorical semantics of the simply-typed lambda calculus will be introduced, providing a category-theoretic model of simple types. Finally, a categorical semantics for polymorphic types in System F will be explored, by means of modelling parametrically polymorphic functions as a composable class of dinatural transformations.
 
 \subsection{Curry-Howard-Lambek correspondence}\label{sec:curryhowardlambek}
 A sequent calculus is an inference system for first-order logic. The most basic construct in a sequent calculus, known as a sequent, has the form
@@ -48,7 +48,7 @@ The substitution depicted in (\ref{eq:lambdacompose}) reveals a property of the 
 \subsection{Categorical Semantics of System F}\label{sec:systemfcat}
 A model of the simply-typed lambda calculus in a cartesian closed category was first described by \citeasnoun{CCCLambda}. Furthermore, Lambek shows the simply-typed lambda calculus is the internal language of any cartesian closed category. The notion of an internal language provides a manner in which to translate propositions within a given logic into categorical propositions. The construction described by Lambek extends to the second-order polymorphic lambda calculus (System F).
 \par
-Types in the simply-typed calculus are taken to be objects in a category. The set of morphisms between two types $T$ and $U$ is given by the set of functions of the form $T \Rightarrow U$. The identity morphism is given by the polymorphic identity function. Composition is given by the polymorphic composition function.
+Types in the simply-typed calculus are taken to be objects in a category. The set of morphisms between two types $T$ and $U$ is given by the set of functions of the form $T \Rightarrow U$. The identity morphism on $T$ is given by the identity function $\lambda x^T.x$. Composition is given by the polymorphic composition function.
 \par
 To complete the construction of a cartesian closed category, it is necessary to show that the category has finite products and that the functor, $- \times X$, has a right adjoint. The terminal object is given by including a unit type, denoted $()$, in the definition of the simply-typed lambda  calculus. 
 \par
@@ -91,7 +91,12 @@ The right adjoint of $- \times X$ is given by the functor $X \Rightarrow -$, whi
 \subsection{Functorial Polymorphism}\label{sec:functorial}
 \citeasnoun{FunctorialPolymorphism} introduce a formal model of parametric polymorphism in which the parametricity property is described by naturality conditions. Given an enriched cartesian closed category $\mathbb{C}$ of primitive types, multi-variance functors of the form $(\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$ are used to model polymorphic types with $n$ type variables. In this interpretation, terms are given by natural transformations and primitive types are modelled by constant functors.
 \par
-A deeper intuition of how types may be understood as functors of the form $(\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$, is found by examination of prominent examples. The type of the polymorphic identity function, $\forall T.\ T \Rightarrow T$, is modelled as a functor of the form $\mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{C}$. The type of the Y-combinator, $\forall T.\ (T \Rightarrow T) \Rightarrow T$, is modelled as a functor of the form $\mathbb{C}^{op} \times \mathbb{C}^{op} \times \mathbb{C} \times \mathbb{C} \rightarrow \mathbb{C}$, which is dummy in the first argument.
+A deeper intuition of how types may be understood as functors of the form $(\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$, is found by examination of prominent examples. The type of the polymorphic identity function, $\forall T.\ T \Rightarrow T$, is modelled as a functor of the form $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{C}$. Given objects $X,\ Y \in \mathbb{C}$ and functions $f : X' \rightarrow X$, $g : Y \rightarrow Y'$, $F$ is defined as follows: 
+\begin{flalign}
+  F (X, Y) = X \rightarrow Y,\\
+  F (f, g) = \lambda h^{X \rightarrow Y}. g \circ h \circ f.
+\end{flalign}
+The type of the Y-combinator, $\forall T.\ (T \Rightarrow T) \Rightarrow T$, is modelled as a functor of the form $\mathbb{C}^{op} \times \mathbb{C}^{op} \times \mathbb{C} \times \mathbb{C} \rightarrow \mathbb{C}$, which is dummy in the first argument.
 \par
 Bainbridge et al. construct a cartesian closed category, $\mathbf{PER}(X)$, of partial-equivalence relations on $X$, in which a morphism is named by each partial recursive function $f$ which preserves relationships i.e., $x\ R\ y \rightarrow f(x)\ R'\ f(y)$. Composition is given by the set-theoretic notion of function composition. A class of composable dinatural transformations, denoted `realizable', on the category $\mathbf{PER}(X)$, is identified. It is then shown that any functor definable in System F is `realizable', and every natural transformation between such functors is indeed also `realizable'. Dinatural transformations within System F, defined using the described syntatic approach, are thus shown to be composable.
 \par
