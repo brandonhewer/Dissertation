@@ -19,7 +19,7 @@ In the current version of the application, cycles within Petri nets are only ide
 This problem may be resolved by changing the colour of edges which comprise a cycle. Indeed, this approach was used in Figure \ref{fig:petricycle}. However, there remains a broader issue of the increasing complexity of Petri nets after each composition.
 
 \subsection{Petri net Contraction}
-Each iteration of composition, within the application, yields a graph with a greater number of nodes. This has the potential to rapidly generate complex graphs which are difficult to analyse. An example of this problem is illustrated in Figure \ref{fig:large}, which presents a Petri net created by six iterations of composition.
+Each iteration of composition, within the application, yields a graph with a greater number of nodes. This has the potential to rapidly generate complex graphs which are difficult to analyse. An example of this problem is illustrated in Figure \ref{fig:large}, which presents a Petri net created by six iterations of composition. The resulting naturality condition is challenging to identify, and often requires following each path through the graph.
 
 \begin{figure}[H]
 \begin{center}
@@ -29,26 +29,30 @@ Each iteration of composition, within the application, yields a graph with a gre
 \label{fig:large}
 \end{figure}
 
-This complication arises as a consequence of maintaining the composition boundaries. However, in McCusker and Santamaria's formulation, the composition of naturality types is found by means of calculating a pushout. Consider the Petri nets
+This complication arises as a consequence of maintaining the composition boundaries. Consider the Petri nets
 \begin{flalign}
   \mathbf{A} = \mathcal{P}([\alpha,\ \alpha \times \alpha \times \alpha],\ [n \mapsto 1],\ [n \mapsto 1]),\\
   \mathbf{B} = \mathcal{P}([\alpha \times \alpha \times \alpha,\ \alpha],\ [n \mapsto 1],\ [n \mapsto 1]),
 \end{flalign}
-which may be graphically represented as
+which are graphically represented as
 \begin{center}
-  \begin{tikzcd}
-  {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[rd] & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] \\
-    & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[d] &  \\
-    & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & 
-  \end{tikzcd}
-  \qquad
   \begin{tikzcd}
   & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] &  \\
   & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[ld] \arrow[d] \arrow[rd] &  \\
   {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
+  \end{tikzcd}
+  \qquad
+  \begin{tikzcd}
+  {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[rd] & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] \\
+    & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[d] &  \\
+    & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & 
   \end{tikzcd}.
 \end{center}
-The composition $\mathbf{B} \cdot \mathbf{A}$, as generated within the application, yields
+Their composition, as generated within the application, yields
+\begin{equation}
+  \mathbf{B} \cdot \mathbf{A} = \mathcal{P}([\alpha,\ \alpha \times \alpha \times \alpha,\ \alpha],\ [n \mapsto 1,\ n \mapsto 1],\ [n \mapsto 1,\ n \mapsto 1]),
+\end{equation}
+which is graphically represented as
 \begin{center}
   \begin{tikzcd}
   & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] &  \\
@@ -58,6 +62,32 @@ The composition $\mathbf{B} \cdot \mathbf{A}$, as generated within the applicati
   & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & 
   \end{tikzcd}.
 \end{center}
+
+This approach preserves the composition boundary, and illustrates both of the dinatural transformations involved in the composition. However, in McCusker and Santamaria's formulation, the resulting graph is contracted, by means of calculating the pushout of $n \mapsto 1$ and $n \mapsto 1$. Applying this approach to compose $\mathbf{B}$ and $\mathbf{A}$, yields
+\begin{equation}
+\mathcal{P}([\alpha,\ \alpha],\ [n \mapsto 1],\ [n \mapsto 1]),
+\end{equation}
+which is graphically represented as
+\begin{center}
+  \begin{tikzcd}
+  {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] \\
+  {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=gray] (char) {};}} \arrow[d] \\
+  {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}}
+  \end{tikzcd}.
+\end{center}
+
+Although the constituent dinatural transformations are no longer identifiable, the resulting naturality condition is more concisely depicted. Furthermore, this operation can continue to be applied, with the condition that there are no cycles. For example, there is no way to appropriately contract the following Petri net:
+\begin{center}
+  \begin{tikzcd}
+  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[d] &  \\
+  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[rd] &  \\
+  {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} \arrow[ru] &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} \arrow[ld] \\
+  & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lu] \arrow[d] &  \\
+  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {};}} & 
+  \end{tikzcd}.
+\end{center}
+
+An appropriate implementation for this feature would involve computing both the expanded and contracted Petri net forms, with each composition. This would facilitate a means by which, at every stage, a user could determine which version to explore.
 
 \subsection{Strong Dinaturality}
 Petri nets, within the developed application, are used to explore the connection between dinaturality and parametricity. Recall, that the composition of two Petri nets may contain a cycle. The creation of a cycle indicates that there is no means by which to show, in general, that dinaturality is preserved by composition of the underlying dinatural transformations. In contrast, parametricity is always preserved by the composition of parametrically polymorphic functions. This discrepancy suggests that a property, stronger than dinaturality, is necessary to more accurately model parametricity.
