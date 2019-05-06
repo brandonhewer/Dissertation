@@ -70,7 +70,7 @@ instance Functor [] where
   fmap f []     = []
   fmap f (x:xs) = f x : (fmap f xs)
 \end{lstlisting}
-The list functor, \lstinline{[] : Hask -> Hask}, where \lstinline{Hask} is the category of Haskell types, maps any type \lstinline{a} to a type \lstinline{[a]}. Morphisms of the type \lstinline{f : a -> b} are lifted to \lstinline{[a] -> [b]} by defining a function which applies \lstinline{f} to every element in a list. A functor whose co-domain category is the same as its domain, such as \lstinline{[]}, is termed an endo-functor.
+In the provided example \lstinline{[]} is known as a type constructor or higher-kinded type. A type constructor is a function which operates on types. The list functor, \lstinline{[] : Hask -> Hask}, where \lstinline{Hask} is the category of Haskell types, maps any type \lstinline{a} to a type \lstinline{[a]}. Morphisms of the type \lstinline{f : a -> b} are lifted to \lstinline{[a] -> [b]} by defining a function which applies \lstinline{f} to every element in a list. A correct implementation of \lstinline{fmap} must satisfy the functorial laws outlined in (32) and (33). A functor whose co-domain category is the same as its domain, such as \lstinline{[]}, is termed an endo-functor.
 
 The definition of a functor generalises to the notion of a multifunctor. A multifunctor is a functor of the form $\mathbb{C}_1 \times \mathbb{C}_2 \times \cdots \times \mathbb{C}_n \rightarrow \mathbb{D}$, i.e., a functor whose domain is a product category. An example of a multifunctor is given by the product bifunctor in the Haskell programming language, as shown in Listing \ref{Haskell-Product}.
 
@@ -90,6 +90,8 @@ In the given formulation, if there exists $\mathbb{C}_i, \mathbb{C}_j$, such tha
 instance Profunctor (->) where
   dimap f h g = h . g . f
 \end{lstlisting}
+
+Observe that, in the functional programming language Haskell, the notion of a functor translates to a restricted set of type constructors. The type constructors in question are those for which it is possible to define the function \lstinline{fmap}, such that the functorial laws are satisfied. 
 
 \subsection{Natural transformations}
 A natural transformation is a family of morphisms which collectively describe a structure-preserving map between two functors. The structure-preserving condition of a natural transformation $\eta_{X} : F(X) \rightarrow G(X)$ between two functors $F, G : \mathbb{C} \rightarrow \mathbb{D}$, is expressed by the following commutative diagram:
@@ -126,6 +128,7 @@ fmap f . safeHead = safeHead . fmap f.
 \end{lstlisting}
 \end{tabular}
 \end{center}
+The discerning reader may  recognise this as the free theorem for \lstinline{safeHead}. This is an indication of a deeper relationship between naturality conditions and parametricity. Indeed, determining the nature of this relationship is the leading motivation of the work outlined in this paper.
 \par
 The formulation of naturality depicted in \eqref{eq:naturality} does not encapsulate transformations between mixed-variance functors. As described in Section \ref{section:functor}, mixed variance may be found in functors whose domain or co-domain is a product category, such as any hom-functor $Hom_{\mathbb{C}} : \mathbb{C}^{op} \times \mathbb{C} \rightarrow Set$, where $\mathbb{C}^{op}$ is the opposite category of $\mathbb{C}$. \citeasnoun{GeneralTransform} advanced a more general conception of naturality, known as extranaturality, to account for transformations between mixed-variance functors. The structure-preserving condition of an extranatural transformation $\alpha_{X,Z} : F(X,X) \rightarrow G(Z,Z)$ between two functors $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ and $G : \mathbb{B}^{op} \times \mathbb{B} \rightarrow \mathbb{D}$, is expressed by the following commutative diagram:
 \begin{equation}\label{eq:extranaturality}
@@ -158,6 +161,7 @@ eval . bimap id f = eval . bimap (. f) id.
 \end{lstlisting}
 \end{tabular}
 \end{center}
+As might be expected, this is the free theorem for the \lstinline{eval} function. Thus, it can be observed that the relationship between naturality and parametricity extends to extranaturality.
 \par
 The extranaturality condition does not extend to transformations in which mixed variance is present in both the domain and co-domain. A more general notion of naturality is required to describe such a family of morphisms; dinaturality. Given two functors $F, G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$, the structure-preserving condition of a dinatural transformation $\phi : F \rightarrow G$ is described by the following commutative diagram:
 \begin{equation}\label{dinaturality}
@@ -198,6 +202,9 @@ fix (g . f) = g (fix (f . g)).
 \end{lstlisting}
 \end{tabular}
 \end{center}
+This equality is the free theorem on \lstinline{fix}. As such, it appears that the relationship between naturality and parametricity extends to dinaturality.
+\par 
+In Reynold's formulation of parametricity, the composition of two parametrically polymorphic functions preserves parametricity. Accordingly, it is appropriate to investigate whether composition of natural transformations preserves naturality.
 
 \subsection{Natural composition}
 The vertical composition of two natural transformations $\eta_X : F(X) \rightarrow G(X)$ and $\gamma_X : G(X) \rightarrow H(X)$, is defined as $(\gamma \bullet \eta)_X = \gamma_X \circ \eta_X$. Vertical composition can also be depicted by the following commutative diagram:
@@ -295,7 +302,7 @@ Vertical and horizontal composition of natural transformations are related by th
 \\
 The notion of vertical and horizontal composition, and the associated interchange law, extends to the more general notion of 2-cells in any strict 2-category. In the given examples, the strict 2-category is the category $Cat$. In $Cat$, objects, known as 0-cells, are locally small categories. Morphisms  in $Cat$ are functor categories, in which objects (1-cells) are functors and morphisms (2-cells) are natural transformations.
 
-Following from the well-defined notion of composition of natural transformations, it is reasonable to pursue a similar formulation in the generalised dinatural case. Unfortunately, such a pursuit leads to a notorious problem; in general, dinatural transformations do not compose. Formally, given functors $F,\ G,\ H : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ and dinatural transformations $\phi : F \rightarrow G$,  $\psi : G \rightarrow H$, it is not necessarily true that the outer hexagon in the following diagram commutes:
+Following from the well-defined notion of composition of natural transformations, it is reasonable to pursue a similar formulation in the generalised dinatural case. Unfortunately, such a pursuit leads to a notorious problem; in general, dinatural transformations do not compose. This is in contrast to the composability of parametrically polymorphic functions. Formally, given functors $F,\ G,\ H : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ and dinatural transformations $\phi : F \rightarrow G$,  $\psi : G \rightarrow H$, it is not necessarily true that the outer hexagon in the following diagram commutes:
 
 \begin{equation}\label{eq:dicompose}
   \begin{tikzpicture}[baseline= (a).base]
@@ -340,7 +347,7 @@ where $\psi_X$ always maps to the identity on $X$, and $\phi_X$ is defined as fo
 \end{flalign}
 If the composition of $\phi$ and $\psi$ is dinatural, the resulting family of morphisms should satisfy the condition described by the commuting hexagon depicted in (\ref{eq:dinaturality}). It is clear that the family of morphisms $(\phi \cdot \psi)_X : K_1(X) \rightarrow K_{BOOL}(X)$ is a map between constant functors, and therefore, to be dinatural, must only describe a single morphism. However, the family of morphisms $(\phi \cdot \psi)_X$ is dependant on $X$, and describes two morphisms; one for each of the two possible parities of the number of fixpoints.
 \par
-In the circumstance in which the centre diamond found in (\ref{eq:dicompose}) is a pullback, the outer hexagon commutes, and the composition is dinatural. Formally, this diamond is a pullback if for all objects $Y$ and morphisms $f : Y \rightarrow G(X, X)$, $g : Y \rightarrow G(X', X')$, there exists a unique morphism $h : Y \rightarrow G(X', X)$, such that the following diagram commutes:
+In the circumstance in which the centre diamond found in (\ref{eq:dicompose}) is a pullback, the outer hexagon commutes, and the composition is dinatural. Formally, this diamond is a pullback if for all objects $Y \in \mathbb{D}$ and morphisms $f : Y \rightarrow G(X, X)$, $g : Y \rightarrow G(X', X')$, there exists a unique morphism $h : Y \rightarrow G(X', X)$, such that the following diagram commutes:
 
 \begin{equation}\label{eq:dinaturality}
   \begin{tikzpicture}[baseline= (a).base]
@@ -364,51 +371,6 @@ In the circumstance in which the centre diamond found in (\ref{eq:dicompose}) is
   \end{tikzpicture}
 \end{equation}
 
-\subsection{Whiskering}
-Whiskering is an instance of horizontal composition of 2-cells, in which one 2-cell is taken to be the identity on a 1-cell. By identifying a 1-cell with its associated identity 2-cell, it is possible to formalise the notion of horizontal composition of a 2-cell with a 1-cell. Pre-composing a 2-cell with a 1-cell is termed left whiskering, while post-composing is termed right whiskering.
-\par
-In the category $Cat$, whiskering translates to a technique for defining the horizontal composition of a natural transformation with a functor. Let $F, G : \mathbb{C} \rightarrow \mathbb{D}$ and $H, K: \mathbb{D} \rightarrow \mathbb{E}$ be functors, and $\alpha : F \rightarrow G, \beta : H \rightarrow K$ be natural transformations. Whiskering $F$ and $\beta$ is achieved by associating $F$ with $id_F : F \rightarrow F$, and is depicted by the following commutative diagram:
-
-\begin{equation}\label{eq:nat_vertical}
-  \begin{tikzpicture}[baseline= (a).base]
-    \node[scale=1.2] (a) at (0,0) {
-      \begin{tikzcd}
-        \mathbb{C} \arrow[r, "F"{name=F, above}]
-        &
-        \mathbb{D}
-        \arrow[r, bend left=60, "H"{name=H, above}]
-        \arrow[r, swap, bend right=60, "K"{name=K, below}]
-        \arrow[r, Rightarrow, from=H, to=K, shorten <= 2.6pt, shorten >= 2.6pt, "\beta"{}]
-        &
-        \mathbb{E}
-      \end{tikzcd}.
-    };
-  \end{tikzpicture}
-\end{equation}
-\\
-This may also be formulated with the equation $(\beta * F)_X = \beta_{F(X)}$. Whiskering $G$ and $\beta$ can be achieved in an identical fashion; by associating $G$ with the natural transformation $id_G : G \rightarrow G$. Alternatively, whiskering $\alpha$ and $H$ is achieved by associating $H$ with $id_H : H \rightarrow H$, and is depicted by the following commutative diagram:
-
-\begin{equation}\label{eq:nat_vertical}
-  \begin{tikzpicture}[baseline= (a).base]
-    \node[scale=1.2] (a) at (0,0) {
-      \begin{tikzcd}
-        \mathbb{C}
-        \arrow[r, bend left=60, "F"{name=F, above}]
-        \arrow[r, swap, bend right=60, "G"{name=G, below}]
-        \arrow[r, Rightarrow, from=F, to=G, shorten <= 2.6pt, shorten >= 2.6pt, "\alpha"{}]
-        &
-        \mathbb{D} \arrow[r, "H"{name=H, above}]
-        &
-        \mathbb{E}
-      \end{tikzcd}.
-    };
-  \end{tikzpicture}
-\end{equation}
-\\
-This may also be formulated with the equation $(H * \alpha)_X = H (\alpha_X)$. Once again, whiskering $\alpha$ and $K$ is achieved in an identical manner; associating $K$ with the natural transformation $id_K : K \rightarrow K$. Two equivalent definitions of the horizontal composition of $\alpha$ and $\beta$ are described in terms of whiskering:
-\begin{flalign}\label{horizontal-def}
-  \beta * \alpha = (\beta * G) \bullet (H * \alpha),\\
-  \beta * \alpha = (K * \alpha) \bullet (\beta * F).
-\end{flalign}
+As demonstrated, for the purposes of capturing the uniformity property of parametrically polymorphic types, the notion of dinaturality is too weak. Attempts to resolve this dilemma involve introducing additional conditions, in order to identify a class of dinatural transformations which compose.
 
 \end{document}

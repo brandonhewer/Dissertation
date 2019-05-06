@@ -38,9 +38,6 @@ System F permits the application of polymorphic types to type abstractions. Give
 
 The meaning of any polymorphic type in System F, from a set-theoretic perspective, can be defined in terms of all instances of that type (universal quantification). \citeasnoun{SystemFVariableTypes} discusses how this set-theoretic approach to interpreting types in System F creates a circularity problem, as a result of impredicativity. Girard introduces a category-theoretic semantics of System F, in which the behaviour of a polymorphic type is determined by its behaviour on a finite number of qualitative domains.
 
-\citeasnoun{DinaturalInSystemF} formulates a sufficient condition for dinaturality, in both the Church and Curry-style second-order polymorphic lambda calculus. Lataillade first describes the syntactic category $\mathcal{T}$ for System F, in conjunction with
-functors of the form $F[(\_,\_),X] : \mathcal{T}^{op} \times \mathcal{T} \rightarrow \mathcal{T}$. Each functor $F[(A,B),X]$ represents a substitution in which contravariant occurrences of the type variable $X$ are replaced with $A$ and covariant occurrences are replaced with $B$. The dinaturality condition between these substitution functors are used to create a sufficient condition for dinaturality in System F. In the Church-style second-order polymorphic lambda calculus, a term $T$ is shown to be dinatural in a type variable $X$ if and only if $X$ is not in the set of free type variables across all type instantiations of the normal-form of $T$.
-
 \subsection{Parametricity}
 \citeasnoun{ReynoldsAbstraction1} developed a relation semantics for type expressions corresponding to the set-theoretic semantics of the second-order polymorphic lambda calculus (System F). This relational approach was introduced in order to replace the existing set-theoretic model (with homomorphic functions), which had failed to include higher-order functions in the formalisation.
 
@@ -105,44 +102,11 @@ By specialising to the case where the relation $\mathcal{A}$ is a function, we c
 \end{flalign}
 \\
 \citeasnoun{FreeImprovements} extend the relational semantics for types, by adding an integer representation of the call-by-value evaluation cost to the codomain. For each semantic operation its behaviour on the cost parameter is defined. For example, the cost of pairs and lists is defined to be the sum of the costs of their elements. Seidel and Voigtl{\"a}nder use this extension to the relational semantics to derive quantitative theorems about the runtime of terms within a restricted form of the polymorphic lambda calculus.
-
-\subsection{Curry-Howard-Lambek Correspondence}\label{sec:curryhowardlambek}
-A sequent calculus is an inference system for first-order logic. The most basic construct in a sequent calculus, known as a sequent, has the form
-\begin{flalign}\label{eq:sequent}
-  X_1,\ X_2,\ \ldots,\ X_N \vdash Y_1,\ Y_2,\ \ldots,\ Y_M.
-\end{flalign}
-A sequent of the form expressed in (\ref{eq:sequent}) is a judgement which asserts that a statement $Y_i$ is true, if $X_1 \land X_2 \land ... \land X_N$ is true. 
 \par
-Constructs in formal proof systems, such as a sequent calculus, are in direct correspondence with types within a typed lambda calculus, by the Curry-Howard isomorphism \cite{CurryHoward}. A sequent of the form
-\begin{flalign}\label{eq:sequent}
-  X_1,\ X_2,\ \ldots,\ X_N \vdash Y
-\end{flalign}
-corresponds to a term of the type $X_1 \times X_2 \times ... \times X_N \Rightarrow Y$, and constructing such a term is equivalent to the construction of a proof.
+Parametricity has found a notably effective application in proving the correctness of program transformations. For example, parametricity can be used to provide a correctness proof for short-cut fusion \cite{Deforestation}. Short-cut fusion is an optimisation technique which uses rewrite rules to facilitate the removal of intermediate data structures. Amongst the most simple of examples is the rewrite of the expression \lstinline{map f . map g} to the expression \lstinline{map (f . g)}.
 \par
-Connections between intuitionistic logic and category theory, discovered by Lambek \citeyear{LambekCorrespondence,LambekCorrespondence2,LambekCorrespondence3} and \citeasnoun{LawvereCorrespondence}, further extends this relationship to a three-way isomorphism known as the Curry-Howard-Lambek correspondence. The Lambek-Lawvere correspondence can be described as modelling formulae in an intuitionistic propositional logic as objects in a cartesian-closed category, and proofs as morphisms.
+\citeasnoun{OperationalImprovement} formulate a call-by-need operational semantics for parametricity. The resulting abstraction theorem is used to derive free theorems about the time improvements of various program transformations. Notably, Hackett and Hutton's abstraction theorem is applied to short cut fusion, and used to show that it indeed improves the time cost of a program.
 \par
-Let $\Gamma$, $\Sigma$, $\Delta$ and $\Lambda$ be finite lists of formulae, known as a context. The cut-rule is then defined as follows:
-
-\begin{equation}\label{eq:cut}
-\begin{prooftree}
-  \hypo{\Gamma \vdash X, \Delta}
-  \hypo{\Sigma, X \vdash \Lambda}
-  \infer2[cut]{\Sigma, \Gamma \vdash \Lambda, \Delta}
-\end{prooftree}.
-\end{equation}
-The cut-rule depicted in (\ref{eq:cut}) can be described as cutting any occurrence of $X$ from the proof. By the Curry-Howard isomorphism, the cut rule corresponds to a familiar substitution process; function composition. Given a context $\Pi$ in a typed lambda calculus, this substitution may be stated formally as
-\begin{equation}\label{eq:lambdacompose}
-\begin{prooftree}
-  \hypo{\Pi, x : A \vdash t : B}
-  \hypo{\Pi, y : B \vdash t' : C}
-  \infer2[]{\Pi, x : A \vdash t'[t/y] : C}
-\end{prooftree}.
-\end{equation}
-\par
-The cut-elimination theorem, originally proved by \citeasnoun{CutFree}, states that any sequent which has a proof using the cut-rule, also has a proof which does not. Cut-free proofs are typically more complex and larger than alternative proofs which make use of the cut rule. Cut-elimination corresponds to the strong-normalization property of a typed lambda calculus.
-\par
-The substitution depicted in (\ref{eq:lambdacompose}) reveals a property of the cut-rule; covariant occurrences of proofs are substituted into contravariant occurrences. Conversely, the identity sequent maps contravariant occurrences of proofs to covariant occurrences. 
-\par
-\citeasnoun{NaturalAsNormalForms} describe how the symmetry induced by the co-existence of the identity sequent and the cut rule is broken by the cut-elimination theorem. This asymmetry is used to show that cut-elimination, when interpreted by dinatural transformations, resolves the cyclic dependencies created by `linking' covariant and contravariant terms. Using cut-free sequent rules, Girard, Scedrov and Scott show that syntactic dinatural transformations between definable functors on a cartesian-closed category, whose internal language is a typed lambda calculus, are composable.
+The outlined practical results on parametrically polymorphic types, have been facilitated by their uniformity property, known as parametricity. Remarkably, an abstract mathematical object, known as a natural transformation, captures a similar notion of uniformity. Thus, a prominent question arises; to what extent is this notion of uniformity equivalent to that of parametricity? To answer this, it is first necessary to define what is meant by a `natural transformation'.
 
 \end{document}
