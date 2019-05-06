@@ -206,7 +206,7 @@ This equality is the free theorem on \lstinline{fix}. As such, it appears that t
 \par 
 In Reynold's formulation of parametricity, the composition of two parametrically polymorphic functions preserves parametricity. Accordingly, it is appropriate to investigate whether composition of natural transformations preserves naturality.
 
-\subsection{Natural composition}
+\subsection{Natural composition}\label{sec:naturalcomp}
 The vertical composition of two natural transformations $\eta_X : F(X) \rightarrow G(X)$ and $\gamma_X : G(X) \rightarrow H(X)$, is defined as $(\gamma \bullet \eta)_X = \gamma_X \circ \eta_X$. Vertical composition can also be depicted by the following commutative diagram:
 \begin{equation}\label{eq:nat_vertical}
   \begin{tikzpicture}[baseline= (a).base]
@@ -371,6 +371,6 @@ In the circumstance in which the centre diamond found in (\ref{eq:dicompose}) is
   \end{tikzpicture}
 \end{equation}
 
-As demonstrated, for the purposes of capturing the uniformity property of parametrically polymorphic types, the notion of dinaturality is too weak. Attempts to resolve this dilemma involve introducing additional conditions, in order to identify a class of dinatural transformations which compose.
+As demonstrated, for the purposes of capturing the uniformity property of parametrically polymorphic types, the notion of dinaturality is too weak. Attempts to resolve this dilemma involve introducing additional constraints, in order to identify a class of dinatural transformations which compose. In the search for a unifying notion of uniformity, existing formulations of a categorical semantics for parametricity will be explored.
 
 \end{document}

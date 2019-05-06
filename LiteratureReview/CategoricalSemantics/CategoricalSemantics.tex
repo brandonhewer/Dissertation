@@ -2,9 +2,11 @@
 \documentclass[../../Dissertation.tex]{subfiles}
 
 \begin{document}
-In the pursuit of a categorical semantics for parametricity, a well-known isomorphism will be introduced, termed the Curry-Howard-Lambek correspondence. A formal definition of the categorical semantics of the simply-typed lambda calculus will be given. Finally, 
+In the pursuit of a suitable categorical semantics for parametricity, a well-known isomorphism between formal proof systems, category theory and  programs, will be introduced. This will facilitate the exploration of a composable family of dinatural transformations, which are identified by means of cut-free proofs.
+\par
+A categorical semantics of the simply-typed lambda calculus will be provided.
 
-\subsection{Curry-Howard-Lambek Correspondence}\label{sec:curryhowardlambek}
+\subsection{Curry-Howard-Lambek correspondence}\label{sec:curryhowardlambek}
 A sequent calculus is an inference system for first-order logic. The most basic construct in a sequent calculus, known as a sequent, has the form
 \begin{flalign}\label{eq:sequent}
   X_1,\ X_2,\ \ldots,\ X_N \vdash Y_1,\ Y_2,\ \ldots,\ Y_M.
@@ -85,9 +87,6 @@ The right adjoint of $- \times X$ is given by the functor $X \Rightarrow -$, whi
     };
   \end{tikzpicture}
 \end{equation}
-\\
-\citeasnoun{DinaturalInSystemF} formulates a sufficient condition for dinaturality, in both the Church and Curry-style second-order polymorphic lambda calculus. Lataillade first describes the syntactic category $\mathcal{T}$ for System F, in conjunction with
-functors of the form $F[(\_,\_),X] : \mathcal{T}^{op} \times \mathcal{T} \rightarrow \mathcal{T}$. Each functor $F[(A,B),X]$ represents a substitution in which contravariant occurrences of the type variable $X$ are replaced with $A$ and covariant occurrences are replaced with $B$. The dinaturality condition between these substitution functors are used to create a sufficient condition for dinaturality in System F. In the Church-style second-order polymorphic lambda calculus, a term $T$ is shown to be dinatural in a type variable $X$ if and only if $X$ is not in the set of free type variables across all type instantiations of the normal-form of $T$.
 
 \subsection{Functorial Polymorphism}\label{sec:functorial}
 \citeasnoun{FunctorialPolymorphism} introduce a formal model of parametric polymorphism in which the parametricity property is described by naturality conditions. Given an enriched cartesian closed category $\mathbb{C}$ of primitive types, multi-variance functors of the form $(\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$ are used to model polymorphic types with $n$ type variables. In this interpretation, terms are given by natural transformations and primitive types are modelled by constant functors.
@@ -95,7 +94,7 @@ functors of the form $F[(\_,\_),X] : \mathcal{T}^{op} \times \mathcal{T} \righta
 A deeper intuition of how types may be understood as functors of the form $(\mathbb{C}^{op})^n \times \mathbb{C}^n \rightarrow \mathbb{C}$, is found by examination of prominent examples. The type of the polymorphic identity function, $\forall T.\ T \Rightarrow T$, is modelled as a functor of the form $\mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{C}$. The type of the Y-combinator, $\forall T.\ (T \Rightarrow T) \Rightarrow T$, is modelled as a functor of the form $\mathbb{C}^{op} \times \mathbb{C}^{op} \times \mathbb{C} \times \mathbb{C} \rightarrow \mathbb{C}$, which is dummy in the first argument.
 \par
 Bainbridge et al. construct a cartesian closed category, $\mathbf{PER}(X)$, of partial-equivalence relations on $X$, in which a morphism is named by each partial recursive function $f$ which preserves relationships i.e., $x\ R\ y \rightarrow f(x)\ R'\ f(y)$. Composition is given by the set-theoretic notion of function composition. A class of composable dinatural transformations, denoted `realizable', on the category $\mathbf{PER}(X)$, is identified. It is then shown that any functor definable in System F is `realizable', and every natural transformation between such functors is indeed also `realizable'. Dinatural transformations within System F, defined using the described syntatic approach, are thus shown to be composable.
-\\
+\par
 \citeasnoun{DinaturalInSystemF} formulates a sufficient condition for dinaturality, in both the Church and Curry-style second-order polymorphic lambda calculus. Lataillade first describes the syntactic category $\mathcal{T}$ for System F, in conjunction with
 functors of the form $F[(\_,\_),X] : \mathcal{T}^{op} \times \mathcal{T} \rightarrow \mathcal{T}$. Each functor $F[(A,B),X]$ represents a substitution in which contravariant occurrences of the type variable $X$ are replaced with $A$ and covariant occurrences are replaced with $B$. The dinaturality condition between these substitution functors are used to create a sufficient condition for dinaturality in System F. In the Church-style second-order polymorphic lambda calculus, a term $T$ is shown to be dinatural in a type variable $X$ if and only if $X$ is not in the set of free type variables across all type instantiations of the normal-form of $T$.
 

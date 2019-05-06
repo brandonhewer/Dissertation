@@ -2,8 +2,51 @@
 \documentclass[../../Dissertation.tex]{subfiles}
 
 \begin{document}
+In this section, a functorial calculus, known as the Godement calculus, will be introduced. A generalisation of this calculus, for functors in many-variables, will then be explored. This will lead to a graphical depiction of dinaturality conditions.
+\par
+In a rather unexpected digression, a model of distributed computation, known as Petri nets, in conjunction with the associated notion of reachability, will be described. Finally, an approach to formulating compositionality of dinatural transformations as reachability in Petri net models, will be explored.
 
 \subsection{The Godement calculus}
+\citeasnoun{Godement} outlined five rules for a functorial calculus. Given functors
+\begin{flalign}
+  F : \mathbb{A} \rightarrow \mathbb{B},\ G : \mathbb{B} \rightarrow \mathbb{C},\\
+  H,\ I,\ J : \mathbb{C} \rightarrow \mathbb{D},\\
+  K : \mathbb{D} \rightarrow \mathbb{E},\ L : \mathbb{E} \rightarrow \mathbb{F},
+\end{flalign}
+and natural transformations $\alpha : H \rightarrow I$, $\beta : I \rightarrow J$, as depicted in the diagram
+\begin{equation}\label{eq:nat_vertical}
+  \begin{tikzpicture}[baseline= (a).base]
+    \node[scale=1.2] (a) at (0,0) {
+      \begin{tikzcd}
+        \mathbb{A} \arrow[r, "F"{name=F, above}]
+        &
+        \mathbb{B} \arrow[r, "G"{name=G, above}]
+        &
+        \mathbb{C}
+        \arrow[r, bend left=90, "H"{name=LU, above}]
+        \arrow[r, "I"{name=LM, below}]
+        \arrow[r, bend right=90, "J"{name=LD, below}]
+        \arrow[r, Rightarrow, yshift=0.7, shorten <= 2.5pt, from=LU, to=LM, "\hspace{1.8pt}\alpha"{}]
+        \arrow[r, Rightarrow, yshift=0.8, shorten <= 1.0pt, from=LM, to=LD, "\hspace{1.8pt}\beta"{}]
+        &
+        \mathbb{D} \arrow[r, "K"{name=K, above}]
+        &
+        \mathbb{E} \arrow[r, "L"{name=L, above}]
+        &
+        \mathbb{F}
+      \end{tikzcd},
+    };
+  \end{tikzpicture}
+\end{equation}
+Godement asserts the following equational laws must hold:
+\begin{flalign}
+  \alpha_{GF} &= (\alpha_G)_F,\\
+  (LK) * \alpha &= L(K * \alpha),\\
+  (K * \alpha)_G &= K(\alpha_G),\\
+  K(\beta \circ \alpha)_G &= (K * \beta_G) \circ (K * \alpha_G).
+\end{flalign}
+The illusive fifth rule is given by the interchange law, as outlined in Section \ref{sec:naturalcomp}. Each of the remaining four rules require understanding the notion of composing a functor with a natural transformation, known as whiskering.
+\par
 Whiskering is an instance of horizontal composition of 2-cells, in which one 2-cell is taken to be the identity on a 1-cell. By identifying a 1-cell with its associated identity 2-cell, it is possible to formalise the notion of horizontal composition of a 2-cell with a 1-cell. Pre-composing a 2-cell with a 1-cell is termed left whiskering, while post-composing is termed right whiskering.
 \par
 In the category $Cat$, whiskering translates to a technique for defining the horizontal composition of a natural transformation with a functor. Let $F, G : \mathbb{C} \rightarrow \mathbb{D}$ and $H, K: \mathbb{D} \rightarrow \mathbb{E}$ be functors, and $\alpha : F \rightarrow G, \beta : H \rightarrow K$ be natural transformations. Whiskering $F$ and $\beta$ is achieved by associating $F$ with $id_F : F \rightarrow F$, and is depicted by the following commutative diagram:
