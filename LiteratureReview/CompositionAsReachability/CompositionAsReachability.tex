@@ -216,21 +216,21 @@ Formally, a Petri net $N$ may be expressed as a 4-tuple $(P,T,D,M^0)$ where
 The matrix $D$ of the Petri net $N$ may be defined as follows:
 \begin{flalign}
   &&&\ D^{-}_{pt} &&= \text{ the weight of the arc from $p \in P$ to $t \in T$,}&&&\\
-  &&&\ D^{+}_{tp} &&= \text{ the weight of the arc from $t \in T$ to $p \in P$,}&&&\\
-  &&&\ D^{T} &&= \hspace{0.1cm}D^{+} - D^{-}.&&&\label{eq:transition_relation}
+  &&&\ D^{+}_{pt} &&= \text{ the weight of the arc from $t \in T$ to $p \in P$,}&&&\\
+  &&&\ D &&= \hspace{0.1cm}D^{+} - D^{-}.&&&\label{eq:transition_relation}
 \end{flalign}
-Given a marking $M$, a transition $t$ is \textit{enabled} if $\forall p \in P : M_p \geq D_{pt}^-$. Firing $t$ yields the marking $M'$, where $M'_p = M_p + D_{tp}^+ - D_{pt}^-$. This is alternatively denoted $M \xrightarrow[t]{} M'$, which states that $M'$ is reachable from $M$ in one-step. The reflexive transitive closure of $\xrightarrow[t]{}$ is denoted $\xrightarrow[t]{*}$. A marking $M^d$ is said to be reachable from $M$ if $M \xrightarrow[t]{*} M^d$. 
+Given a marking $M$, a transition $t$ is \textit{enabled} if $\forall p \in P : M_p \geq D_{pt}^-$. Firing $t$ yields the marking $M'$, where $M'_p = M_p + D_{pt}^+ - D_{pt}^-$. This is alternatively denoted $M \xrightarrow[t]{} M'$, which states that $M'$ is reachable from $M$ in one-step. The reflexive transitive closure of $\xrightarrow[t]{}$ is denoted $\xrightarrow[t]{*}$. A marking $M^d$ is said to be reachable from $M$ if $M \xrightarrow[t]{*} M^d$. 
 \par
 A firing sequence $F = t_1,\ t_2,\ \ldots,\ t_n$ is a sequence of transitions such that $M_0 \xrightarrow[t_1]{} M_2 \xrightarrow[t_2]{} \ldots \xrightarrow[t_n]{} M_n$. Given a firing sequence $F$, there exists a vector $F^{\rightarrow}$, given by
 \begin{flalign}
   &&&&&F^{\rightarrow}_{t} &&= \text{ the number of times } t \in T \text{ fires in F,}&\\
-  &&&&&D^{T}F^{\rightarrow} + M^{0} &&= \text{ the marking of $N$ after executing sequence $F$.}&
+  &&&&&DF^{\rightarrow} + M^{0} &&= \text{ the marking of $N$ after executing sequence $F$.}&
 \end{flalign} 
 
 \subsection{Reachability}
 Reachability describes a class of computational problems characterised by deciding whether a specific state is reachable given an initial state and a set of permitted transformations. A formulation of this problem for Petri nets is to decide whether a specific marking is reachable in a given net, with a given initial marking. \citeasnoun{ReachibilityConditions} outline the class of Petri nets for which a necessary and sufficient condition for reachability is obtainable. Formally, for a Petri net $N$, described by the 4-tuple $(P,T,D,M^0)$, the set of reachable markings $R_N$ is defined as
 \begin{flalign}
-  R_N = \{\,M \mid \exists F : M = D^{T}F^{\rightarrow} + M_0 \land F \text{ is a firing sequence of } N\,\}.
+  R_N = \{\,M \mid \exists F : M = DF^{\rightarrow} + M_0 \land F \text{ is a firing sequence of } N\,\}.
 \end{flalign}
 
 \citeasnoun{ReachabilityEXPSPACE} shows that the state reachability (coverability) problem for Petri nets is exp-space hard; solvable by a deterministic Turing machine in exponential space. Following this research, an algorithm for deciding state reachability in any given Petri net was derived by \citeasnoun{PetriNetAlgorithm}. Mayr extends the Karp-Miller tree construction for minimal coverability by using non-deterministic finite automata to restrict the transition sequence space.
@@ -270,7 +270,7 @@ Let $F : (\mathbb{C}^{op})^n \times \mathbb{C}^m \rightarrow \mathbb{D}$ and $G 
     1 & \text{if } n < i \leq n + m + n' \\
     0 & \text{otherwise}
   \end{cases},\label{eq:initialmark}\\
-  D &= (D^+ - D^-)^T.
+  D &= D^+ - D^-.
 \end{flalign}
 
 A Petri net, corresponding to the coherence condition of a dinatural transformation, can be represented graphically. Given functors $F$, $G : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$, and a morphism $f \in hom(\mathbb{D})$, the coherence condition of a dinatural transformation $\phi : F \rightarrow G$ is modelled by the Petri net depicted in Figure \ref{fig:dinatpetri}.
@@ -301,7 +301,7 @@ The marking $M^d$, corresponding to the top `leg' of the dinaturality hexagon, i
     0 & \text{otherwise}
   \end{cases}.
 \end{flalign}
-McCusker and Santamaria prove that the reachability of $M^d$, from the initial marking $M^0$, is a necessary and condition for satisfying the dinatural coherence property. Intuitively, the reachability of the marking $M^d$ from $M^0$ is equivalent to the condition that the dinaturality hexagon commutes. Furthermore, given the class of Petri nets where each place node has at most one incoming and outgoing arc, \citeasnoun{ReachibilityConditions} prove that acyclicity is a necessary and sufficient condition for the reachability of $M^d$ from $M^0$.
+McCusker and Santamaria prove that the reachability of $M^d$, from the initial marking $M^0$, is a necessary and condition for satisfying the dinatural coherence property. Intuitively, the reachability of the marking $M^d$ from $M^0$ is equivalent to the condition that the dinaturality hexagon commutes. Furthermore, given a Petri net, $(P,\ T,\ D,\ M^0)$, \citeasnoun{ReachibilityConditions} prove that if and only if there exists a $|T| \times 1$ vector $F$, of non-negative integers, such that $M^d = M^0 + DF$, then $M^d$ is reachable from $M^0$.
 \par
 An example of a Petri net containing a cycle, can be obtained by composing two nets corresponding to the dinatural coherence condition. Recall that two Petri nets are composed by pasting the codomain of one along the domain of the other. Let $F, G, H : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$ be functors. Given dinatural transformations $\phi : F \rightarrow G$ and $\psi : G \rightarrow H$, whose coherence conditions are depicted in Figure \ref{fig:dinatpetri}, the Petri net corresponding to their composition $\psi \cdot \phi$ is given in Figure \ref{fig:petricycle}.
 

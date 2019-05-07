@@ -290,20 +290,77 @@ Providing this as input, in conjunction with the type variable \lstinline{a}, an
 
 \subsection{Currying and Naturality}
 
+Observe the type of the uncurried evaluation map
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+eval :: (a -> b, a) => b.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+An equivalent representation, within the application, is given by
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+Pair (a -> b) a => b,
+\end{lstlisting}
+\end{tabular}
+\end{center}
+with the default naturality type
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+(0 -> 0) 0 => 0.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Providing this as input, in conjunction with the type variable \lstinline{a}, and exporting the result to LaTeX, yields
 \begin{center}
   \begin{tikzcd}
     {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} &  & {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=white] (char) {$f$};}} \arrow[ld] \\
       & {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=10pt,inner sep=0pt,fill=black] (char) {};}} \arrow[lu] & 
-    \end{tikzcd}
+    \end{tikzcd}.
 \end{center}
-
+The type of the curried form of \lstinline{eval} is given by
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+curry eval :: (a -> b) -> a -> b.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+An equivalent representation, within the application, is given by
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+a -> b => a -> b,
+\end{lstlisting}
+\end{tabular}
+\end{center}
+with the default naturality type
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+0 -> 0 => 0 -> 0.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+Providing this as input, in conjunction with the type variable \lstinline{a}, and exporting the result to LaTeX, yields
 \begin{center}
   \begin{tikzcd}
     {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {};}} \\
     {\tikz[baseline=(char.base)]{\node[shape=rectangle,draw,minimum size=12pt,inner sep=0pt,fill=black] (char) {};}} \arrow[u] \\
     {\tikz[baseline=(char.base)]{\node[shape=circle,draw,minimum size=20pt,inner sep=0pt,fill=lightgray] (char) {$f$};}} \arrow[u]
-    \end{tikzcd}
+    \end{tikzcd}.
 \end{center}
-
+Applying the natural transformation \lstinline{curry}, to the extranatural transformation \lstinline{eval}, produces a natural transformation \lstinline{curry eval}. The extranaturality of the evaluation map is thus a consequence of the choice of representation. Furthermore, given any function \lstinline{f} of the type \lstinline{(a, b)} \lstinline{-> c}, there is an equivalent curried representation given by \lstinline{curry f : a -> b -> c}. There also exists the inverse operation \lstinline{uncurry}, such that 
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+uncurry (curry f) : (a, b) -> c = f.
+\end{lstlisting}
+\end{tabular}
+\end{center}
+The \lstinline{curry} and \lstinline{uncurry} functions, appear to `bend' the graph, by pulling a node up or down and changing its variance. The idea of extranaturality resulting from `bending' graphs of naturality conditions was first discovered by \citeasnoun{GeneralTransform}.
 
 \end{document}

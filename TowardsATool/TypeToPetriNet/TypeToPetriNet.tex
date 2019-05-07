@@ -18,7 +18,7 @@ As formerly discussed, the construction of a Petri net from a type requires the 
     f_1 : [|\Theta_1|] \rightarrow [t_1],\ f_2 : [|\Theta_2|] \rightarrow [t_2],\ \ldots,\ f_{n-1} : [|\Theta_{n-1}|] \rightarrow [t_{n-1}],\\
     g_1 : [|\Theta_2|] \rightarrow [t_1],\ g_2 : [|\Theta_3|] \rightarrow [t_2],\ \ldots,\ g_{n-1} : [|\Theta_{n}|] \rightarrow [t_{n-1}],
   \end{gather*}
-  the Petri net $\mathcal{P}([\![\tau]\!]_n,\; [\![f]\!]_{n-1},\; [\![g]\!]_{n-1})$ is defined as follows
+  the Petri net $\mathcal{P}([\![\tau]\!]_n,\; [\![f]\!]_{n-1},\; [\![g]\!]_{n-1}) = (P, T, D, M_0)$ is defined as follows
   \begin{flalign*}
     |P| = \lVert \Theta \rVert_n,\ |T| &= \lVert t \rVert_{n-1},\\\\
     \forall k \in [n - 1]\ \forall l \in [|\Theta_k|],\ m \in [t_k] :\\
@@ -52,7 +52,8 @@ As formerly discussed, the construction of a Petri net from a type requires the 
       0 & \text{if } \exists j : D^+_{i,j} = 1\\
       1 & \text{otherwise}
     \end{cases},\\
-    \text{where } i &= l + \lVert \Theta \rVert_{k-1}.
+    \text{where } i &= l + \lVert \Theta \rVert_{k-1},\\\\
+    D^+ - D^- = D.
   \end{flalign*}
 \end{definition}
 
@@ -248,7 +249,7 @@ As formerly discussed, the construction of a Petri net from a type requires the 
 \end{definition}
 
 \begin{definition}
-  Given a type $\sigma$, in System $F_\kappa$, and a Petri net model 
+  Given a type variable $\alpha$, in System $F_\kappa$, and a Petri net model 
   \begin{equation*}
   \mathcal{P}([\![\tau]\!]_n,\; [\![f]\!]_{n-1},\; [\![g]\!]_{n-1})
   \end{equation*}
@@ -257,5 +258,12 @@ As formerly discussed, the construction of a Petri net from a type requires the 
     \mathcal{P}_\alpha([\![\tau']\!]_n,\; [\![f]\!]_{n-1},\; [\![g]\!]_{n-1}) \text{ where } \tau'_i = \tau_i\{\alpha\}.
   \end{equation*}
 \end{definition}
+
+\begin{example}
+  Given a type 
+\end{example}
+
+\begin{remark}
+\end{remark}
 
 \end{document}
