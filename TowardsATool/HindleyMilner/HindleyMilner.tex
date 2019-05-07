@@ -111,8 +111,16 @@ A complete definition of type substitution in HM is given in Figure \ref{fig:Hin
 The provided definition of substitution in HM is used in the unification algorithm, given in Figure \ref{fig:HindleyMilnerUni}. Note that $\bot$ is used to denote the bottom type, which refers to a failed unification. Such a failure arises as a consequence of the occurs check; a type variable $\alpha$ can not appear free in $\tau$ if $\tau$ and $\alpha$ are to be unified.
 \begin{figure}[H]
 \begin{flalign*}
-  U(\tau, \tau) &= [\ ]\\
-  U(\alpha, \alpha) &= [\ ]\\
+  U(\tau, \sigma) &=
+  \begin{cases}
+    [\ ] & \text{if } \tau = \sigma\\
+    \bot & \text{otherwise}
+  \end{cases}\\
+  U(\alpha, \beta) &=
+  \begin{cases}
+    [\beta/\alpha] & \text{if } \alpha \neq \beta\\
+    [\ ] & \text{otherwise}
+  \end{cases}\\
   U(\alpha, \tau),\ U(\tau, \alpha) &=
   \begin{cases}
     [\tau / \alpha] & \text{if } \alpha \notin \textit{free}(\tau)\\

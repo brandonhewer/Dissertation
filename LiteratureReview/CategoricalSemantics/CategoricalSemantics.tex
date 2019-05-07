@@ -102,12 +102,9 @@ Bainbridge et al. construct a cartesian closed category, $\mathbf{PER}(X)$, of p
 \par
 \citeasnoun{DinaturalInSystemF} formulates a sufficient condition for dinaturality, in both the Church and Curry-style second-order polymorphic lambda calculus. Lataillade first describes the syntactic category $\mathcal{T}$ for System F, in conjunction with
 functors of the form $F[(\_,\_),X] : \mathcal{T}^{op} \times \mathcal{T} \rightarrow \mathcal{T}$. Each functor $F[(A,B),X]$ represents a substitution in which contravariant occurrences of the type variable $X$ are replaced with $A$ and covariant occurrences are replaced with $B$. The dinaturality condition between these substitution functors are used to create a sufficient condition for dinaturality in System F. In the Church-style second-order polymorphic lambda calculus, a term $T$ is shown to be dinatural in a type variable $X$ if and only if $X$ is not in the set of free type variables across all type instantiations of the normal-form of $T$.
-
-\subsection{Extensions to Functorial Polymorphism}
-Discuss existing extensions to the functorial polymorphism and the `solutions' to the composition problem in the literature.
-\newline\newline
-\citeasnoun{StructuralPolymorphism} describe the notion of `structors'; a generalisation of functors which carry morphisms to spans of morphisms.
-\newline\newline
-\citeasnoun{CanonicalDinatural} define `canonical dinatural transformations', a constrained form of dinatural transformations, and relates them to context-free grammars and the polymorphic operator.
+\par
+Two significant results have been explored. The first, introduced by Bainbridge et al., provides a formulation of types, in System F, as mixed-variance functors. Furthermore, a class of composable dinatural transformations between these mixed-variance functors is identified. The second result, introduced by de. Lataillade, describes a sufficient condition for dinaturality in System F. Although these results establish the foundations of a formal relationship between dinaturality and parametricity, the precise details of the nature of this relationship remain unclear.
+\par
+Identifying when dinatural transformations, in general, do not compose, will highlight when dinaturality conditions are too weak a formalisation to model parametericity. Thus, a mixed-variance functorial calculus will be sought, in the pursuit of a necessary condition for the composition of dinatural transformations.
 
 \end{document}

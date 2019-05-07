@@ -4,8 +4,10 @@
 \begin{document}
 
 \section{Future Work}
+In this section, limitations of the current version of the application will be discussed. Appropriate solutions will be provided, in the form of proposals for future work.
 
 \subsection{Generating Free Theorems}
+Free theorems, corresponding to generated Petri nets, are provided throughout this paper. However, they cannot be generated within the application itself. At current, only the equivalent graphical representation is computed. Accordingly, producing free theorems as output will be the primary addition to the next version of the application.
 
 \subsection{Identifying Cycles}
 In the current version of the application, cycles within Petri nets are only identifiable by observation. There is no implemented system for highlighting cycles once they are generated. This can become a concern following several iterations of composition. For example, consider the Petri net depicted in Figure \ref{fig:cycle}. This Petri net is created by means of three iterations of composition, and contains a cycle. After only three iterations, the presence of cycles is obscured.
@@ -121,5 +123,5 @@ Notably, the composition of strong dinatural transformations preserves strong di
 \par
 Binary relational parametricity is shown to imply strong dinaturality by \citeasnoun{Diparametricity}. Eppendahl introduces a stronger notion of dinatural transformation for parametric polymorphism, termed `diparametric' transformations.
 \par
-A natural extension to the application is to include a feature for comparing 
+Strong dinaturality, as it relates to the generalised functorial calculus of System $F_\kappa$, is not yet understood. Exploring this further, and considering a suitable extension to the application, is the subject of future work.
 \end{document}

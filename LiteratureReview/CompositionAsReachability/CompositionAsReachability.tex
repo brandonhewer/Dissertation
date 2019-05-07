@@ -98,16 +98,19 @@ The categorical semantics of the simply-typed lambda calculus, described in \ref
 \par
 In search of an abstract theory of coherence problems, \citeasnoun{ManyVariableFunctorialCalculus} develops a calculus of substitution; a generalisation of composition in the Godement calculus. In Kelly's many-variable functorial calculus, given functors $F : \mathbb{A}^{op} \times \mathbb{A} \times \mathbb{B} \rightarrow \mathbb{C}$, $G : \mathbb{D} \rightarrow \mathbb{A}$ and $H : \mathbb{E} \rightarrow \mathbb{B}$, the composition $F \cdot \left(G^{op} \times G \times H\right) : \mathbb{D}^{op} \times \mathbb{D} \times \mathbb{E} \rightarrow \mathbb{C}$ may instead be given by the substitution $F(G, G, H)$.
 \par
-Kelly presents a representation of naturality conditions as graphs, and describes the operations of composition and substitution on these graphs. Given functors $F : \mathbb{C}^{op} \times \mathbb{C} \rightarrow \mathbb{D}$, $G : \mathbb{C} \rightarrow \mathbb{D}$ and a dinatural transformation $\phi : F \rightarrow G$, the naturality condition for $\phi$ is depicted as
+Kelly presents a representation of naturality conditions as graphs, and describes the operations of composition and substitution on these graphs. Given functors $F : \mathbb{C} \times \mathbb{C} \times \mathbb{C}^{op} \rightarrow \mathbb{D}$, $G : \mathbb{C} \rightarrow \mathbb{D}$ and a dinatural transformation $\phi : F \rightarrow G$, a naturality condition for $\phi$ may be depicted as
 \begin{equation}\label{eq:kellyco}
   \begin{tikzpicture}[baseline= (a).base]
     \node[scale=1.2] (a) at (0,0) {
-      \begin{tikzcd}
-        + \arrow[dash, r] \arrow[dash, d, bend left=75]
+      \begin{tikzcd}[row sep=small]
+        + \arrow[dash, dd, bend left=75] 
         & 
+        \\
+        + \arrow[dash, r]
+        &
         +
         \\
-        - 
+        -
         &
       \end{tikzcd}.
     };
@@ -119,28 +122,38 @@ The composition of dinatural transformations can be depicted  by connecting thei
 \begin{equation}\label{eq:kellyco2}
   \begin{tikzpicture}[baseline= (a).base]
     \node[scale=1.2] (a) at (0,0) {
-      \begin{tikzcd}
-        + \arrow[dash, r]
+      \begin{tikzcd}[row sep=small]
         & 
-        + \arrow[dash, d, bend right=75]
+        + \arrow[dash, dd, bend right=75] 
+        \\
+        + \arrow[dash, r]
+        &
+        +
         \\
         &
         -
       \end{tikzcd}
       $\cdot$
-      \begin{tikzcd}
-        + \arrow[dash, r] \arrow[dash, d, bend left=75]
+      \begin{tikzcd}[row sep=small]
+        + \arrow[dash, dd, bend left=75] 
         & 
+        \\[-2pt]
+        + \arrow[dash, r]
+        &
         +
         \\
-        - 
+        -
         &
       \end{tikzcd}
       $=$  
-      \begin{tikzcd}
-        + \arrow[dash, r]
+      \begin{tikzcd}[row sep=small]
+        &
+        + \arrow[dash, dd, bend left=75] \arrow[dash, dd, bend right=75] 
         & 
-        + \arrow[dash, r] \arrow[dash, d, bend left=75] \arrow[dash, d, bend right=75]
+        \\[-2pt]
+        + \arrow[dash, r]
+        &
+        + \arrow[dash, r]
         &
         +
         \\
@@ -154,6 +167,8 @@ The composition of dinatural transformations can be depicted  by connecting thei
 The creation of such cycles directly corresponds to the problem of composing dinatural transformations, in general. Substitution corresponds to the operation of replacing arcs with graphs, and does not generate cycles.
 \par
 Kelly distinguishes the class of graphs in which cycles are prohibited, termed $P^*_0$, from those which permit cycles, termed $P^*$. A formulation of the category $P^*_0$ is given, while a suitable definition of $P^*$ requires a natural method for ordering cycles, which permits substitution, and is left as an open problem.
+\par
+Notably, in his many-variable functorial calculus, Kelly only considers the case where arguments are linked in pairs. The notion of a more general calculus is alluded to, but never developed. In advance  of exploring this idea further, it is first necessary to introduce a class of graphs which permit ramifications.
 
 \subsection{Petri nets}
 
@@ -319,5 +334,7 @@ An example of a Petri net containing a cycle, can be obtained by composing two n
   \label{fig:petricycle}
 \end{figure}
 By observing the Petri net given in Figure \ref{fig:petricycle}, it can readibly be seen that the highlighted cycle prevents reachability of the marking $M^d$. Thus, the dinaturality of the composition $\psi \cdot \phi$ does not follow from the dinaturality of $\phi$ and $\psi$. 
+\par
+McCusker and Santamaria's formulation of Petri nets, from dinatural transformations, provides a graphical means by which to reason about dinaturality conditions and compositionality. Accordingly, it is appropriate to explore a suitable interpretation for the class of Petri nets which are generated from dinatural transformations in System F. Furthermore, this graphical representation will be investigated as the foundation of an interactive system, for exploring the relationship between dinaturality and parametric polymorphism.
 
 \end{document}
