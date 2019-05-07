@@ -8,7 +8,11 @@ Think of a number, which will hereby be denoted $x$. Does there exist a number $
 \par
 The answer to the latter question will assuredly determine the former. For example, presume that `number' is to be interpreted as `real number'. It is certainly true that for any real number $x$, there exists another real number $y$, such that $x + y = 0$. However, if `number' were instead to be interpreted as `natural number', no such $y$ exists. Quantifying the domain over which $x$ and $y$ range, is necessary to resolve the ambiguity.
 \par
-In the context of typed programming languages, quantifying the domains over which values may range, is a familiar idea. Indeed, the role of a type is to provide additional meaning. Consider the function $f(x) = -x$, which for any $x$ computes $-x$. $f : \mathbb{B} \rightarrow \mathbb{B}$.
+In the context of typed programming languages, quantifying the domains over which values may range, is a familiar idea. Indeed, this describes the role of types. Consider the function $f(x) = -x$, which given a value $x$ computes $-x$. The question of whether this function is well-defined depends on the range of values that $x$ may take. For example, if $f$ were of type $\mathbb{N} \rightarrow \mathbb{N}$, this function is ill-defined, since the unary operation $-$ is not defined on natural numbers. As such, types contribute additional meaning to code, and can be used to guarantee a certain degree of correctness.
+\par
+A natural continuation of this idea is to consider how to quantify the domain over which a type might range. Consider the function $f(x) = x$. For any sensible domain, the function $f$ is well-defined, since it is simply the identity on $x$. Introducing types, would lead to the requirement of a specialised $f$ for every type. Preferably, there would exist a function which given a type $T$, would generate an identity function of type $T \rightarrow T$. Such a formulation would maintain the proof of correctness given by types while introducing a higher-level of generality.
+\par
+The notion of type-level quantification leads to the ubiquitous programming concept known as parametric polymorphism.
 
 
 \end{document}

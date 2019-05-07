@@ -10,8 +10,8 @@ Example use cases will be given to illustrate the practical contribution of the 
 Perhaps the most apparent use case for the developed application, is computing and presenting the dinaturality condition for a user provided type. Recall that dinaturality conditions correspond to free theorems. Accordingly, a Petri net generated from a type can also be read as the free theorem of that type. 
 \par
 A collection of ubiquitous dinatural transformations, found within the application, will be illustrated. Furthermore, the corresponding free theorems will be provided. Images of each Petri net, being created within the application, are given in Appendix \ref{app:wilddinaturals}.
-
-Observe the type of the \lstinline{filter} function
+\par
+Appropriately the identification of dinatural transformations, that occur in practice, begins with one of the most ubiquitous higher-order functions; filter. Observe the type of the \lstinline{filter} function
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
@@ -53,7 +53,7 @@ filter p . map f = map f . filter (p . f).
 \end{tabular}
 \end{center}
 \par
-Observe the type of the \lstinline{foldr} function
+As demonstrated, \lstinline{filter} is indeed a dinatural transformation. Continuing the examination of common higher-order functions, it is appropriate to consider the \lstinline{foldr} function. Observe the type of the \lstinline{foldr} function
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
@@ -95,7 +95,7 @@ foldr (\x -> f . u x) . f =
 \end{lstlisting}
 \end{tabular}
 \end{center}
-Observe the type of the \lstinline{span} function
+Another higher-order parametrically polymorphic type, which operates on lists, is the \lstinline{span} function. Observe the type of the \lstinline{span} function
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
@@ -137,7 +137,7 @@ bimap (map f) (map f) . span (p . f).
 \end{lstlisting}
 \end{tabular}
 \end{center}
-Observe the type of the \lstinline{groupBy} function
+The \lstinline{groupBy} is a higher-order function which groups elements of a list, by means of a relation. Observe the type of the \lstinline{groupBy} function
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
@@ -181,7 +181,7 @@ groupBy r . map f =
 \end{tabular}
 \end{center}
 \noindent
-Observe the type of the \lstinline{insertBy} function
+The \lstinline{insertBy} function, in the Haskell programming language, has a total of five occurrences of a type variable. Observe the type of the \lstinline{insertBy} function
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
@@ -223,7 +223,7 @@ map f . insertBy ((. f) . o . f).
 \end{lstlisting}
 \end{tabular}
 \end{center}
-Observe the type of the \lstinline{dicata} function
+This section will be concluded by exploring a few exotic types. The provided examples appear as the types of mutual recursion schemes. In particular, dicatamorphisms and prepromorphisms. Observe the type of the \lstinline{dicata} function
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}[basicstyle=\footnotesize\ttfamily,style=haskellStyle]
@@ -289,7 +289,8 @@ Providing this as input, in conjunction with the type variable \lstinline{a}, an
 \end{center}
 
 \subsection{Currying and Naturality}
-
+Given an object $X$ of a category $\mathbb{C}$, currying is known to facilitate an adjunction between the functors $- \times X : \mathbb{C} \rightarrow \mathbb{C}$ and $X \rightarrow - : \mathbb{C} \rightarrow \mathbb{C}$. In this section, the impact of currying, on Petri nets generated within the application, will be explored.
+\par
 Observe the type of the uncurried evaluation map
 \begin{center}
 \begin{tabular}{c}

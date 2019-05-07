@@ -49,6 +49,9 @@
   }
 }
 
+\setcounter{page}{0}
+\pagenumbering{roman}
+
 \title{A System for Exploring the Relationship Between Dinaturality and Parametric Polymorphism}
 \author{Brandon Hewer}
 \date{Bachelor of Science in Computer Science with Honours\\The University of Bath\\May 2019}
@@ -69,7 +72,11 @@
 
 
 \begin{abstract}
-Parametric polymorphism  Dinatural transformations have been investigated as a formal model for parametric polymorphism. This paper will explore the nature of this relationship and 
+Parametric polymorphism has pervaded many of the most prominent, modern programming languages. Perhaps the most prevalent use case, is in the construction of generic code. Furthermore, the uniformity property of parametrically polymorphic functions can be used to justify particular program transformations.
+\par 
+Dinatural transformations have been investigated as a formal model for parametric polymorphism. Unfortunately dinatural transformations suffer from a troublesome shortcoming; they do not, in general, compose. Indeed, this complicates the relationship between parametric polymorphism and dinaturality. Understanding the circumstances under which dinatural transformations, in the most general formulation, do not compose, may assist in resolving this dilemma.
+\par
+This paper first introduces a novel extension to the Hindley-Milner type system, termed System $F_\kappa$. Types in System $F_\kappa$ are used to design a tool for exploring the relationship between dinaturality and parametric polymorphism, in a generalised functorial calculus. This tool generates an interactive graph, known as a Petri net, to depict the naturality condition of a function type in System $F_\kappa$.
 \end{abstract}
 \newpage
 
@@ -100,8 +107,6 @@ The past year of research and exploration
 \subfile{Results}
 \newpage
 \subfile{FutureWork}
-\newpage
-\subfile{Conclusion}
 
 \newpage
 
