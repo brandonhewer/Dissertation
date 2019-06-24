@@ -15,4 +15,5 @@ __latexindent_temp.tex
 *.sta
 *.fdb_latexmk
 *.DS_Store
+*.lof
 /Plan
