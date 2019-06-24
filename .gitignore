@@ -9,6 +9,7 @@ __latexindent_temp.tex
 *.bcf
 *.log
 *.pdf
+!Coversheet.pdf
 *.fls
 *.gz
 *.sta
